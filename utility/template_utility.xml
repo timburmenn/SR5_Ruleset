@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- Please see the license.html file included with this distribution for 
+	attribution and copyright information. -->
+
+<root>
+	<template name="list_utility">
+		<list_text>
+			<useallmodules />
+			<gmeditonly />
+			<sortby>
+				<control>label</control>
+			</sortby>
+			<newfocus>label</newfocus>
+			<filter control="filter" />
+			<filteron control="label" />
+		</list_text>
+	</template>
+
+	<template name="button_modifierkey">
+		<buttoncontrol>
+			<state frame="buttonup" frameoffset="5,5,5,5" />
+			<state frame="buttondown" frameoffset="5,5,5,5" offset="1,1" />
+			<font>button-white</font>
+			<script>
+				local bInit = false;
+				function onInit()
+				if ModifierStack.getModifierKey(getName()) then
+				setValue(1);
+				end
+				bInit = true;
+				end
+				function onValueChanged()
+				if bInit then
+				ModifierStack.setModifierKey(getName(), getValue());
+				end
+				end
+			</script>
+		</buttoncontrol>
+	</template>
+
+	<template name="button_import">
+		<buttoncontrol>
+			<icon normal="button_import" pressed="button_import_down" />
+			<tooltip text="Import Character(s)" />
+			<script>
+				function onButtonPress()
+				if User.isHost() then
+				UtilityManager.importChar();
+				else
+				window.setMode(true);
+				end
+				end
+			</script>
+		</buttoncontrol>
+	</template>
+</root>

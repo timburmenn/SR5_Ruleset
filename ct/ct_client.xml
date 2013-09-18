@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- Please see the license.html file included with this distribution for 
+	attribution and copyright information. -->
+
+<root>
+	<windowclass name="combattracker_client">
+		<frame>ctbox</frame>
+		<placement>
+			<size width="500" height="500" />
+		</placement>
+		<sizelimits>
+			<minimum width="350" height="350" />
+			<dynamic />
+		</sizelimits>
+		<softclose />
+		<nodelete />
+		<sheetdata>
+			<windowtitlebar>
+				<static>Combat Tracker</static>
+			</windowtitlebar>
+
+			<label name="label_name">
+				<bounds>63,38,-95,20</bounds>
+				<static>Name</static>
+				<center />
+			</label>
+			<label name="label_init">
+				<anchored position="insidetopright" offset="55,38" width="30" />
+				<static>Order</static>
+				<tooltip text="Turn Order" />
+				<center />
+			</label>
+
+			<windowlist name="list">
+				<bounds>0,65,-20,-55</bounds>
+				<datasource>.list</datasource>
+				<class>client_ct_entry</class>
+				<script file="ct/scripts/clientct.lua" />
+			</windowlist>
+			<scrollbar_list />
+
+			<buttoncontrol name="turn_complete">
+				<bounds>62,-45,33,26</bounds>
+				<icon normal="button_ctnextactor" pressed="button_ctnextactor_down" />
+				<tooltip text="Turn complete" />
+				<script>
+					function onButtonPress()
+					CombatManager.notifyEndTurn();
+					end
+				</script>
+			</buttoncontrol>
+
+			<label name="roundcounterlabel">
+				<bounds>-158,-39,50,20</bounds>
+				<static>Round</static>
+			</label>
+			<simplenumber name="round">
+				<bounds>-108,-45,40,25</bounds>
+				<frame name="ct_groupbox" offset="3,3,3,3" />
+				<gmeditonly />
+			</simplenumber>
+
+			<resize_ctbox />
+			<close_ctbox />
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="client_ct_entry">
+		<margins control="0,0,0,2" />
+		<frame>ctentrybox</frame>
+		<script file="ct/scripts/clientct_entry.lua" />
+		<sheetdata>
+			<hs name="tokenrefid" />
+			<hs name="tokenrefnode" />
+			<hn name="tokenvis" />
+			<hlink name="link" />
+
+			<genericcontrol name="active_spacer_top">
+				<anchored width="0" height="5">
+					<top />
+					<left />
+				</anchored>
+				<invisible />
+			</genericcontrol>
+
+			<buttonfield name="active">
+				<anchored width="33" height="40">
+					<top parent="active_spacer_top" anchor="bottom" />
+					<left />
+				</anchored>
+				<state icon="ct_passive" />
+				<state icon="ct_active" />
+				<readonly />
+				<script>
+					function onValueChanged()
+					window.onActiveChanged();
+					end
+				</script>
+			</buttonfield>
+			<tokenfield name="token">
+				<anchored width="25" height="25">
+					<top parent="active_spacer_top" anchor="bottom" offset="7" />
+					<left offset="33" />
+				</anchored>
+				<empty>token_empty</empty>
+				<readonly />
+				<nodrag />
+			</tokenfield>
+
+			<genericcontrol name="rightanchor">
+				<anchored width="0" height="0">
+					<top parent="active_spacer_top" anchor="bottom" offset="10" />
+					<right />
+				</anchored>
+				<invisible />
+			</genericcontrol>
+			<button_iconcycler name="friendfoe">
+				<anchored to="rightanchor" width="20" height="20">
+					<top />
+					<right anchor="left" relation="relative" offset="-10" />
+				</anchored>
+				<parameters>
+					<icons>ct_faction_friend|ct_faction_neutral|ct_faction_foe</icons>
+					<values>friend|neutral|foe</values>
+					<tooltips>Friendly|Neutral|Hostile</tooltips>
+					<defaulttooltip>Faction</defaulttooltip>
+					<defaulticon>ct_faction_empty</defaulticon>
+				</parameters>
+				<readonly />
+				<script>
+					function onValueChanged()
+					window.onFactionChanged();
+					end
+				</script>
+			</button_iconcycler>
+			<number_ct_static name="initresult">
+				<anchored to="rightanchor" width="30" height="20">
+					<top />
+					<right anchor="left" relation="relative" offset="-10" />
+				</anchored>
+				<script>
+					function onValueChanged()
+					window.windowlist.applySort();
+					end
+				</script>
+			</number_ct_static>
+
+			<stringu name="name">
+				<anchored height="20">
+					<top parent="active_spacer_top" anchor="bottom" offset="10" />
+					<left parent="token" anchor="right" offset="5" />
+					<right parent="rightanchor" anchor="left" relation="relative"
+						offset="-5" />
+				</anchored>
+				<readonly />
+			</stringu>
+
+			<label name="effects_label">
+				<anchored>
+					<top parent="name" anchor="bottom" relation="current" offset="2" />
+					<left offset="63" />
+				</anchored>
+				<static>Effects:</static>
+				<nodrag />
+				<invisible />
+			</label>
+			<stringcontrol name="effects_str">
+				<anchored>
+					<top parent="name" anchor="bottom" relation="relative" offset="2" />
+					<left parent="effects_label" anchor="right" offset="5" />
+					<right offset="-10" />
+				</anchored>
+				<multilinespacing>20</multilinespacing>
+				<font>sheettext</font>
+				<static />
+				<nodrag />
+				<invisible />
+			</stringcontrol>
+
+			<genericcontrol name="spacer">
+				<anchored width="0" height="7">
+					<top parent="name" anchor="bottom" relation="relative" />
+					<left />
+				</anchored>
+			</genericcontrol>
+
+			<genericcontrol name="active_spacer_bottom">
+				<anchored width="0" height="5">
+					<top parent="name" anchor="bottom" relation="relative" />
+					<left />
+				</anchored>
+				<invisible />
+			</genericcontrol>
+		</sheetdata>
+	</windowclass>
+</root>

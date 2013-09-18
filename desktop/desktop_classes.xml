@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- Please see the license.html file included with this distribution for 
+	attribution and copyright information. -->
+
+<root>
+	<windowclass name="chat">
+		<frame>chatbox</frame>
+		<noclose />
+		<sizelimits>
+			<dynamic />
+			<minimum width="350" height="350" />
+		</sizelimits>
+		<sheetdata>
+			<chatwindow name="chat">
+				<bounds>20,25,-30,-50</bounds>
+				<stateframe>
+					<drophilight name="chatboxhilight" offset="6,13,17,12" />
+				</stateframe>
+				<modeframe mode="chat" name="chatframe_chat" offset="15,5,5,5" />
+				<modeframe mode="story" name="chatframe_story" offset="15,10,15,10" />
+				<linkcolor>0000FF</linkcolor>
+				<droptypes>
+					<type>dice</type>
+					<type>number</type>
+					<type>string</type>
+				</droptypes>
+				<script file="desktop/scripts/chat_window.lua" />
+			</chatwindow>
+			<scrollbar name="chatscroll">
+				<bounds>-35,29,20,-54</bounds>
+				<target>chat</target>
+			</scrollbar>
+			<genericcontrol>
+				<anchored to="chat" position="insidetopright" width="60"
+					height="61" />
+				<icon>chat_wait</icon>
+				<invisible />
+				<script>
+					function onUserStateChange(username, statename, state)
+					if username == "" then
+					if statename == "typing" then
+					setVisible(true);
+					elseif statename == "active" or statename == "idle" then
+					setVisible(false);
+					end
+					end
+					end
+
+					function onInit()
+					User.onUserStateChange = onUserStateChange;
+					end
+				</script>
+			</genericcontrol>
+			<chatentry name="entry">
+				<bounds>18,-32,-66,-14</bounds>
+				<chatwindow>chat</chatwindow>
+				<font>chatfont</font>
+				<script file="desktop/scripts/chat_entry.lua" />
+			</chatentry>
+			<genericcontrol name="mode">
+				<bounds>-62,-38,43,24</bounds>
+				<icon>chat_speak</icon>
+				<script file="desktop/scripts/chat_mode.lua" />
+			</genericcontrol>
+
+			<resize_chatbox>
+				<script>
+					function onInit()
+					updateVisibility();
+					window.onLockChanged = updateVisibility;
+					end
+
+					function updateVisibility()
+					setVisible(not window.getLockState());
+					end
+				</script>
+			</resize_chatbox>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="identitylist">
+		<sizelimits>
+			<minimum height="20" />
+		</sizelimits>
+		<script file="desktop/scripts/identitylist.lua" />
+		<sheetdata>
+			<genericcontrol name="anchor">
+				<bounds>0,0,0,0</bounds>
+			</genericcontrol>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="characterlist">
+		<script file="desktop/scripts/characterlist.lua" />
+		<sheetdata>
+			<genericcontrol name="anchor">
+				<bounds>5,5,1,1</bounds>
+			</genericcontrol>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="shortcuts">
+		<script>
+			function onInit()
+			DesktopManager.registerContainerWindow(self);
+			end
+		</script>
+		<sheetdata />
+	</windowclass>
+
+	<windowclass name="modifierstack">
+		<sizelimits>
+			<minimum width="64" height="57" />
+		</sizelimits>
+		<noclose />
+		<script>
+			function onInit()
+			ModifierStack.registerControl(self);
+			end
+
+			function onClose()
+			ModifierStack.registerControl(nil);
+			end
+		</script>
+		<sheetdata>
+			<genericcontrol name="base">
+				<bounds>0,5,64,52</bounds>
+				<icon>modcollector</icon>
+				<counters>
+					<icon>modcollector_counter</icon>
+					<offset>
+						<x>9</x>
+						<y>47</y>
+					</offset>
+					<spacing>9</spacing>
+					<hoversize>4</hoversize>
+				</counters>
+				<acceptdrop>
+					<type>dice</type>
+					<type>number</type>
+				</acceptdrop>
+				<script file="desktop/scripts/modifierstack_base.lua" />
+			</genericcontrol>
+			<numbercontrol name="modifier">
+				<bounds>10,12,42,22</bounds>
+				<stateframe>
+					<keyedit name="modstackfocus" />
+					<hover name="modstackfocus" />
+					<drophilight name="modstackfocus" />
+				</stateframe>
+				<font>modcollector</font>
+				<displaysign />
+				<droptypes>
+					<type>number</type>
+					<type>dice</type>
+				</droptypes>
+				<script file="desktop/scripts/modifierstack_modifier.lua" />
+			</numbercontrol>
+			<stringcontrol name="label">
+				<bounds>4,34,54,12</bounds>
+				<font>modcollectorlabel</font>
+				<static>Modifier</static>
+				<center />
+				<script>
+					function onDrop(x, y, draginfo)
+					return window.base.onDrop(x, y, draginfo);
+					end
+				</script>
+			</stringcontrol>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="dicetower">
+		<sizelimits>
+			<minimum width="90" height="90" />
+		</sizelimits>
+		<sheetdata>
+			<genericcontrol name="base">
+				<bounds>0,0,90,90</bounds>
+				<frame name="dicetower_normal" />
+				<stateframe>
+					<drophover name="dicetower_drop" nobaseframe="true" />
+				</stateframe>
+				<tooltip text="Dice Tower" />
+				<droptypes>
+					<type>dice</type>
+					<type>table</type>
+				</droptypes>
+				<script>
+					function onInit()
+					DiceTowerManager.registerControl(self);
+					end
+
+					function onDrop(x, y, draginfo)
+					return DiceTowerManager.onDrop(draginfo);
+					end
+				</script>
+			</genericcontrol>
+		</sheetdata>
+	</windowclass>
+</root>
+

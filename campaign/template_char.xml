@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- Please see the license.html file included with this distribution for 
+	attribution and copyright information. -->
+
+<root>
+	<template name="frame_char">
+		<genericcontrol>
+			<frame name="groupbox" />
+		</genericcontrol>
+	</template>
+	<template name="string_labeled">
+		<stringfield>
+			<font>sheettext</font>
+			<lineoffset default="on">1</lineoffset>
+			<script>
+				labelwidget = nil;
+
+				function onInit()
+				labelwidget = addTextWidget("sheetlabelinline", string.upper(label[1]));
+				if labelwidget then
+				local w,h = labelwidget.getSize();
+				labelwidget.setPosition("bottomleft", w/2, h/2-4);
+				end
+				end
+			</script>
+		</stringfield>
+	</template>
+
+	<template name="button_charactivate">
+		<buttoncontrol>
+			<icon normal="button_speak" pressed="button_speak_down" />
+			<script>
+				function onButtonPress()
+				if User.isHost() then
+				GmIdentityManager.addIdentity(window.name.getValue());
+				else
+				local nodeWin = window.getDatabaseNode();
+				if nodeWin then
+				local identityname = nodeWin.getName();
+
+				User.setCurrentIdentity(identityname);
+
+				if CampaignRegistry and CampaignRegistry.colortables and
+				CampaignRegistry.colortables[identityname] then
+				local colortable = CampaignRegistry.colortables[identityname];
+				User.setCurrentIdentityColors(colortable.color or "000000",
+				colortable.blacktext or false);
+				end
+				end
+				end
+				end
+			</script>
+		</buttoncontrol>
+	</template>
+	<template name="portrait_charlocal">
+		<portraitselectioncontrol>
+			<base>portraittoken_base</base>
+			<mask>portraittoken_mask</mask>
+			<script>
+				function onInit()
+				local sPortrait =
+				User.getLocalIdentityPortrait(window.getDatabaseNode());
+				if sPortrait then
+				setFile(sPortrait);
+				end
+				end
+
+				function onDrop(x, y, draginfo)
+				if draginfo.isType("portraitselection") then
+				UtilityManager.setCharPortrait(window.getDatabaseNode(),
+				draginfo.getStringData());
+				return true;
+				end
+				end
+
+				function onClickDown(button, x, y)
+				return true;
+				end
+
+				function onClickRelease(button, x, y)
+				local nodeChar = window.getDatabaseNode();
+				if nodeChar then
+				local wnd = Interface.openWindow("portraitselection", "");
+				if wnd then
+				wnd.SetLocalNode(nodeChar);
+				end
+				end
+				end
+			</script>
+		</portraitselectioncontrol>
+	</template>
+	<template name="portrait_char">
+		<genericcontrol>
+			<tooltip text="Portrait" />
+			<script>
+				function onInit()
+				local nodeChar = window.getDatabaseNode();
+				if nodeChar then
+				local nodeCharName = nodeChar.getName();
+				if nodeCharName then
+				setIcon("portrait_" .. nodeCharName .. "_charlist", true);
+				end
+				end
+				end
+
+				function onDrop(x, y, draginfo)
+				if draginfo.isType("portraitselection") then
+				UtilityManager.setCharPortrait(window.getDatabaseNode(),
+				draginfo.getStringData());
+				return true;
+				end
+				end
+
+				function onClickDown(button, x, y)
+				return true;
+				end
+
+				function onClickRelease(button, x, y)
+				local nodeChar = window.getDatabaseNode();
+				if nodeChar then
+				local wnd = Interface.openWindow("portraitselection", "");
+				if wnd then
+				wnd.SetLocalNode(nodeChar);
+				end
+				end
+				end
+			</script>
+		</genericcontrol>
+	</template>
+
+	<template name="list_charskill">
+		<list_text>
+			<datasource>.skilllist</datasource>
+			<class>char_skill</class>
+			<columns width="225" filldown="true" />
+			<sortby>
+				<control>label</control>
+			</sortby>
+			<newfocus>label</newfocus>
+			<script>
+				function onDrop(x, y, draginfo)
+				local sDragType = draginfo.getType();
+				if sDragType == "number" then
+				local w = addEntry(true);
+				if w then
+				w.label.setValue(draginfo.getDescription());
+				w.bonus.setValue(draginfo.getNumberData());
+				end
+				return true;
+				elseif sDragType == "dice" then
+				local aDropDice = draginfo.getDieList();
+				local w = getWindowAt(x,y);
+				if w then
+				for _,vDie in ipairs(aDropDice) do
+				w.dice.addDie(vDie.type);
+				end
+				else
+				w = addEntry(true);
+				if w then
+				w.label.setValue(draginfo.getDescription());
+				w.bonus.setValue(draginfo.getNumberData());
+				for _,vDie in ipairs(aDropDice) do
+				w.dice.addDie(vDie.type);
+				end
+				end
+				end
+				return true;
+				end
+				end
+			</script>
+		</list_text>
+	</template>
+
+
+	<template name="number_charinv">
+		<basicnumber>
+			<nodrag />
+			<hideonvalue>0</hideonvalue>
+			<min>0</min>
+		</basicnumber>
+	</template>
+	<template name="string_charinvname">
+		<string_textlistitem>
+			<script file="campaign/scripts/char_invname.lua" />
+		</string_textlistitem>
+	</template>
+	<template name="string_charinvloc">
+		<string_textlistitem>
+			<nodelete />
+			<script file="campaign/scripts/char_invloc.lua" />
+		</string_textlistitem>
+	</template>
+	<template name="list_charinv">
+		<windowlist>
+			<datasource>.inventorylist</datasource>
+			<class>char_invitem</class>
+			<allowcreate />
+			<allowdelete />
+			<script file="campaign/scripts/char_invlist.lua" />
+		</windowlist>
+	</template>
+
+	<template name="list_language">
+		<list_text>
+			<datasource>.languagelist</datasource>
+			<class>char_language</class>
+			<sortby>
+				<control>name</control>
+			</sortby>
+			<newfocus>name</newfocus>
+			<allowcreate />
+			<allowdelete />
+			<script>
+				function onDrop(x, y, draginfo)
+				if draginfo.getType() == "string" then
+				local w = addEntry(true);
+				w.name.setValue(draginfo.getStringData());
+				return true;
+				end
+				end
+			</script>
+		</list_text>
+	</template>
+</root>

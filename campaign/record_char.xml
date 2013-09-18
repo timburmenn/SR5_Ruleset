@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- Please see the license.html file included with this distribution for 
+	attribution and copyright information. -->
+
+<root>
+	<windowclass name="charsheet">
+		<frame>charsheet</frame>
+		<placement>
+			<size width="525" height="568" />
+		</placement>
+		<minimize>minimized_npc</minimize>
+		<tooltip field="name" />
+		<nodelete />
+		<softclose />
+		<playercontrol />
+		<script>
+			function onInit()
+			if User.isLocal() then
+			speak.setVisible(false);
+			portrait.setVisible(false);
+			localportrait.setVisible(true);
+			end
+			end
+		</script>
+		<sheetdata>
+			<button_charactivate name="speak">
+				<bounds>-41,30,23,22</bounds>
+			</button_charactivate>
+
+			<tokenfield name="token">
+				<bounds>-86,23,40,40</bounds>
+				<empty>token_empty</empty>
+				<tooltip text="Token" />
+				<script>
+					function onDoubleClick(x, y)
+					CombatManager.openMap(window.getDatabaseNode());
+					end
+				</script>
+			</tokenfield>
+
+			<genericcontrol>
+				<bounds>-137,21,45,45</bounds>
+				<icon>charlist_base</icon>
+				<disabled />
+			</genericcontrol>
+			<portrait_charlocal name="localportrait">
+				<bounds>-137,21,45,45</bounds>
+				<invisible />
+			</portrait_charlocal>
+			<portrait_char name="portrait">
+				<bounds>-137,21,45,45</bounds>
+			</portrait_char>
+
+			<frame_char name="overviewframe">
+				<bounds>15,20,-140,45</bounds>
+			</frame_char>
+			<string_labeled name="street_name">
+				<anchored to="overviewframe" position="insidetopleft"
+					offset="15,10" height="20">
+                    <right offset="-15" />
+				</anchored>
+				<label>street name</label>
+			</string_labeled>
+
+			<subwindow name="window_main">
+				<bounds>0,65,-1,-20</bounds>
+				<class>charsheet_main</class>
+			</subwindow>
+			<subwindow name="window_skills">
+				<bounds>0,65,-1,-20</bounds>
+				<class>charsheet_skills</class>
+			</subwindow>
+			<subwindow name="window_inventory">
+				<bounds>0,65,-1,-20</bounds>
+				<class>charsheet_inventory</class>
+			</subwindow>
+			<subwindow name="window_notes">
+				<bounds>0,65,-1,-20</bounds>
+				<class>charsheet_notes</class>
+			</subwindow>
+
+			<tabs_charsheet>
+				<tab>
+					<icon>tab_main</icon>
+					<subwindow>window_main</subwindow>
+				</tab>
+				<tab>
+					<icon>tab_skills</icon>
+					<subwindow>window_skills</subwindow>
+				</tab>
+				<tab>
+					<icon>tab_inventory</icon>
+					<subwindow>window_inventory</subwindow>
+				</tab>
+				<tab>
+					<icon>tab_notes</icon>
+					<subwindow>window_notes</subwindow>
+				</tab>
+				<activate>1</activate>
+			</tabs_charsheet>
+
+			<close_charsheet />
+		</sheetdata>
+	</windowclass>
+</root>

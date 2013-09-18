@@ -1,0 +1,396 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- Please see the license.html file included with this distribution for 
+	attribution and copyright information. -->
+
+<root>
+	<imageupdatefolder>
+		<folder>images</folder>
+		<rootnode>image</rootnode>
+		<field>image</field>
+		<namefield>name</namefield>
+	</imageupdatefolder>
+
+	<windowclass name="imagewindow">
+		<frame>imagebox</frame>
+		<sizelimits>
+			<dynamic />
+		</sizelimits>
+		<playercontrol />
+		<sharable />
+		<nodelete />
+		<minimize>minimized_image</minimize>
+		<tooltip field="name" />
+		<script file="campaign/scripts/imagewindow.lua" />
+		<sheetdata>
+			<imagecontrol name="image">
+				<bounds>21,58,-27,-29</bounds>
+				<indicators availability="image_sent" locked="image_locked"
+					loading="image_loading" zoom="image_zoom" shortcuts="image_shortcuts" />
+				<shortcut icon="image_pin" hotspot="2,21" />
+				<default snap="on" drawingsize="500,500" />
+				<marginx>48</marginx>
+				<marginy>87</marginy>
+				<script file="campaign/scripts/image.lua" />
+			</imagecontrol>
+			<scrollercontrol>
+				<bounds>-70,-75,40,38</bounds>
+				<target>image</target>
+				<button normal="button_scrollerpan" pressed="button_scrollerpan_down"
+					zoom="button_zoomer" zoompressed="button_zoomer_down" />
+			</scrollercontrol>
+
+			<genericcontrol name="toolbar_back">
+				<bounds>21,22,-27,36</bounds>
+				<frame name="toolbar_back" />
+				<disabled />
+			</genericcontrol>
+
+			<hn name="toolbars">
+				<script>
+					function onValueChanged()
+					window.updateDisplay();
+					end
+				</script>
+			</hn>
+			<buttoncontrol name="toggle_toolbars">
+				<anchored position="insidetopleft" offset="21,23" width="34"
+					height="34" />
+				<icon normal="tool_toggle_30" />
+				<frame name="toolbar_30" />
+				<invisible />
+				<script>
+					function onButtonPress()
+					if (window.toolbars.getValue() == 0) then
+					DB.setValue(window.getDatabaseNode(), "toolbars", "number", 1);
+					else
+					DB.setValue(window.getDatabaseNode(), "toolbars", "number", 0);
+					end
+					window.updateDisplay();
+					end
+				</script>
+			</buttoncontrol>
+
+			<genericcontrol name="h4">
+				<anchored to="toggle_toolbars" position="righthigh" width="5"
+					height="34" />
+			</genericcontrol>
+			<buttoncontrol name="toggle_select">
+				<anchored to="h4" position="righthigh" width="34" height="34" />
+				<state icon="tool_select_30" />
+				<frame name="toolbar_30" />
+				<tooltip>Selection Mode</tooltip>
+				<script>
+					function onButtonPress()
+					if window.image.getCursorMode() == "select" then
+					window.image.setCursorMode();
+					else
+					window.image.setCursorMode("select");
+					end
+					end
+
+					function updateDisplay()
+					if window.image.getCursorMode() == "select" then
+					setColor("ffffffff");
+					else
+					setColor("60a0a0a0");
+					end
+					end
+				</script>
+			</buttoncontrol>
+
+			<genericcontrol name="h1">
+				<anchored to="toggle_select" position="righthigh" width="5"
+					height="34" />
+				<invisible />
+			</genericcontrol>
+			<toolbar_30 name="toolbar_draw">
+				<anchored to="h1" position="righthigh" />
+				<button>
+					<id>unmask</id>
+					<icon>tool_mask_30</icon>
+					<tooltip>Mask Mode</tooltip>
+				</button>
+				<button>
+					<id>paint</id>
+					<icon>tool_paint_30</icon>
+					<tooltip>Drawing Mode</tooltip>
+				</button>
+				<button>
+					<id>erase</id>
+					<icon>tool_erase_30</icon>
+					<tooltip>Eraser Mode</tooltip>
+				</button>
+				<toggle />
+				<invisible />
+				<script>
+					function onValueChanged()
+					local sTool = window.image.getCursorMode();
+					if sTool == "unmask" then
+					setActive("unmask");
+					elseif sTool == "draw" then
+					setActive("paint");
+					elseif sTool == "erase" then
+					setActive("erase");
+					else
+					setActive("");
+					end
+					end
+
+					function onButtonPress(id)
+					if id == "paint" then
+					if window.image.getCursorMode() ~= "draw" then
+					window.image.setCursorMode("draw");
+					else
+					window.image.setCursorMode("");
+					end
+					elseif id == "erase" then
+					if window.image.getCursorMode() ~= "erase" then
+					window.image.setCursorMode("erase");
+					else
+					window.image.setCursorMode("");
+					end
+					elseif id == "unmask" then
+					if window.image.getCursorMode() ~= "unmask" then
+					window.image.setMaskEnabled(true);
+					window.image.setCursorMode("unmask");
+					else
+					window.image.setCursorMode("");
+					end
+					end
+					end
+				</script>
+			</toolbar_30>
+			<genericcontrol name="h2">
+				<anchored to="toolbar_draw" position="righthigh" width="5"
+					height="34" />
+				<invisible />
+			</genericcontrol>
+			<buttoncontrol name="toggle_grid">
+				<anchored to="h2" position="righthigh" width="34" height="34" />
+				<state icon="tool_grid_30" />
+				<state icon="tool_grid_30" />
+				<frame name="toolbar_30" />
+				<invisible />
+				<script>
+					function onInit()
+					setColor("60a0a0a0");
+					end
+
+					function onValueChanged()
+					if getValue() > 0 then
+					setColor("ffffffff");
+					else
+					setColor("60a0a0a0");
+					end
+					window.updateDisplay();
+					end
+				</script>
+			</buttoncontrol>
+			<toolbar_30 name="toolbar_grid">
+				<anchored to="toggle_grid" position="righthigh" />
+				<invisible />
+				<button>
+					<id>gridleft</id>
+					<icon>tool_left_30</icon>
+					<tooltip>Move Grid Left</tooltip>
+				</button>
+				<button>
+					<id>gridright</id>
+					<icon>tool_right_30</icon>
+					<tooltip>Move Grid Right</tooltip>
+				</button>
+				<button>
+					<id>gridup</id>
+					<icon>tool_up_30</icon>
+					<tooltip>Move Grid Up</tooltip>
+				</button>
+				<button>
+					<id>griddown</id>
+					<icon>tool_down_30</icon>
+					<tooltip>Move Grid Down</tooltip>
+				</button>
+				<button>
+					<id>gridplus</id>
+					<icon>tool_plus_30</icon>
+					<tooltip>Make Grid Larger</tooltip>
+				</button>
+				<button>
+					<id>gridminus</id>
+					<icon>tool_minus_30</icon>
+					<tooltip>Make Grid Smaller</tooltip>
+				</button>
+				<script>
+					function onButtonPress(sID)
+					local gridsize = window.image.getGridSize();
+					local ox, oy = window.image.getGridOffset();
+
+					if (sID == "gridleft") then
+					ox = ox - 1;
+					window.image.setGridOffset(ox, oy);
+					elseif (sID == "gridright") then
+					ox = ox + 1;
+					window.image.setGridOffset(ox, oy);
+					elseif (sID == "gridup") then
+					oy = oy - 1;
+					window.image.setGridOffset(ox, oy);
+					elseif (sID == "griddown") then
+					oy = oy + 1;
+					window.image.setGridOffset(ox, oy);
+					elseif (sID == "gridplus") then
+					gridsize = gridsize + 1;
+					window.image.setGridSize(gridsize);
+					elseif (sID == "gridminus") then
+					gridsize = gridsize - 1;
+					window.image.setGridSize(gridsize);
+					end
+					end
+				</script>
+			</toolbar_30>
+
+			<genericcontrol name="h3">
+				<anchored to="toolbar_grid" position="righthigh" width="5"
+					height="34" />
+				<invisible />
+			</genericcontrol>
+			<buttoncontrol name="toggle_targetselect">
+				<anchored to="h3" position="righthigh" width="34" height="34" />
+				<state icon="tool_target_select_30" />
+				<frame name="toolbar_30" />
+				<tooltip>Target Mode</tooltip>
+				<script>
+					function onButtonPress()
+					if window.image.getCursorMode() == "target" then
+					window.image.setCursorMode();
+					else
+					window.image.setCursorMode("target");
+					end
+					end
+
+					function updateDisplay()
+					if window.image.getCursorMode() == "target" then
+					setColor("ffffffff");
+					else
+					setColor("60a0a0a0");
+					end
+					end
+				</script>
+			</buttoncontrol>
+			<toolbar_30 name="toolbar_targeting">
+				<anchored to="toggle_targetselect" position="righthigh" />
+				<invisible />
+				<button>
+					<id>clear</id>
+					<icon>tool_target_clear_30</icon>
+					<tooltip>Clear Targets</tooltip>
+				</button>
+				<button>
+					<id>friend</id>
+					<icon>tool_target_allies_30</icon>
+					<tooltip>Target Friendly Units</tooltip>
+				</button>
+				<button>
+					<id>foe</id>
+					<icon>tool_target_enemies_30</icon>
+					<tooltip>Target Enemy Units</tooltip>
+				</button>
+				<script>
+					function onButtonPress(sID)
+					if sID == "clear" then
+					TargetingManager.clearTargets(window.image);
+					elseif sID == "friend" then
+					TargetingManager.setFactionTargets(window.image);
+					elseif sID == "foe" then
+					TargetingManager.setFactionTargets(window.image, true);
+					end
+					end
+				</script>
+			</toolbar_30>
+
+			<list_viewers />
+
+			<resize_imagebox />
+			<close_imagebox />
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="imagesmall">
+		<margins control="0,0,0,2" />
+		<script file="campaign/scripts/campaign_list_record.lua" />
+		<sheetdata>
+			<link_list name="open">
+				<class>imagewindow</class>
+			</link_list>
+
+			<genericcontrol name="rightanchor">
+				<anchored height="0" width="0">
+					<top />
+					<right />
+				</anchored>
+			</genericcontrol>
+			<button_idelete name="idelete">
+				<anchored>
+					<top />
+					<right parent="rightanchor" anchor="left" relation="relative"
+						offset="-5" />
+				</anchored>
+			</button_idelete>
+			<icon_access name="access" />
+			<icon_modified name="modified" />
+
+			<string_list_name name="name">
+				<empty>&#171; New Drawing &#187;</empty>
+			</string_list_name>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="imagelist">
+		<frame>campaignlistwithtabs</frame>
+		<placement>
+			<size width="275" height="350" />
+		</placement>
+		<sizelimits>
+			<minimum width="200" height="300" />
+			<dynamic />
+		</sizelimits>
+		<softclose />
+		<nodelete />
+		<sheetdata>
+			<banner_campaign>
+				<icon>title_images</icon>
+			</banner_campaign>
+
+			<button_image_folder />
+
+			<list_campaign name="list">
+				<datasource>.</datasource>
+				<class>imagesmall</class>
+				<empty font="list-empty"
+					gmtext="Drop image files here to add them to your campaign." />
+				<script>
+					function onDrop(x, y, draginfo)
+					if draginfo.isType("shortcut") then
+					return CampaignDataManager.handleDrop("image", draginfo);
+					end
+					end
+				</script>
+			</list_campaign>
+			<scrollbar_list />
+
+			<anchor_campaign />
+			<button_iedit_campaign />
+			<button_iadd_campaign2>
+				<class>imagewindow</class>
+				<tooltip text="Add Drawing" />
+			</button_iadd_campaign2>
+			<filter_campaign />
+
+			<categories>
+				<targetcontrol>list</targetcontrol>
+			</categories>
+
+			<resize_campaignlistwithtabs />
+			<close_campaignlist />
+		</sheetdata>
+	</windowclass>
+</root>

@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- Please see the license.html file included with this distribution for 
+	attribution and copyright information. -->
+
+<root>
+	<template name="banner_campaign">
+		<genericcontrol>
+			<bounds>16,22,30,177</bounds>
+		</genericcontrol>
+	</template>
+
+	<template name="button_image_folder">
+		<button_text_sm>
+			<anchored position="insidetopleft" offset="50,2" width="50" />
+			<state text="Folder" />
+			<gmvisibleonly />
+			<script>
+				function onButtonPress()
+				Interface.openCampaignFolder("images");
+				end
+			</script>
+		</button_text_sm>
+	</template>
+	<template name="button_encounter_list">
+		<button_text_sm>
+			<anchored position="insidetopleft" offset="50,2" width="80" />
+			<state text="Encounters" />
+			<gmvisibleonly />
+			<script>
+				function onButtonPress()
+				Interface.openWindow("battlelist", "battle");
+				end
+			</script>
+		</button_text_sm>
+	</template>
+	<template name="button_parcel_list">
+		<button_text_sm>
+			<anchored position="insidetopleft" offset="50,2" width="50" />
+			<state text="Parcels" />
+			<script>
+				function onButtonPress()
+				Interface.openWindow("parcellist", "treasureparcels");
+				end
+			</script>
+		</button_text_sm>
+	</template>
+
+	<template name="list_campaign">
+		<windowlist>
+			<bounds>50,30,-30,-75</bounds>
+			<footer>footer_narrow</footer>
+			<allowcreate />
+			<allowdelete />
+			<useallmodules />
+			<sortby>
+				<control>name</control>
+			</sortby>
+			<filter control="filter" />
+			<filteron control="name" />
+			<script file="campaign/scripts/campaign_list.lua" />
+		</windowlist>
+	</template>
+	<template name="list_campaign_nofilter">
+		<windowlist>
+			<bounds>50,30,-30,-65</bounds>
+			<footer>footer_narrow</footer>
+			<allowcreate />
+			<allowdelete />
+			<useallmodules />
+			<sortby>
+				<control>name</control>
+			</sortby>
+			<script file="campaign/scripts/campaign_list.lua" />
+		</windowlist>
+	</template>
+
+	<template name="button_iadd">
+		<buttoncontrol>
+			<anchored width="20" height="20" />
+			<icon normal="button_add" pressed="button_add_down" />
+			<tooltip text="Add Item" />
+			<invisible />
+			<script>
+				function onButtonPress()
+				window[target[1]].addEntry(true);
+				end
+			</script>
+		</buttoncontrol>
+	</template>
+	<template name="button_iedit">
+		<buttoncontrol>
+			<anchored width="20" height="20" />
+			<state icon="button_edit" tooltip="Edit List" />
+			<state icon="button_edit_down" tooltip="Stop Editing List" />
+			<script>
+				function onInit()
+				local node = window.getDatabaseNode();
+				if not node or node.isReadOnly() then
+				setVisible(false);
+				end
+				end
+
+				function onValueChanged()
+				local sAdd = target[1] .. "_iadd";
+				if window[sAdd] then
+				window[sAdd].setVisible(getValue() == 1);
+				end
+				window[target[1]].update();
+				end
+			</script>
+		</buttoncontrol>
+	</template>
+	<template name="button_idelete">
+		<buttoncontrol>
+			<anchored width="20" height="20" />
+			<icon normal="button_delete" pressed="button_delete_down" />
+			<tooltip text="Delete Item" />
+			<invisible />
+			<script>
+				function onButtonPress()
+				window.getDatabaseNode().delete();
+				end
+			</script>
+		</buttoncontrol>
+	</template>
+
+	<template name="anchor_campaign">
+		<genericcontrol name="rightanchor">
+			<anchored to="list" height="0" width="0">
+				<top anchor="bottom" offset="10" />
+				<right />
+			</anchored>
+		</genericcontrol>
+	</template>
+	<template name="anchor_campaign2">
+		<genericcontrol name="rightanchor">
+			<anchored to="list" height="0" width="0">
+				<top anchor="bottom" offset="20" />
+				<right />
+			</anchored>
+		</genericcontrol>
+	</template>
+	<template name="anchor_campaign_nofilter">
+		<genericcontrol name="rightanchor">
+			<anchored to="list" height="0" width="0">
+				<top anchor="bottom" offset="10" />
+				<right />
+			</anchored>
+		</genericcontrol>
+	</template>
+	<template name="button_iadd_campaign">
+		<button_iadd name="list_iadd">
+			<anchored to="rightanchor">
+				<top />
+				<right anchor="left" relation="relative" offset="-5" />
+			</anchored>
+			<target>list</target>
+		</button_iadd>
+	</template>
+	<template name="button_iadd_campaign2">
+		<button_iadd_campaign>
+			<script file="campaign/scripts/campaign_button_new.lua" />
+		</button_iadd_campaign>
+	</template>
+	<template name="button_iedit_campaign">
+		<button_iedit name="list_iedit">
+			<anchored to="rightanchor">
+				<top />
+				<right anchor="left" relation="relative" offset="-5" />
+			</anchored>
+			<target>list</target>
+		</button_iedit>
+	</template>
+	<template name="filter_campaign">
+		<filter name="filter">
+			<anchored height="20">
+				<top parent="rightanchor" />
+				<left parent="list" offset="15" />
+				<right parent="rightanchor" anchor="left" relation="relative"
+					offset="-10" />
+			</anchored>
+		</filter>
+	</template>
+
+	<template name="list_viewers">
+		<genericcontrol>
+			<anchored>
+				<left offset="21" />
+				<bottom offset="-27" />
+			</anchored>
+			<invalididentityicon>miniportrait_base</invalididentityicon>
+			<portraitset>miniportrait</portraitset>
+			<portraitspacing>21</portraitspacing>
+			<script file="campaign/scripts/list_viewers.lua" />
+		</genericcontrol>
+	</template>
+
+	<template name="icon_record_locked">
+		<genericcontrol>
+			<icon>record_readonly</icon>
+			<tooltip text="Read Only" />
+			<script>
+				function onInit()
+				local node = window.getDatabaseNode();
+				local bShow = (not node or node.isReadOnly());
+				setVisible(bShow);
+				end
+			</script>
+		</genericcontrol>
+	</template>
+	<template name="button_record_locked">
+		<buttoncontrol>
+			<state icon="padlock_open" tooltip="Unlocked" />
+			<state icon="padlock_closed" tooltip="Locked" />
+			<script>
+				local bUpdating = false;
+				local nodeSrc = nil;
+
+				function onInit()
+				local node = window.getDatabaseNode();
+				if node and not node.isReadOnly() then
+				nodeSrc = node.createChild(getName(), "number");
+				if nodeSrc.getValue() ~= 0 then
+				setValue(1);
+				end
+				nodeSrc.onUpdate = onUpdate;
+				else
+				setVisible(false);
+				end
+				end
+
+				function onUpdate()
+				if nodeSrc and not bUpdating then
+				bUpdating = true;
+				if nodeSrc.getValue() == 0 then
+				setValue(0);
+				else
+				setValue(1);
+				end
+				bUpdating = false;
+				end
+				end
+
+				function onValueChanged()
+				if nodeSrc and not bUpdating then
+				bUpdating = true;
+				if getValue() == 0 then
+				nodeSrc.setValue(0);
+				else
+				nodeSrc.setValue(1);
+				end
+				bUpdating = false;
+				end
+
+				if window.onLockChanged then
+				window.onLockChanged();
+				end
+				end
+			</script>
+		</buttoncontrol>
+	</template>
+	<template name="button_record_isidentified">
+		<buttonfield>
+			<state icon="record_unidentified" tooltip="Item Not Identified" />
+			<state icon="record_identified" tooltip="Item Identified" />
+			<gmeditonly />
+			<script>
+				function onValueChanged()
+				if window.onIDChanged then
+				window.onIDChanged();
+				end
+				end
+			</script>
+		</buttonfield>
+	</template>
+
+	<template name="number_parcel">
+		<number_dropadd>
+			<anchored width="25" height="20">
+				<top offset="5" />
+				<left offset="5" />
+			</anchored>
+		</number_dropadd>
+	</template>
+	<template name="string_parcel">
+		<string_textlistitem>
+			<anchored>
+				<left offset="40" />
+				<top offset="5" />
+				<right parent="hanchor" anchor="left" relation="relative"
+					offset="-5" />
+			</anchored>
+			<frame />
+			<multilinespacing>20</multilinespacing>
+		</string_textlistitem>
+	</template>
+</root>

@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- Please see the license.html file included with this distribution for 
+	attribution and copyright information. -->
+
+<root>
+	<windowclass name="export_entry">
+		<sheetdata>
+			<linkcontrol name="open">
+				<bounds>25,0,20,20</bounds>
+				<readonly />
+			</linkcontrol>
+			<stringfield name="name">
+				<bounds>50,0,-60,20</bounds>
+				<font>sheettext</font>
+				<static />
+			</stringfield>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="export_categoryentry">
+		<script>
+			exportsource = "";
+			exportclass = "";
+
+			function setExportName(n)
+			exportsource = n;
+			end
+
+			function setExportClass(n)
+			exportclass = n;
+			end
+
+			function onHover(bOnWindow)
+			if bOnWindow then
+			setFrame("rowshade");
+			else
+			setFrame(nil);
+			end
+			end
+		</script>
+		<sheetdata>
+			<buttonc_checkbox name="all">
+				<bounds>0,0,20,20</bounds>
+				<script>
+					function onInit()
+					onValueChanged();
+					end
+
+					function onValueChanged()
+					local nValue = getValue();
+					local bState = (nValue == 1);
+					window.entries.setVisible(not bState);
+					end
+				</script>
+			</buttonc_checkbox>
+			<label name="label">
+				<bounds>25,0,-21,20</bounds>
+			</label>
+
+			<windowlist name="entries">
+				<bounds>0,20,-1,-1</bounds>
+				<class>export_entry</class>
+				<skipempty />
+				<allowdelete />
+				<sortby>
+					<control>name</control>
+				</sortby>
+			</windowlist>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="export_token">
+		<margins control="0,0,0,1" />
+		<sheetdata>
+			<tokencontrol name="token">
+				<bounds>1,1,20,20</bounds>
+				<script>
+					--[[ Pass drop to list ]]
+					function onDrop(x, y, draginfo)
+					return false;
+					end
+				</script>
+			</tokencontrol>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="export">
+		<frame>utilitybox3</frame>
+		<placement>
+			<size width="480" height="610" />
+			<nosave />
+		</placement>
+		<sizelimits>
+			<dynamic />
+		</sizelimits>
+		<script file="utility/scripts/export.lua" />
+		<sheetdata>
+			<windowtitlebar>
+				<static>Module Export</static>
+			</windowtitlebar>
+
+			<genericcontrol name="genericframe">
+				<bounds>27,45,-27,55</bounds>
+				<frame name="groupbox" offset="9,7,9,6" />
+			</genericcontrol>
+
+			<genericcontrol name="genericframe2">
+				<bounds>27,110,-27,102</bounds>
+				<frame name="groupbox" offset="9,7,9,6" />
+			</genericcontrol>
+
+			<stringu name="file">
+				<anchored to="genericframe" position="insidetopleft"
+					offset="90,6">
+					<right offset="-40" />
+				</anchored>
+				<frame name="required" offset="7,6,7,6" />
+				<empty>&#171; The module file name [required] &#187;</empty>
+				<script>
+					function onValueChanged()
+					if isEmpty() then
+					setFrame("required", 7, 6, 7, 6);
+					else
+					setFrame(nil);
+					end
+					end
+				</script>
+			</stringu>
+			<label>
+				<anchored to="file" position="insidetopleft" offset="-80,0" />
+				<static>File name</static>
+			</label>
+			<button_text name="file_chooser">
+				<anchored to="file" position="righthigh" offset="10,5"
+					width="20" height="10" />
+				<state text="..." />
+				<script>
+					function onButtonPress()
+					local sFile = Interface.dialogFileSave({ mod = "Module Files (*.mod)" },
+					"modules/");
+					if sFile then
+					window.file.setValue(sFile);
+					end
+					end
+				</script>
+			</button_text>
+
+			<stringu name="thumbnail">
+				<anchored to="file" position="below" offset="0,5" />
+				<empty>&#171; Thumbnail icon file [optional] &#187;</empty>
+			</stringu>
+			<label>
+				<anchored to="thumbnail" position="insidetopleft" offset="-80,0" />
+				<static>Thumbnail</static>
+			</label>
+			<button_text name="thumbnail_chooser">
+				<anchored to="thumbnail" position="righthigh" offset="10,5"
+					width="20" height="10" />
+				<state text="..." />
+				<script>
+					function onButtonPress()
+					local sFile = Interface.dialogFileOpen(false, { png = "PNG Files
+					(*.png)" }, "");
+					if sFile then
+					window.thumbnail.setValue(sFile);
+					end
+					end
+				</script>
+			</button_text>
+
+			<stringu name="name">
+				<anchored to="genericframe2" position="insidetopleft"
+					offset="90,6">
+					<right offset="-10" />
+				</anchored>
+				<frame name="required" offset="7,6,7,6" />
+				<empty>&#171; The module name [required] &#187;</empty>
+				<script>
+					function onValueChanged()
+					if isEmpty() then
+					setFrame("required", 7, 6, 7, 6);
+					else
+					setFrame(nil);
+					end
+					end
+				</script>
+			</stringu>
+			<label>
+				<anchored to="name" position="insidetopleft" offset="-80,2" />
+				<static>Name</static>
+			</label>
+
+			<stringu name="category">
+				<anchored to="name" position="below" offset="0,5" />
+				<empty>&#171; The category name &#187;</empty>
+			</stringu>
+			<label>
+				<anchored to="category" position="insidetopleft" offset="-80,2" />
+				<static>Category</static>
+			</label>
+
+			<stringu name="author">
+				<anchored to="category" position="below" offset="0,5" />
+				<empty>&#171; The author name &#187;</empty>
+			</stringu>
+			<label>
+				<anchored to="author" position="insidetopleft" offset="-80,2" />
+				<static>Author</static>
+			</label>
+
+			<stringu name="mergeid">
+				<anchored to="author" position="below" offset="0,5" />
+				<empty>&#171; Modules with same ID share tabs &#187;</empty>
+			</stringu>
+			<label>
+				<anchored to="mergeid" position="insidetopleft" offset="-80,2" />
+				<static>Merge ID</static>
+			</label>
+
+			<!-- Node list -->
+			<windowlist name="list">
+				<bounds>32,247,-42,-195</bounds>
+				<frame name="groupbox" offset="14,32,24,30" />
+				<class>export_categoryentry</class>
+				<skipempty />
+				<script file="utility/scripts/export_list.lua" />
+			</windowlist>
+			<scrollbar_list />
+
+			<stringcontrol>
+				<anchored to="list" position="aboveleft" offset="0,3"
+					width="20" />
+				<font>sheetlabel</font>
+				<lineoffset default="on">1</lineoffset>
+				<static>A</static>
+				<center />
+			</stringcontrol>
+			<stringcontrol>
+				<anchored to="list" position="aboveleft" offset="25,3" />
+				<font>sheetlabel</font>
+				<lineoffset default="on">1</lineoffset>
+				<static>Exported data</static>
+			</stringcontrol>
+
+			<stringcontrol>
+				<anchored to="list" position="below" offset="0,5" />
+				<font>sheettext</font>
+				<static>A = All records; Drop links on list to add records
+					individually</static>
+				<center />
+			</stringcontrol>
+
+			<!-- Tokens -->
+			<genericcontrol name="tokenframe">
+				<bounds>27,-162,-27,100</bounds>
+				<frame name="groupbox" offset="9,7,9,6" />
+			</genericcontrol>
+			<label_frametop>
+				<anchored to="tokenframe" />
+				<static>Exported tokens</static>
+			</label_frametop>
+
+			<windowlist name="tokens">
+				<anchored to="tokenframe" position="over">
+					<top offset="22" />
+				</anchored>
+				<class>export_token</class>
+				<columns width="22" fillwidth="true" />
+				<skipempty />
+				<allowdelete />
+				<script file="utility/scripts/export_tokens.lua" />
+			</windowlist>
+
+			<!-- Controls -->
+			<button_text name="button_export">
+				<anchored width="60" height="20">
+					<left anchor="center" offset="-30" />
+					<bottom offset="-30" />
+				</anchored>
+				<state text="Export" />
+				<script>
+					function onButtonPress()
+					window.performExport();
+					end
+				</script>
+			</button_text>
+
+			<resize_utilitybox3 />
+			<close_utilitybox3 />
+		</sheetdata>
+	</windowclass>
+</root>

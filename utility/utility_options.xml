@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- Please see the license.html file included with this distribution for 
+	attribution and copyright information. -->
+
+<root>
+	<windowclass name="option_entry_default">
+		<sheetdata>
+			<stringcontrol name="label">
+				<anchored>
+					<top offset="10" />
+					<left offset="15" />
+				</anchored>
+				<font>optiontitle</font>
+				<static>Unknown Option</static>
+			</stringcontrol>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="option_entry_cycler">
+		<margins control="0,0,0,2" />
+		<script>
+			local sOptionKey = nil;
+			local sDefaultVal = "";
+			local
+			enable_update = true;
+
+			function setLabel(sLabel)
+			label.setValue(sLabel);
+			end
+
+			function setReadOnly(bValue)
+			cycler.setReadOnly(bValue);
+			left.setVisible(not bValue);
+			right.setVisible(not bValue);
+			end
+
+			function initialize(sKey, aCustom)
+			sOptionKey = sKey;
+
+			if sOptionKey then
+			if aCustom then
+			cycler.initialize(aCustom.labels, aCustom.values, aCustom.baselabel);
+			sDefaultVal = aCustom.baseval or "";
+			end
+
+			enable_update = false;
+			local sValue = OptionsManager.getOption(sOptionKey);
+			if sValue == sDefaultVal then
+			sValue = "";
+			end
+			cycler.setStringValue(sValue);
+			enable_update = true;
+			end
+			end
+
+			function onHover(bOnWindow)
+			if bOnWindow then
+			setFrame("rowshade");
+			else
+			setFrame(nil);
+			end
+			end
+
+			function onValueChanged()
+			if enable_update and sOptionKey then
+			local sValue = cycler.getStringValue();
+			if sValue == "" then
+			sValue = sDefaultVal;
+			end
+			OptionsManager.setOption(sOptionKey, sValue);
+			end
+			end
+		</script>
+		<sheetdata>
+			<stringcontrol name="label">
+				<anchored>
+					<top offset="5" />
+					<left offset="15" />
+					<right offset="-135" />
+				</anchored>
+				<font>optiontitle</font>
+				<multilinespacing>20</multilinespacing>
+				<static />
+			</stringcontrol>
+			<buttoncontrol name="left">
+				<bounds>-125,5,12,20</bounds>
+				<icon normal="arrow_sm_left" />
+				<script>
+					function onButtonPress()
+					window.cycler.cycleLabel(false);
+					end
+				</script>
+			</buttoncontrol>
+			<button_stringcycler name="cycler">
+				<anchored width="100">
+					<top offset="5" />
+					<left anchor="right" offset="-112" />
+				</anchored>
+				<font>optionbody</font>
+				<sourceless />
+				<script>
+					function onValueChanged()
+					window.onValueChanged();
+					end
+				</script>
+			</button_stringcycler>
+			<buttoncontrol name="right">
+				<bounds>-10,5,12,20</bounds>
+				<icon normal="arrow_sm_right" />
+				<script>
+					function onButtonPress()
+					window.cycler.cycleLabel(true);
+					end
+				</script>
+			</buttoncontrol>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="options_group">
+		<script>
+			function toggle()
+			options_list.setVisible(not options_list.isVisible());
+			if options_list.isVisible() then
+			status.setIcon("button_collapse");
+			else
+			status.setIcon("button_expand");
+			end
+			end
+		</script>
+		<sheetdata>
+			<hnc name="sort" />
+
+			<stringcontrol name="label">
+				<anchored height="20">
+					<top offset="2" />
+					<left />
+					<right />
+				</anchored>
+				<center />
+				<frame name="rowshade" />
+				<font>optionset</font>
+				<empty>&#171; Option Set &#187;</empty>
+				<static />
+				<script>
+					function onClickDown(button, x, y)
+					return true;
+					end
+
+					function onClickRelease(button, x, y)
+					window.toggle();
+					return true;
+					end
+				</script>
+			</stringcontrol>
+			<genericcontrol name="status">
+				<anchored to="label" position="left" offset="-20" width="20" />
+				<icon>button_collapse</icon>
+				<script>
+					function onClickDown(button, x, y)
+					return true;
+					end
+
+					function onClickRelease(button, x, y)
+					window.toggle();
+					return true;
+					end
+				</script>
+			</genericcontrol>
+
+			<windowlist name="options_list">
+				<anchored>
+					<top offset="22" />
+					<left />
+					<right />
+				</anchored>
+				<class>option_entry_default</class>
+				<skipempty />
+				<noscroll />
+				<sortby>
+					<control>label</control>
+				</sortby>
+			</windowlist>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="options">
+		<frame>utilitybox</frame>
+		<placement>
+			<size width="480" height="480" />
+			<nosave />
+		</placement>
+		<playercontrol />
+		<nodelete />
+		<script>
+			function onInit()
+			OptionsManager.populate(self);
+			end
+		</script>
+		<sheetdata>
+			<!-- TITLE -->
+			<windowtitlebar>
+				<static>Options</static>
+			</windowtitlebar>
+
+			<!-- GROUP LIST -->
+			<windowlist name="list">
+				<bounds>40,50,-43,-30</bounds>
+				<frame name="groupbox" offset="15,15,20,15" />
+				<class>options_group</class>
+				<skipempty />
+				<sortby>
+					<control>sort</control>
+					<control>label</control>
+				</sortby>
+			</windowlist>
+			<scrollbar_list />
+
+			<close_utilitybox />
+		</sheetdata>
+	</windowclass>
+</root>

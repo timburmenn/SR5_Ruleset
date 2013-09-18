@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- Please see the license.html file included with this distribution for 
+	attribution and copyright information. -->
+
+<root>
+	<windowclass name="charsheet_notes">
+		<sheetdata>
+			<frame_char name="detailframe">
+				<bounds>15,0,-29,70</bounds>
+			</frame_char>
+			<string_labeled name="metatype">
+				<anchored to="detailframe" position="insidetopleft" offset="15,10"
+					width="150" height="20" />
+				<label>metatype</label>
+			</string_labeled>
+			<string_labeled name="gender">
+				<anchored to="metatype" position="right" offset="5,0"
+					width="70" />
+				<label>gender</label>
+			</string_labeled>
+			<string_labeled name="age">
+				<anchored to="gender" position="right" offset="5,0" width="70" />
+				<label>age</label>
+			</string_labeled>
+			<string_labeled name="height">
+				<anchored to="age" position="right" offset="5,0" width="70" />
+				<label>height</label>
+			</string_labeled>
+			<string_labeled name="weight">
+				<anchored to="height" position="right" offset="5,0" width="70" />
+				<label>weight</label>
+			</string_labeled>
+			<string_labeled name="ethnicity">
+				<anchored to="metatype" position="insidetopleft" offset="0,25"
+					width="150" height="20" />
+				<label>ethnicity</label>
+			</string_labeled>
+
+			<frame_char name="appearanceframe">
+				<bounds>15,70,320,165</bounds>
+			</frame_char>
+			<label_frametop>
+				<anchored to="appearanceframe" />
+				<static>Appearance</static>
+			</label_frametop>
+			<stringu name="appearance">
+				<anchored to="appearanceframe">
+					<top offset="30" />
+					<left offset="15" />
+					<right offset="-20" />
+					<bottom offset="-15" />
+				</anchored>
+				<multilinespacing>20</multilinespacing>
+			</stringu>
+			<scrollbar_list>
+				<anchored to="appearance" />
+				<target>appearance</target>
+			</scrollbar_list>
+
+			<frame_char name="languageframe">
+				<bounds>335,70,-29,165</bounds>
+			</frame_char>
+			<label_frametop>
+				<anchored to="languageframe" />
+				<static>Languages</static>
+			</label_frametop>
+			<list_language name="languages">
+				<anchored to="languageframe">
+					<top offset="35" />
+					<left offset="15" />
+					<right offset="-20" />
+					<bottom offset="-15" />
+				</anchored>
+			</list_language>
+			<scrollbar_list>
+				<anchored to="languages" />
+				<target>languages</target>
+			</scrollbar_list>
+			<button_iedit name="languages_iedit">
+				<anchored to="languages" position="aboveright" offset="5,5" />
+				<target>languages</target>
+			</button_iedit>
+			<button_iadd name="languages_iadd">
+				<anchored to="languages" position="aboveleft" offset="10,5" />
+				<target>languages</target>
+			</button_iadd>
+
+			<frame_char name="notesframe">
+				<bounds>15,235,-29,-5</bounds>
+			</frame_char>
+			<label_frametop>
+				<anchored to="notesframe" />
+				<static>Notes</static>
+			</label_frametop>
+			<stringu name="notes">
+				<anchored to="notesframe">
+					<top offset="30" />
+					<left offset="15" />
+					<right offset="-20" />
+					<bottom offset="-15" />
+				</anchored>
+				<multilinespacing>20</multilinespacing>
+			</stringu>
+			<scrollbar_list>
+				<anchored to="notes" />
+				<target>notes</target>
+			</scrollbar_list>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="char_language">
+		<margins control="0,0,0,2" />
+		<sheetdata>
+			<genericcontrol name="rightanchor">
+				<anchored height="0" width="0">
+					<top />
+					<right />
+				</anchored>
+			</genericcontrol>
+			<button_idelete name="idelete">
+				<anchored>
+					<top />
+					<right parent="rightanchor" anchor="left" relation="relative"
+						offset="-5" />
+				</anchored>
+			</button_idelete>
+			<string_textlistitem name="name">
+				<anchored height="20">
+					<top />
+					<left />
+					<right parent="rightanchor" anchor="left" relation="relative"
+						offset="-5" />
+				</anchored>
+			</string_textlistitem>
+		</sheetdata>
+	</windowclass>
+</root>

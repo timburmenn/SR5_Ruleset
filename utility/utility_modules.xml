@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- Please see the license.html file included with this distribution for 
+	attribution and copyright information. -->
+
+<root>
+	<template name="modulepermissioncontrol">
+		<genericcontrol>
+			<cursor hover="hand" />
+			<gmvisibleonly />
+			<script>
+				function onDragStart(button, x, y, draginfo)
+				draginfo.setType("modulepermissions");
+				draginfo.setStringData(permissions[1]);
+				draginfo.setIcon(icon[1]);
+				setIcon(nil);
+				return true;
+				end
+
+				function onDragEnd(draginfo)
+				setIcon(icon[1]);
+				end
+			</script>
+		</genericcontrol>
+	</template>
+
+	<windowclass name="moduleselection_entry">
+		<margins control="0,0,0,14" />
+		<sizelimits>
+			<minimum height="100" />
+		</sizelimits>
+		<frame>moduleselectentry</frame>
+		<script file="utility/scripts/module_selectionentry.lua" />
+		<sheetdata>
+			<buttoncontrol name="base">
+				<bounds>0,0,-1,-1</bounds>
+				<script>
+					function onDoubleClick()
+					window.toggleActivation();
+					return true;
+					end
+				</script>
+			</buttoncontrol>
+
+			<genericcontrol name="thumbnail">
+				<bounds>10,20,63,63</bounds>
+				<disabled />
+			</genericcontrol>
+			<stringcontrol name="name">
+				<anchored width="210">
+					<left offset="80" />
+					<top offset="23" />
+				</anchored>
+				<font>sheetlabel</font>
+				<multilinespacing>20</multilinespacing>
+				<static />
+				<disabled />
+			</stringcontrol>
+			<stringcontrol name="author">
+				<anchored width="210">
+					<left offset="80" />
+					<top parent="name" anchor="bottom" offset="2" />
+				</anchored>
+				<font>sheettext</font>
+				<multilinespacing>20</multilinespacing>
+				<static />
+				<disabled />
+			</stringcontrol>
+			<stringcontrol name="size">
+				<anchored width="80" height="20">
+					<left offset="80" />
+					<top parent="author" anchor="bottom" offset="2" />
+				</anchored>
+				<font>sheettext</font>
+				<static />
+				<disabled />
+			</stringcontrol>
+			<genericcontrol name="load">
+				<anchored width="40" height="28">
+					<left anchor="right" offset="-85" />
+					<top parent="author" anchor="bottom" offset="2" />
+				</anchored>
+				<states>
+					<loaded>module_loaded</loaded>
+					<unloaded>module_unloaded</unloaded>
+					<loading>module_loading</loading>
+					<unloading>module_unloading</unloading>
+				</states>
+				<script file="utility/scripts/module_selectionentry_load.lua" />
+			</genericcontrol>
+			<genericcontrol name="permissions">
+				<anchored width="40" height="31">
+					<top parent="load" />
+					<left parent="load" anchor="right" offset="-7" />
+				</anchored>
+				<states>
+					<none>module_statenone</none>
+					<pending>module_statepending</pending>
+					<block>module_stateblocked</block>
+					<allow>module_stateallowed</allow>
+					<autoload>module_stateautoload</autoload>
+				</states>
+				<script>
+					function onDrop(x, y, draginfo)
+					if draginfo.isType("modulepermissions") then
+					window.setPermissions(draginfo.getStringData());
+					return true;
+					end
+					return false;
+					end
+				</script>
+			</genericcontrol>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="moduleselection">
+		<frame>utilitybox3</frame>
+		<placement>
+			<size width="667" height="530" />
+		</placement>
+		<sizelimits>
+			<dynamic />
+			<minimum width="400" height="225" />
+		</sizelimits>
+		<script>
+			function onInit()
+			local modules = Module.getModules();
+			for _, v in ipairs(modules) do
+			checkEntry(v);
+			end
+
+			Module.onModuleAdded = checkEntry;
+			Module.onModuleUpdated = checkEntry;
+			Module.onModuleRemoved = removeEntry;
+			end
+
+			function addEntry(name)
+			local w = list.createWindow();
+			if w then
+			w.setEntryName(name);
+			end
+			end
+
+			function checkEntry(name)
+			for _,v in pairs(list.getWindows()) do
+			if v.getEntryName() == name then
+			v.update();
+			return;
+			end
+			end
+			addEntry(name);
+			end
+
+			function removeEntry(name)
+			for _,v in pairs(list.getWindows()) do
+			if v.getEntryName() == name then
+			v.close();
+			return;
+			end
+			end
+			end
+		</script>
+		<sheetdata>
+			<windowtitlebar>
+				<static>Module Activation</static>
+			</windowtitlebar>
+
+			<windowlist name="list">
+				<bounds>30,47,-37,-65</bounds>
+				<frame name="groupbox" offset="9,7,9,7" />
+				<class>moduleselection_entry</class>
+				<columns width="300" fillwidth="true" />
+				<skipempty />
+			</windowlist>
+			<scrollbar_list />
+
+			<modulepermissioncontrol>
+				<bounds>33,-53,30,31</bounds>
+				<icon>module_stateblocked</icon>
+				<permissions>disallow</permissions>
+				<tooltip text="Block player load" />
+			</modulepermissioncontrol>
+			<modulepermissioncontrol>
+				<bounds>63,-53,30,31</bounds>
+				<icon>module_stateallowed</icon>
+				<permissions>allow</permissions>
+				<tooltip text="Allow player load" />
+			</modulepermissioncontrol>
+			<modulepermissioncontrol>
+				<bounds>93,-53,30,31</bounds>
+				<icon>module_stateautoload</icon>
+				<permissions>autoload</permissions>
+				<tooltip text="Force player load" />
+			</modulepermissioncontrol>
+
+			<button_text>
+				<anchored width="60" height="20">
+					<right offset="-43" />
+					<bottom offset="-30" />
+				</anchored>
+				<state text="Export" />
+				<gmvisibleonly />
+				<script>
+					function onButtonPress()
+					Interface.openWindow("export", "");
+					end
+				</script>
+			</button_text>
+
+			<resize_utilitybox3 />
+			<close_utilitybox3 />
+		</sheetdata>
+	</windowclass>
+</root>

@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- Please see the license.html file included with this distribution for 
+	attribution and copyright information. -->
+
+<root>
+	<template name="button_text_sm">
+		<buttoncontrol>
+			<anchored height="20" />
+			<frame name="buttonup" offset="2,2,2,2" />
+			<stateframe>
+				<pressed name="buttondown" offset="2,2,2,2" nobaseframe="true" />
+			</stateframe>
+			<font>button-white</font>
+			<pressed offset="1,1" />
+		</buttoncontrol>
+	</template>
+	<template name="button_text">
+		<buttoncontrol>
+			<frame name="buttonup" offset="5,5,5,5" />
+			<stateframe>
+				<pressed name="buttondown" offset="5,5,5,5" nobaseframe="true" />
+			</stateframe>
+			<font>button-white</font>
+			<pressed offset="1,1" />
+		</buttoncontrol>
+	</template>
+	<template name="button_text_large">
+		<buttoncontrol>
+			<frame name="buttonup" offset="5,5,5,5" />
+			<stateframe>
+				<pressed name="buttondown" offset="5,5,5,5" nobaseframe="true" />
+			</stateframe>
+			<font>button-white-large</font>
+			<pressed offset="1,1" />
+		</buttoncontrol>
+	</template>
+	<template name="button_icon">
+		<buttoncontrol>
+			<frame name="buttonup" offset="2,2,2,2" />
+			<stateframe>
+				<pressed name="buttondown" offset="2,2,2,2" nobaseframe="true" />
+			</stateframe>
+			<pressed offset="1,1" />
+		</buttoncontrol>
+	</template>
+
+	<template name="button_expand">
+		<button_icon>
+			<icon normal="button_expand_w" />
+			<tooltip text="Expand All" />
+			<target>grouplist,list</target>
+			<expand />
+			<script file="common/scripts/button_expand_collapse.lua" />
+		</button_icon>
+	</template>
+	<template name="button_collapse">
+		<button_icon>
+			<icon normal="button_collapse_w" />
+			<tooltip text="Collapse All" />
+			<target>grouplist,list</target>
+			<collapse />
+			<script file="common/scripts/button_expand_collapse.lua" />
+		</button_icon>
+	</template>
+
+	<template name="button_roll">
+		<buttoncontrol>
+			<anchored width="20" height="20" />
+			<icon normal="button_roll" pressed="button_roll_down" />
+		</buttoncontrol>
+	</template>
+
+	<template name="button_checkbox">
+		<buttonfield>
+			<state icon="button_checkoff" />
+			<state icon="button_checkon" />
+		</buttonfield>
+	</template>
+	<template name="buttonc_checkbox">
+		<buttoncontrol>
+			<state icon="button_checkoff" />
+			<state icon="button_checkon" />
+		</buttoncontrol>
+	</template>
+
+	<template name="button_iconcycler">
+		<genericcontrol>
+			<anchored height="20" />
+			<script file="common/scripts/button_iconcycler.lua" />
+		</genericcontrol>
+	</template>
+	<template name="button_stringcycler">
+		<genericcontrol>
+			<anchored height="20" />
+			<frame name="fielddark" offset="7,5,7,5" hidereadonly="true" />
+			<stateframe>
+				<hover name="fieldfocus" offset="7,5,7,5" hidereadonly="true" />
+			</stateframe>
+			<script file="common/scripts/button_stringcycler.lua" />
+		</genericcontrol>
+	</template>
+
+	<template name="buttongroup_radio">
+		<genericcontrol>
+			<stateicons>
+				<on>button_checkon</on>
+				<off>button_checkoff</off>
+			</stateicons>
+			<script file="common/scripts/buttongroup_radio.lua" />
+		</genericcontrol>
+	</template>
+	<template name="buttongroup_tabs">
+		<genericcontrol>
+			<frame name="tabs" />
+			<tab mergerule="resetandadd" />
+			<script file="common/scripts/buttongroup_tabs.lua" />
+		</genericcontrol>
+	</template>
+	<template name="buttongroup_counter">
+		<genericcontrol>
+			<stateicons>
+				<on>button_checkon</on>
+				<off>button_checkoff</off>
+			</stateicons>
+			<script file="common/scripts/buttongroup_counter.lua" />
+		</genericcontrol>
+	</template>
+</root>

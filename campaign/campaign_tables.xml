@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- Please see the readme.txt file included with this distribution for attribution 
+	and copyright information. -->
+
+<root>
+	<windowclass name="tablesmall">
+		<margins control="0,0,0,2" />
+		<script file="campaign/scripts/campaign_list_record.lua" />
+		<sheetdata>
+			<link_list name="open">
+				<class>table</class>
+			</link_list>
+
+			<genericcontrol name="rightanchor">
+				<anchored height="0" width="0">
+					<top />
+					<right offset="-5" />
+				</anchored>
+			</genericcontrol>
+			<button_idelete name="idelete">
+				<anchored>
+					<top />
+					<right parent="rightanchor" anchor="left" relation="relative"
+						offset="-5" />
+				</anchored>
+			</button_idelete>
+			<icon_access name="access" />
+			<icon_modified name="modified" />
+
+			<string_list_name name="name">
+				<empty>&#171; New Table &#187;</empty>
+			</string_list_name>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="tablelist">
+		<frame>campaignlist_tables</frame>
+		<placement>
+			<size width="350" height="450" />
+		</placement>
+		<sizelimits>
+			<dynamic />
+			<minimum width="200" height="300" />
+		</sizelimits>
+		<nodelete />
+		<sheetdata>
+			<windowtitlebar name="titlebar">
+				<static>Tables</static>
+			</windowtitlebar>
+
+			<windowlist name="list">
+				<bounds>40,55,-43,-87</bounds>
+				<frame name="groupbox" offset="15,15,20,15" />
+				<datasource>.</datasource>
+				<class>tablesmall</class>
+				<useallmodules />
+				<allowcreate />
+				<allowdelete />
+				<gmeditonly />
+				<sortby>
+					<control>name</control>
+				</sortby>
+				<filter control="filter" />
+				<filteron control="name" />
+				<script>
+					function onListChanged()
+					update();
+					end
+
+					function update()
+					local bEditMode = (window.list_iedit.getValue() == 1);
+					for _,w in ipairs(getWindows()) do
+					w.idelete.setVisible(bEditMode);
+					end
+					end
+
+					function onDrop(x, y, draginfo)
+					if draginfo.isType("shortcut") then
+					return CampaignDataManager.handleDrop("tables", draginfo);
+					end
+					end
+				</script>
+			</windowlist>
+			<scrollbar_list />
+
+			<anchor_campaign2 />
+			<button_iedit_campaign />
+			<button_iadd_campaign>
+				<script file="campaign/scripts/table_add.lua" />
+			</button_iadd_campaign>
+			<filter_campaign />
+
+			<categories>
+				<targetcontrol>list</targetcontrol>
+			</categories>
+
+			<resize_campaignlist_tables />
+			<close_campaignlist_tables />
+		</sheetdata>
+	</windowclass>
+</root>

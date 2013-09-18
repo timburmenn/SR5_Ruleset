@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- Please see the license.html file included with this distribution for 
+	attribution and copyright information. -->
+
+<root>
+	<windowclass name="note">
+		<frame>storybox</frame>
+		<placement>
+			<size width="300" height="300" />
+		</placement>
+		<sizelimits>
+			<minimum width="300" height="300" />
+			<dynamic />
+		</sizelimits>
+		<minimize>minimized_note</minimize>
+		<playercontrol />
+		<nodelete />
+		<sharable />
+		<tooltip field="name" />
+		<script file="campaign/scripts/note.lua" />
+		<sheetdata>
+			<link_story>
+				<class>note</class>
+			</link_story>
+
+			<genericcontrol name="rightanchor">
+				<anchored height="0" width="0">
+					<top offset="28" />
+					<right offset="-14" />
+				</anchored>
+			</genericcontrol>
+			<icon_record_locked name="hardlocked">
+				<anchored to="rightanchor" width="20" height="20">
+					<top />
+					<right anchor="left" relation="relative" offset="0" />
+				</anchored>
+			</icon_record_locked>
+			<button_record_locked name="locked">
+				<anchored to="rightanchor" width="20" height="20">
+					<top />
+					<right anchor="left" relation="relative" offset="0" />
+				</anchored>
+			</button_record_locked>
+
+			<stringfield name="name">
+				<anchored to="rightanchor" height="24">
+					<top offset="-4" />
+					<left parent="" offset="45" />
+					<right anchor="left" relation="relative" offset="-5" />
+				</anchored>
+				<font>reference-h</font>
+				<empty>&#171; New Note &#187;</empty>
+				<nodrag />
+			</stringfield>
+
+			<label name="owner_label">
+				<anchored position="insidetopleft" offset="25,55" />
+				<static>Owner:</static>
+			</label>
+			<stringcontrol name="owner">
+				<anchored to="owner_label" position="righthigh" offset="5,0"
+					height="20" />
+				<font>reference-r</font>
+				<readonly />
+			</stringcontrol>
+			<buttonc_checkbox name="ispublic">
+				<bounds>-35,55,20,20</bounds>
+				<script>
+					function onValueChanged()
+					window.onPublicChanged();
+					end
+				</script>
+			</buttonc_checkbox>
+			<label name="ispublic_label">
+				<anchored to="ispublic" position="lefthigh" offset="5,0"
+					height="20" />
+				<static>Public?</static>
+			</label>
+			<genericcontrol>
+				<bounds>15,75,-15,3</bounds>
+				<frame name="separatorline" />
+				<disabled />
+			</genericcontrol>
+
+			<stringfield name="text">
+				<bounds>25,85,-25,-15</bounds>
+				<multilinespacing>16</multilinespacing>
+				<font>reference-r</font>
+				<selectioncolor>#FFD296</selectioncolor>
+			</stringfield>
+			<scrollbar>
+				<anchored to="text" />
+				<target>text</target>
+			</scrollbar>
+
+			<resize_storybox />
+			<close_storybox />
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="notesmall">
+		<margins control="0,0,0,2" />
+		<script file="campaign/scripts/campaign_list_record.lua" />
+		<sheetdata>
+			<link_list name="open">
+				<class>note</class>
+			</link_list>
+
+			<genericcontrol name="rightanchor">
+				<anchored height="0" width="0">
+					<top />
+					<right offset="-5" />
+				</anchored>
+			</genericcontrol>
+			<button_idelete name="idelete">
+				<anchored>
+					<top />
+					<right parent="rightanchor" anchor="left" relation="relative"
+						offset="-2" />
+				</anchored>
+			</button_idelete>
+			<icon_access name="access" />
+			<icon_modified name="modified" />
+
+			<string_list_name name="name">
+				<empty>&#171; New Note &#187;</empty>
+			</string_list_name>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="notelist">
+		<frame>campaignlistwithtabs</frame>
+		<placement>
+			<size width="275" height="350" />
+		</placement>
+		<sizelimits>
+			<minimum width="200" height="300" />
+			<dynamic />
+		</sizelimits>
+		<softclose />
+		<nodelete />
+		<sheetdata>
+			<banner_campaign>
+				<icon>title_notes</icon>
+			</banner_campaign>
+
+			<list_campaign_nofilter name="list">
+				<datasource>.</datasource>
+				<class>notesmall</class>
+				<script>
+					function onDrop(x, y, draginfo)
+					if draginfo.isType("shortcut") then
+					return CampaignDataManager.handleDrop("notes", draginfo);
+					end
+					end
+				</script>
+			</list_campaign_nofilter>
+			<scrollbar_list />
+
+			<anchor_campaign_nofilter />
+			<button_iedit_campaign>
+				<script>
+					function onInit()
+					end
+				</script>
+			</button_iedit_campaign>
+			<button_iadd_campaign2>
+				<class>note</class>
+			</button_iadd_campaign2>
+
+			<resize_campaignlistwithtabs />
+			<close_campaignlist />
+		</sheetdata>
+	</windowclass>
+</root>

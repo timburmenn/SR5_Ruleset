@@ -1,0 +1,590 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- Please see the license.html file included with this distribution for 
+	attribution and copyright information. -->
+
+<root>
+	<windowclass name="ps_inventory">
+		<script file="ps/scripts/ps_inv.lua" />
+		<sheetdata>
+			<windowlist name="coins">
+				<anchored position="insidetopleft" offset="20,80">
+					<right anchor="center" offset="-75" />
+					<bottom anchor="center" offset="-20" />
+				</anchored>
+				<frame name="groupbox" offset="5,10,15,10" />
+				<child>
+					<backcolor>1A40301E</backcolor>
+				</child>
+				<child></child>
+				<datasource>.treasureparcelcoinlist</datasource>
+				<class>ps_parcelcoin</class>
+				<allowcreate />
+				<allowdelete />
+				<script>
+					function onListChanged()
+					update();
+					end
+
+					function update()
+					local bEditMode = (window.coins_iedit.getValue() == 1);
+					for _,w in ipairs(getWindows()) do
+					w.idelete.setVisible(bEditMode);
+					end
+					end
+
+					function addEntry(bFocus)
+					local w = createWindow();
+					if bFocus and w then
+					w.amount.setFocus();
+					end
+					return w;
+					end
+
+					function onDrop(x, y, draginfo)
+					return window.onDrop(x, y, draginfo);
+					end
+				</script>
+			</windowlist>
+			<scrollbar>
+				<anchored to="coins" />
+				<target>coins</target>
+			</scrollbar>
+
+			<label>
+				<anchored to="coins" position="above" offset="0,22" />
+				<static>Parcel Coins</static>
+				<center />
+			</label>
+			<label>
+				<anchored to="coins" position="aboveleft" offset="10,7"
+					width="55" />
+				<static>#</static>
+				<center />
+			</label>
+			<label>
+				<anchored to="coins" position="aboveleft" offset="70,7"
+					width="100" />
+				<static>Description</static>
+				<center />
+			</label>
+
+			<button_iedit name="coins_iedit">
+				<anchored to="coins" position="aboveright" offset="5,12" />
+				<target>coins</target>
+			</button_iedit>
+			<button_iadd name="coins_iadd">
+				<anchored to="coins_iedit" position="lefthigh" offset="5,0" />
+				<target>coins</target>
+			</button_iadd>
+
+			<windowlist name="items">
+				<anchored position="insidetopright" offset="40,80">
+					<left anchor="center" offset="-20" />
+					<bottom anchor="center" offset="-20" />
+				</anchored>
+				<frame name="groupbox" offset="5,10,15,10" />
+				<child>
+					<backcolor>1A40301E</backcolor>
+				</child>
+				<child></child>
+				<datasource>.treasureparcelitemlist</datasource>
+				<class>ps_parcelitem</class>
+				<allowcreate />
+				<allowdelete />
+				<empty font="list-empty"
+					text="Drop treasure parcel or items here to assign treasure to party members." />
+				<script>
+					function onSortCompare(w1, w2)
+					return ItemManager.getSortName(w1.getDatabaseNode()) &gt;
+					ItemManager.getSortName(w2.getDatabaseNode());
+					end
+
+					function
+					onListChanged()
+					update();
+					end
+
+					function update()
+					local bEditMode = (window.items_iedit.getValue() == 1);
+					for _,w in ipairs(getWindows()) do
+					w.idelete.setVisible(bEditMode);
+					end
+					end
+
+					function addEntry(bFocus)
+					local w = createWindow();
+					if bFocus and w then
+					w.count.setFocus();
+					end
+					return w;
+					end
+
+					function onDrop(x, y, draginfo)
+					return window.onDrop(x, y, draginfo);
+					end
+				</script>
+			</windowlist>
+			<scrollbar>
+				<anchored to="items" />
+				<target>items</target>
+			</scrollbar>
+
+			<label>
+				<anchored to="items" position="above" offset="0,22" />
+				<static>Parcel Items</static>
+				<center />
+			</label>
+			<label>
+				<anchored to="items" position="aboveleft" offset="10,7"
+					width="25" />
+				<static>#</static>
+				<center />
+			</label>
+			<label>
+				<anchored to="items" position="aboveleft" offset="40,7">
+					<right offset="-180" />
+				</anchored>
+				<static>Description</static>
+				<center />
+			</label>
+			<label>
+				<anchored to="items" position="aboveright" offset="35,7"
+					width="145" />
+				<static>Assignment</static>
+				<center />
+			</label>
+
+			<button_iedit name="items_iedit">
+				<anchored to="items" position="aboveright" offset="5,12" />
+				<target>items</target>
+			</button_iedit>
+			<button_iadd name="items_iadd">
+				<anchored to="items_iedit" position="lefthigh" offset="5,0" />
+				<target>items</target>
+			</button_iadd>
+
+			<windowlist name="coinlist">
+				<anchored position="insidebottomleft" offset="20,30">
+					<right anchor="center" offset="-75" />
+					<top anchor="center" offset="40" />
+				</anchored>
+				<frame name="groupbox" offset="5,10,15,10" />
+				<child>
+					<backcolor>1A40301E</backcolor>
+				</child>
+				<child></child>
+				<datasource>.coinlist</datasource>
+				<class>ps_coin</class>
+			</windowlist>
+			<scrollbar>
+				<anchored to="coinlist" />
+				<target>coinlist</target>
+			</scrollbar>
+
+			<label_frametop name="label_coin_main">
+				<anchored to="coinlist" position="above" offset="0,22" />
+				<static>Party Coins</static>
+				<center />
+			</label_frametop>
+			<label name="label_coin_count">
+				<anchored to="coinlist" position="aboveleft" offset="10,7"
+					width="55" />
+				<static>#</static>
+				<center />
+			</label>
+			<label name="label_coin_name">
+				<anchored to="coinlist" position="aboveleft" offset="70,7"
+					width="100" />
+				<static>Description</static>
+				<center />
+			</label>
+			<label name="label_coin_carried">
+				<anchored to="coinlist" position="aboveright" offset="10,7">
+					<left parent="label_coin_name" anchor="right" offset="5" />
+				</anchored>
+				<static>Carried By</static>
+				<center />
+			</label>
+
+			<windowlist name="itemlist">
+				<anchored position="insidebottomright" offset="40,30">
+					<left anchor="center" offset="-20" />
+					<top anchor="center" offset="40" />
+				</anchored>
+				<frame name="groupbox" offset="5,10,15,10" />
+				<child>
+					<backcolor>1A40301E</backcolor>
+				</child>
+				<child></child>
+				<datasource>.inventorylist</datasource>
+				<class>ps_item</class>
+				<sortby>
+					<control>name</control>
+				</sortby>
+				<empty font="list-empty"
+					text="Click rebuild button to refresh party inventory from PCs." />
+			</windowlist>
+			<scrollbar>
+				<anchored to="itemlist" />
+				<target>itemlist</target>
+			</scrollbar>
+
+			<label name="label_inv_main">
+				<anchored to="itemlist" position="above" offset="0,22" />
+				<static>Party Inventory</static>
+				<center />
+			</label>
+			<label name="label_inv_count">
+				<anchored to="itemlist" position="aboveleft" offset="10,7"
+					width="25" />
+				<static>#</static>
+				<center />
+			</label>
+			<label name="label_inv_name">
+				<anchored to="itemlist" position="aboveleft" offset="40,7">
+					<right offset="-180" />
+				</anchored>
+				<static>Name</static>
+				<center />
+			</label>
+			<label name="label_inv_carried">
+				<anchored to="itemlist" position="aboveright" offset="30,7"
+					width="145" />
+				<static>Carried By</static>
+				<center />
+			</label>
+
+			<buttoncontrol>
+				<anchored width="33" height="26">
+					<left anchor="right" offset="-73" />
+					<top anchor="center" offset="-4" />
+				</anchored>
+				<icon normal="button_ctnextround" pressed="button_ctnextround_down" />
+				<tooltip text="Rebuild Party Inventory" />
+				<gmvisibleonly />
+				<script>
+					function onButtonPress()
+					PartyLootManager.rebuild();
+					end
+				</script>
+			</buttoncontrol>
+			<buttoncontrol>
+				<anchored width="33" height="26">
+					<left anchor="center" offset="-62" />
+					<top anchor="center" offset="-4" />
+				</anchored>
+				<icon normal="button_ctnextactor" pressed="button_ctnextactor_down" />
+				<tooltip text="Distribute Assignments and Coins" />
+				<gmvisibleonly />
+				<script>
+					function onButtonPress()
+					PartyLootManager.distribute();
+					end
+				</script>
+			</buttoncontrol>
+			<buttoncontrol>
+				<anchored to="coins" width="26" height="33">
+					<left anchor="right" offset="20" />
+					<top anchor="center" offset="-33" />
+				</anchored>
+				<icon normal="arrowleft" pressed="arrowleft" />
+				<tooltip text="Sell Items" />
+				<gmvisibleonly />
+				<script>
+					function onButtonPress()
+					PartyLootManager.sellItems();
+					end
+				</script>
+			</buttoncontrol>
+			<basicnumber name="sellpercentage">
+				<anchored to="coins" width="20" height="20">
+					<left anchor="right" offset="17" />
+					<top anchor="center" offset="5" />
+				</anchored>
+				<default>50</default>
+			</basicnumber>
+			<label>
+				<anchored to="sellpercentage" position="righthigh" offset="5,0" />
+				<static>%</static>
+			</label>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="client_ps_inventory">
+		<script file="ps/scripts/ps_inv.lua" />
+		<sheetdata>
+			<windowlist name="coins">
+				<anchored position="insidetopleft" offset="20,80">
+					<right anchor="center" offset="-70" />
+					<bottom offset="-30" />
+				</anchored>
+				<frame name="groupbox" offset="5,10,15,10" />
+				<child>
+					<backcolor>1A40301E</backcolor>
+				</child>
+				<child></child>
+				<datasource>.treasureparcelcoinlist</datasource>
+				<class>ps_parcelcoin</class>
+				<readonly />
+				<script>
+					function onDrop(x, y, draginfo)
+					return window.onDrop(x, y, draginfo);
+					end
+				</script>
+			</windowlist>
+			<scrollbar>
+				<anchored to="coins" />
+				<target>coins</target>
+			</scrollbar>
+
+			<label>
+				<anchored to="coins" position="above" offset="0,22" />
+				<static>Parcel Coins</static>
+				<center />
+			</label>
+			<label>
+				<anchored to="coins" position="aboveleft" offset="10,7"
+					width="55" />
+				<static>#</static>
+				<center />
+			</label>
+			<label>
+				<anchored to="coins" position="aboveleft" offset="70,7"
+					width="100" />
+				<static>Description</static>
+				<center />
+			</label>
+
+			<windowlist name="items">
+				<anchored position="insidetopright" offset="40,80">
+					<left anchor="center" offset="-30" />
+					<bottom offset="-30" />
+				</anchored>
+				<frame name="groupbox" offset="5,10,15,10" />
+				<child>
+					<backcolor>1A40301E</backcolor>
+				</child>
+				<child></child>
+				<datasource>.treasureparcelitemlist</datasource>
+				<class>ps_parcelitem</class>
+				<readonly />
+				<empty font="list-empty" text="Party treasure for distribution listed here." />
+				<script>
+					function onSortCompare(w1, w2)
+					return ItemManager.getSortName(w1.getDatabaseNode()) &gt;
+					ItemManager.getSortName(w2.getDatabaseNode());
+					end
+
+					function onDrop(x,
+					y, draginfo)
+					return window.onDrop(x, y, draginfo);
+					end
+				</script>
+			</windowlist>
+			<scrollbar>
+				<anchored to="items" />
+				<target>items</target>
+			</scrollbar>
+
+			<label>
+				<anchored to="items" position="above" offset="0,22" />
+				<static>Parcel Items</static>
+				<center />
+			</label>
+			<label>
+				<anchored to="items" position="aboveleft" offset="10,7"
+					width="25" />
+				<static>#</static>
+				<center />
+			</label>
+			<label>
+				<anchored to="items" position="aboveleft" offset="40,7">
+					<right offset="-180" />
+				</anchored>
+				<static>Description</static>
+				<center />
+			</label>
+			<label>
+				<anchored to="items" position="aboveright" offset="35,7"
+					width="145" />
+				<static>Assignment</static>
+				<center />
+			</label>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="ps_item">
+		<margins control="0,0,0,2" />
+		<sheetdata>
+			<number_dropadd name="count">
+				<bounds>10,2,25,20</bounds>
+				<hideonvalue>0</hideonvalue>
+				<readonly />
+			</number_dropadd>
+			<basicstring name="name">
+				<anchored>
+					<left offset="45" />
+					<top offset="2" />
+					<right offset="-180" />
+				</anchored>
+				<multilinespacing>20</multilinespacing>
+				<readonly />
+			</basicstring>
+			<basicstring name="carriedby">
+				<anchored>
+					<left anchor="right" offset="-173" />
+					<top offset="2" />
+					<right offset="-30" />
+				</anchored>
+				<multilinespacing>20</multilinespacing>
+				<readonly />
+			</basicstring>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="ps_coin">
+		<margins control="0,0,0,2" />
+		<sheetdata>
+			<number_dropadd name="amount">
+				<bounds>10,2,55,20</bounds>
+				<hideonvalue>0</hideonvalue>
+				<readonly />
+			</number_dropadd>
+			<stringu name="name">
+				<anchored width="100">
+					<left offset="75" />
+					<top offset="2" />
+				</anchored>
+				<multilinespacing>20</multilinespacing>
+				<readonly />
+			</stringu>
+			<basicstring name="carriedby">
+				<anchored>
+					<left parent="name" anchor="right" offset="5" />
+					<top offset="2" />
+					<right offset="-10" />
+				</anchored>
+				<multilinespacing>20</multilinespacing>
+				<readonly />
+			</basicstring>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="ps_parcelitem">
+		<margins control="0,0,0,2" />
+		<script>
+			function onIDChanged()
+			local bID = true;
+			if OptionsManager.isOption("MIID", "on") then
+			bID = isidentified.getValue();
+			end
+			name.setVisible(bID ~= 0);
+			nonid_name.setVisible(bID == 0);
+			end
+		</script>
+		<sheetdata>
+			<hn name="isidentified">
+				<script>
+					function onValueChanged()
+					window.onIDChanged();
+					end
+				</script>
+			</hn>
+
+			<genericcontrol name="rightanchor">
+				<anchored height="0" width="0">
+					<top />
+					<right />
+				</anchored>
+			</genericcontrol>
+			<button_idelete name="idelete">
+				<anchored>
+					<top offset="2" />
+					<right parent="rightanchor" anchor="left" relation="relative"
+						offset="-5" />
+				</anchored>
+			</button_idelete>
+			<linkcontrol name="shortcut">
+				<anchored width="20" height="20">
+					<top offset="2" />
+					<right parent="rightanchor" anchor="left" relation="relative"
+						offset="-5" />
+				</anchored>
+				<class>item</class>
+				<gmeditonly />
+			</linkcontrol>
+			<basicstring name="assign">
+				<anchored width="110">
+					<top offset="2" />
+					<right parent="rightanchor" anchor="left" relation="relative"
+						offset="-10" />
+				</anchored>
+				<multilinespacing>20</multilinespacing>
+				<gmeditonly />
+				<tabtarget prev="nonid_name" />
+				<script file="ps/scripts/ps_carriedby.lua" />
+			</basicstring>
+
+			<number_dropadd name="count">
+				<bounds>10,2,25,20</bounds>
+				<hideonvalue>0</hideonvalue>
+				<gmeditonly />
+			</number_dropadd>
+
+			<basicstring name="name">
+				<anchored position="insidetopleft" offset="45,2">
+					<right parent="rightanchor" anchor="left" relation="current"
+						offset="-10" />
+				</anchored>
+				<multilinespacing>20</multilinespacing>
+				<gmeditonly />
+				<empty>&#171; New Item &#187;</empty>
+			</basicstring>
+			<basicstring name="nonid_name">
+				<anchored position="insidetopleft" offset="45,2">
+					<right parent="rightanchor" anchor="left" relation="current"
+						offset="-10" />
+				</anchored>
+				<multilinespacing>20</multilinespacing>
+				<gmeditonly />
+				<empty>Unidentified Item</empty>
+				<invisible />
+				<tabtarget next="assign" prev="name" />
+			</basicstring>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="ps_parcelcoin">
+		<margins control="0,0,0,2" />
+		<sheetdata>
+			<genericcontrol name="rightanchor">
+				<anchored height="0" width="0">
+					<top />
+					<right />
+				</anchored>
+			</genericcontrol>
+			<button_idelete name="idelete">
+				<anchored>
+					<top offset="2" />
+					<right parent="rightanchor" anchor="left" relation="relative"
+						offset="-5" />
+				</anchored>
+			</button_idelete>
+
+			<number_dropadd name="amount">
+				<bounds>10,2,55,20</bounds>
+				<hideonvalue>0</hideonvalue>
+				<gmeditonly />
+			</number_dropadd>
+			<stringu name="description">
+				<anchored position="insidetopleft" offset="75,2">
+					<right parent="rightanchor" anchor="left" relation="relative"
+						offset="-5" />
+				</anchored>
+				<multilinespacing>20</multilinespacing>
+				<gmeditonly />
+			</stringu>
+		</sheetdata>
+	</windowclass>
+</root>

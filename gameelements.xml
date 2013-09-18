@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- Please see the license.html file included with this distribution for 
+	attribution and copyright information. -->
+
+<root>
+	<desktopframe>desktop</desktopframe>
+
+	<tokenroot source="tokens" />
+
+	<characterdbroot>charsheet</characterdbroot>
+
+	<die name="gmdie">
+		<icon>gmdieicon</icon>
+	</die>
+
+	<die name="dF">
+		<icon>d6icon</icon>
+		<position>420,-68</position>
+	</die>
+	<die name="d6">
+		<icon>d6icon</icon>
+		<position>320,-68</position>
+	</die>
+	<die name="d100">
+		<icon>d10icon</icon>
+	</die>
+
+	<diebox>
+		<frame name="diebox" />
+		<margin value="16" numbertailmargin="10" />
+		<secreticon name="gmdie" />
+	</diebox>
+
+	<pollbox>
+		<frame name="diebox" />
+		<margin value="21" numbertailmargin="10" />
+		<icons empty="poll_empty" positive="poll_check" negative="poll_negative" />
+	</pollbox>
+
+	<viewerlistsettings>
+		<portrait file="data\icons\mini_portrait.png" mask="data\icons\mini_portrait_mask.png" />
+		<spacing value="0" />
+	</viewerlistsettings>
+
+	<hotkeybar>
+		<frame>hotkeybox</frame>
+		<location offset="0" height="33" />
+		<title frame="hotkeytitlebox" frameoffset="2,-2,7,5" margin="2,1"
+			font="hotkey" />
+		<label margin="10,12" font="hotkey" />
+		<iconmargins>0,3,0,0</iconmargins>
+	</hotkeybar>
+
+	<categoryselectionsettings>
+		<iconposition normal="6,6" selected="6,4" />
+		<baseicon normal="tab_base1" selected="tab_base1s" />
+		<baseicon normal="tab_base2" selected="tab_base2s" />
+		<baseicon normal="tab_base3" selected="tab_base3s" />
+		<baseicon normal="tab_base4" selected="tab_base4s" />
+		<baseicon normal="tab_base5" selected="tab_base5s" />
+		<decalicon name="tab_icon1" />
+		<decalicon name="tab_icon2" />
+		<decalicon name="tab_icon3" />
+		<decalicon name="tab_icon4" />
+		<decalicon name="tab_icon5" />
+		<decalicon name="tab_icon6" />
+		<decalicon name="tab_icon7" />
+		<decalicon name="tab_icon8" />
+	</categoryselectionsettings>
+
+	<tooltip>
+		<frame name="tooltipbox" margins="7,4,10,7" wrapwidth="300" />
+		<radial name="mini_name" margins="7,2,7,2" />
+		<font name="mini_name" />
+	</tooltip>
+</root>

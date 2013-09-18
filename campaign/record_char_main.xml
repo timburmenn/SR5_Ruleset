@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- Please see the license.html file included with this distribution for 
+	attribution and copyright information. -->
+
+<root>
+	<windowclass name="charsheet_main">
+		<sheetdata>
+            <frame_char name="detailframe">
+				<bounds>15,0,-29,50</bounds>
+			</frame_char>
+            <string_labeled name="real_name">
+				<anchored to="detailframe" position="insidetopleft" offset="15,10"
+					width="150" height="20" />
+				<label>real name</label>
+			</string_labeled>
+			<string_labeled name="metatype">
+				<anchored to="real_name" position="right" offset="5,0"
+					width="60"/>
+				<label>metatype</label>
+			</string_labeled>
+            <string_labeled name="ethnicity">
+				<anchored to="metatype" position="right" offset="5,0"
+					width="60" />
+				<label>ethnicity</label>
+			</string_labeled>
+			<string_labeled name="gender">
+				<anchored to="ethnicity" position="right" offset="5,0"
+					width="40" />
+				<label>gender</label>
+			</string_labeled>
+			<string_labeled name="age">
+				<anchored to="gender" position="right" offset="5,0" width="40" />
+				<label>age</label>
+			</string_labeled>
+			<string_labeled name="height">
+				<anchored to="age" position="right" offset="5,0" width="30" />
+				<label>height</label>
+			</string_labeled>
+			<string_labeled name="weight">
+				<anchored to="height" position="right" offset="5,0" width="40" />
+				<label>weight</label>
+			</string_labeled>
+            
+			<frame_char name="att_frame">
+				<anchored to="detailframe" position="insidetopleft" offset="0,10"
+					height="200" width="150" />
+			</frame_char>
+			<label_frametop>
+				<anchored to="att_frame" />
+				<static>Attributes</static>
+			</label_frametop>
+
+         <frame_char name="init_frame">
+            <anchored to="att_frame" position="right" offset="10,0" width="150" />
+         </frame_char>
+         <label_frametop>
+            <anchored to="init_frame" />
+            <static>Initiative</static>
+         </label_frametop>
+
+         <frame_char name="edge_frame">
+            <anchored to="init_frame" position="right" offset="10,0" width="150" />
+         </frame_char>
+         
+         <frame_char name="dmg_frame">
+            <anchored to="detail_frame" position="below" offset="0,220"
+            height="100" />
+         </frame_char>
+
+         <frame_char name="note_frame">
+            <anchored to="dmg_frame" position="below" offset="0,10" height="100" />
+         </frame_char>
+             
+         <label_frametop>
+            <anchored to="edge_frame" />
+            <static>Edge / Karma / Essence</static>
+         </label_frametop>
+         
+
+            
+		</sheetdata>
+	</windowclass>
+</root>

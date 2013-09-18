@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- Please see the license.html file included with this distribution for 
+	attribution and copyright information. -->
+
+<root>
+	<windowclass name="item">
+		<frame>recordsheet</frame>
+		<placement>
+			<size width="350" height="400" />
+		</placement>
+		<sizelimits>
+			<minimum width="350" height="400" />
+			<dynamic />
+		</sizelimits>
+		<minimize>minimized_item</minimize>
+		<tooltip field="name" />
+		<nodelete />
+		<playercontrol />
+		<sharable />
+		<script file="campaign/scripts/item.lua" />
+		<sheetdata>
+			<sub_record_header name="header">
+				<class>item_header</class>
+			</sub_record_header>
+
+			<frame_record name="contentframe">
+				<anchored>
+					<top parent="header" anchor="bottom" offset="15" />
+					<left offset="35" />
+					<right offset="-35" />
+					<bottom offset="-32" />
+				</anchored>
+				<frame offset="20,17,20,17" />
+			</frame_record>
+
+			<subwindow_record name="main">
+				<class>item_main</class>
+				<activate />
+			</subwindow_record>
+
+			<scrollbar_record>
+				<target>main</target>
+			</scrollbar_record>
+
+			<resize_recordsheet />
+			<close_recordsheet />
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="item_header">
+		<margins control="0,0,0,7" />
+		<script>
+			function onInit()
+			update();
+			end
+			function update()
+			local nodeRecord = getDatabaseNode();
+			local bReadOnly = WindowManager.getReadOnlyState(nodeRecord);
+			local bID, bOptionID = ItemManager.getIDState(nodeRecord);
+
+			name.setVisible(bID);
+			name.setReadOnly(bReadOnly);
+
+			nonid_name.setVisible(not bID);
+			nonid_name.setReadOnly(bReadOnly);
+
+			isidentified.setVisible(bOptionID);
+			end
+		</script>
+		<sheetdata>
+			<link_record_header>
+				<class>item</class>
+			</link_record_header>
+			<genericcontrol name="rightanchor">
+				<anchored height="0" width="0">
+					<top />
+					<right offset="-5" />
+				</anchored>
+			</genericcontrol>
+			<button_record_isidentified name="isidentified">
+				<anchored width="20" height="20">
+					<top offset="5" />
+					<right parent="rightanchor" anchor="left" relation="relative"
+						offset="-5" />
+				</anchored>
+			</button_record_isidentified>
+			<icon_record_locked name="hardlocked">
+				<anchored width="20" height="20">
+					<top offset="5" />
+					<right parent="rightanchor" anchor="left" relation="relative"
+						offset="-5" />
+				</anchored>
+			</icon_record_locked>
+			<button_record_locked name="locked">
+				<anchored width="20" height="20">
+					<top offset="5" />
+					<right parent="rightanchor" anchor="left" relation="relative"
+						offset="-5" />
+				</anchored>
+			</button_record_locked>
+
+			<string_record_name name="name">
+				<anchored>
+					<top offset="5" />
+					<left offset="40" />
+					<right parent="rightanchor" anchor="left" relation="current"
+						offset="-15" />
+				</anchored>
+				<empty>&#171; New Item &#187;</empty>
+			</string_record_name>
+			<string_record_name name="nonid_name">
+				<anchored>
+					<top offset="5" />
+					<left offset="40" />
+					<right parent="rightanchor" anchor="left" relation="current"
+						offset="-15" />
+				</anchored>
+				<empty>Unidentified Item</empty>
+			</string_record_name>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="item_main">
+		<margins control="0,0,0,2" />
+		<script file="campaign/scripts/item_main.lua" />
+		<sheetdata>
+			<anchor_column name="columnanchor" />
+
+			<label_column name="nonid_name_label">
+				<static>Non-ID Name</static>
+			</label_column>
+			<string_columnh name="nonid_name" />
+
+			<label_column name="nonid_notes_label">
+				<static>Notes</static>
+			</label_column>
+			<string_columnh name="nonid_notes" />
+
+			<line_column name="divider" />
+
+			<label_column name="cost_label">
+				<static>Cost</static>
+			</label_column>
+			<string_columnh name="cost">
+				<gmeditonly />
+			</string_columnh>
+
+			<label_column name="weight_label">
+				<static>Weight</static>
+			</label_column>
+			<number_columnh name="weight">
+				<gmeditonly />
+			</number_columnh>
+
+			<line_column name="divider2" />
+
+			<ft_columnh name="notes">
+				<gmeditonly />
+			</ft_columnh>
+		</sheetdata>
+	</windowclass>
+</root>
