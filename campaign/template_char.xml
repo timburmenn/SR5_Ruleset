@@ -93,9 +93,8 @@
                             "attributes." .. target[1] .. ".score");
                     local nodeName = nodeWin.getName();
                     Debug.chat("Calling nodename");
-                    local nLabel = nodeName.getParent().getChild().getText();
+                    local nLabel = getDescription()
                     Debug.chat(nLabel);
-                    nLabel = "test"
 
                     local rActor = ActorManager.getActor("pc", nodeWin.getChild("..."));
                     local sDesc = "[ATTRIBUTE] " .. nLabel;
