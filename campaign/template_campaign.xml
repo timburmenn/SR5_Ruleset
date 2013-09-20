@@ -4,6 +4,14 @@
 	attribution and copyright information. -->
 
 <root>
+    <template name="label_fieldtop">
+		<stringcontrol>
+			<anchored position="above" offset="3,1" />
+			<font>sheetlabelmini</font>
+			<center />
+		</stringcontrol>
+	</template>
+    
 	<template name="banner_campaign">
 		<genericcontrol>
 			<bounds>16,22,30,177</bounds>

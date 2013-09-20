@@ -4,6 +4,117 @@
 	attribution and copyright information. -->
 
 <root>
+    <template name="number_chartotalwithattribute">
+		<number_chartotal>
+			<attribute mergerule="resetandadd" />
+			<script file="campaign/scripts/char_totalwithattribute.lua" />
+		</number_chartotal>
+	</template>
+    <template name="number_chartotal">
+		<number_modifier>
+			<frame name="fieldlight" offset="7,5,7,5" />
+		</number_modifier>
+	</template>
+    <template name="number_charattribute_base">
+		<basicnumber>
+			<anchored position="belowleft" 
+                offset="0,9" 
+                width="24" 
+                height="18" />
+			<default>1</default>
+		</basicnumber>
+	</template>
+	<template name="string_charattribute_label">
+		<label>
+			<anchored position="lefthigh" 
+                width="65" 
+                height="18" />
+			<static />
+		</label>
+	</template>
+    <template name="number_charattribute_permmod">
+		<basicnumber>
+			<anchored position="right" offset="10,0" width="24" />
+			<hideonvalue value="0" />
+            <default>0</default>
+			<script>
+				function onValueChanged()
+					local nTarget = DB.getValue(window.getDatabaseNode(), "attributes." .. target[1] .. ".score", 0);
+					if getValue() &gt; nTarget then
+						setValue(nTarget);
+					end
+				end
+			</script>
+		</basicnumber>
+	</template>
+    <template name="number_charattribute_tempmod">
+		<basicnumber>
+			<anchored position="right" offset="44,0" width="24" />
+			<hideonvalue value="0" />
+            <default>0</default>
+			<script>
+				function onValueChanged()
+					local nTarget = DB.getValue(window.getDatabaseNode(), "attributes." .. target[1] .. ".score", 0);
+					if getValue() &gt; nTarget then
+						DB.setValue(nTarget);
+					end
+				end
+			</script>
+		</basicnumber>
+	</template>
+    <template name="number_charattribute_score">
+		<number_chartotal>
+			<anchored position="right" 
+                offset="78" 
+                width="24" />
+            <rollable />
+            <script>
+            function onSourceUpdate()
+                local nodeWin = window.getDatabaseNode();
+                local nBase = DB.getValue(nodeWin, "attributes." .. target[1] .. ".base", 1);
+                local nAugs = DB.getValue(nodeWin, "attributes." .. target[1] .. ".augs", 0);
+                local nTemp = DB.getValue(nodeWin, "attributes." .. target[1] .. ".temp", 0);
+                local nCurrent = nBase + nAugs + nTemp;
+                setValue(nCurrent);
+            end
+            
+            function onInit()
+                addSource("attributes." .. target[1] .. ".base");
+                addSource("attributes." .. target[1] .. ".augs");
+                addSource("attributes." .. target[1] .. ".temp");
+                
+                super.onInit();
+            end
+            
+            function action(draginfo)
+                local nodeWin = window.getDatabaseNode();
+                if nodeWin then
+                    local nTotal = DB.getValue(nodeWin, 
+                            "attributes." .. target[1] .. ".score");
+                    local nodeName = nodeWin.getName();
+                    Debug.chat("Calling nodename");
+                    local nLabel = nodeName.getParent().getChild().getText();
+                    Debug.chat(nLabel);
+                    nLabel = "test"
+
+                    local rActor = ActorManager.getActor("pc", nodeWin.getChild("..."));
+                    local sDesc = "[ATTRIBUTE] " .. nLabel;
+                    local rRoll = { sType = "dice", sDesc = sDesc, aDice = {"d6"}, nDice=nTotal, nMod = 0 };
+                    ActionsManager.performAction(draginfo, rActor, rRoll, 0);
+                end
+            end
+            
+            function onDragStart(button, x, y, draginfo)
+                return action(draginfo);
+            end
+            
+            function onDoubleClick(x,y)
+                return action();
+            end
+            </script>
+		</number_chartotal>
+	</template>
+    
 	<template name="frame_char">
 		<genericcontrol>
 			<frame name="groupbox" />

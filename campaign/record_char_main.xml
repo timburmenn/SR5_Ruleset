@@ -6,78 +6,641 @@
 <root>
 	<windowclass name="charsheet_main">
 		<sheetdata>
-            <frame_char name="detailframe">
+        <!-- Character Details -->
+            <frame_char name="detail_frame">
 				<bounds>15,0,-29,50</bounds>
 			</frame_char>
+            
             <string_labeled name="real_name">
-				<anchored to="detailframe" position="insidetopleft" offset="15,10"
-					width="150" height="20" />
+				<anchored to="detail_frame" 
+                    position="insidetopleft" 
+                    offset="15,10"
+                    width="150" 
+                    height="20" />
 				<label>real name</label>
 			</string_labeled>
+            
 			<string_labeled name="metatype">
-				<anchored to="real_name" position="right" offset="5,0"
+				<anchored to="real_name" 
+                    position="right" 
+                    offset="5,0"
 					width="60"/>
 				<label>metatype</label>
 			</string_labeled>
+            
             <string_labeled name="ethnicity">
-				<anchored to="metatype" position="right" offset="5,0"
+				<anchored to="metatype" 
+                    position="right" 
+                    offset="5,0"
 					width="60" />
 				<label>ethnicity</label>
 			</string_labeled>
+            
 			<string_labeled name="gender">
-				<anchored to="ethnicity" position="right" offset="5,0"
+				<anchored to="ethnicity" 
+                    position="right" 
+                    offset="5,0"
 					width="40" />
 				<label>gender</label>
 			</string_labeled>
+            
 			<string_labeled name="age">
-				<anchored to="gender" position="right" offset="5,0" width="40" />
+				<anchored to="gender" 
+                    position="right" 
+                    offset="5,0" 
+                    width="25" />
 				<label>age</label>
 			</string_labeled>
+            
 			<string_labeled name="height">
-				<anchored to="age" position="right" offset="5,0" width="30" />
+				<anchored to="age" 
+                    position="right" 
+                    offset="5,0" 
+                    width="35" />
 				<label>height</label>
 			</string_labeled>
+            
 			<string_labeled name="weight">
-				<anchored to="height" position="right" offset="5,0" width="40" />
+				<anchored to="height" 
+                    position="right" 
+                    offset="5,0" 
+                    width="45" />
 				<label>weight</label>
 			</string_labeled>
             
+            
+            <!-- 
+                Attributes
+                -->
 			<frame_char name="att_frame">
-				<anchored to="detailframe" position="insidetopleft" offset="0,10"
-					height="200" width="150" />
+				<anchored to="detail_frame" 
+                    position="insidetopleft" 
+                    offset="0,50"
+					height="250" 
+                    width="220" />
 			</frame_char>
+            
+            <!--
 			<label_frametop>
-				<anchored to="att_frame" />
-				<static>Attributes</static>
+				<anchored to="att_frame" 
+                    position="insidetopleft" 
+                    offset="30,10"/>
+				<static>Attribute</static>
 			</label_frametop>
+            -->
+            
+            <!-- Body -->
+            <number_charattribute_base name="body_base"
+                source="attributes.body.base">
+                <anchored to="att_frame"
+                    position="insidetopleft"
+                    offset="77,27" />
+                <description text="Body base score" />
+                <tooltip>
+                    <text>The base Body score</text>
+                </tooltip>
+            </number_charattribute_base>
+            
+            <string_charattribute_label>
+                <anchored to="body_base"/>
+                <static>Body</static>
+            </string_charattribute_label>
+            
+            <number_charattribute_permmod name="body_augs"
+                source="attributes.body.augs">
+                <anchored to="body_base" />
+                <target>body</target> 
+                <description text="Body augmentations" />
+                <tooltip>
+                    <text>Augmentations to the Body score</text>
+                </tooltip>
+            </number_charattribute_permmod>
+            
+            <number_charattribute_tempmod name="body_tempmod"
+                source="attributes.body.temp">
+                <anchored to="body_base"/>
+                <target>body</target>
+                <description text="Body temporary modifier" />
+                <tooltip>
+                    <text>Temporary modifiers to the Body score</text>
+                </tooltip>
+            </number_charattribute_tempmod>
+            
+            <number_charattribute_score name="body"
+                source="attributes.body.score">
+                <anchored to="body_base" />
+                <description text="Body final score" />
+                <target>body</target>
+                <tooltip>
+                    <text>Current Body score</text>
+                </tooltip>
+            </number_charattribute_score>
+            
+            
+            <!-- Agility -->
+            <number_charattribute_base name="agility_base"
+                source="attributes.agility.base">
+                <anchored to="att_frame"
+                    position="insidetopleft"
+                    offset="77,51" />
+                <description text="Agility base score" />
+                <tooltip>
+                    <text>The base Agility score</text>
+                </tooltip>
+            </number_charattribute_base>
+            
+            <string_charattribute_label>
+                <anchored to="agility_base"/>
+                <static>Agility</static>
+            </string_charattribute_label>
+            
+            <number_charattribute_permmod name="agility_augs"
+                source="attributes.agility.augs">
+                <anchored to="agility_base" />
+                <target>agility</target> 
+                <description text="Agility augmentations" />
+                <tooltip>
+                    <text>Augmentations to the Agility score</text>
+                </tooltip>
+            </number_charattribute_permmod>
+            
+            <number_charattribute_tempmod name="agility_tempmod"
+                source="attributes.agility.temp">
+                <anchored to="agility_base"/>
+                <target>agility</target>
+                <description text="Agility temporary modifier" />
+                <tooltip>
+                    <text>Temporary modifiers to the Agility score</text>
+                </tooltip>
+            </number_charattribute_tempmod>
+            
+            <number_charattribute_score name="agility"
+                source="attributes.agility.score">
+                <anchored to="agility_base" />
+                <target>agility</target>
+                <description text="Agility final score" />
+                <tooltip>
+                    <text>Current Agility score</text>
+                </tooltip>
+            </number_charattribute_score>
+            
+            <!-- Reaction -->
+            <number_charattribute_base name="reaction_base"
+                source="attributes.reaction.base">
+                <anchored to="att_frame"
+                    position="insidetopleft"
+                    offset="77,75" />
+                <description text="Reaction base score" />
+                <tooltip>
+                    <text>The base Reaction score</text>
+                </tooltip>
+            </number_charattribute_base>
+            
+            <string_charattribute_label>
+                <anchored to="reaction_base"/>
+                <static>Reaction</static>
+            </string_charattribute_label>
+            
+            <number_charattribute_permmod name="reaction_augs"
+                source="attributes.reaction.augs">
+                <anchored to="reaction_base" />
+                <target>reaction</target> 
+                <description text="Reaction augmentations" />
+                <tooltip>
+                    <text>Augmentations to the Reaction score</text>
+                </tooltip>
+            </number_charattribute_permmod>
+            
+            <number_charattribute_tempmod name="reaction_tempmod"
+                source="attributes.reaction.temp">
+                <anchored to="reaction_base"/>
+                <target>reaction</target>
+                <description text="Reaction temporary modifier" />
+                <tooltip>
+                    <text>Temporary modifiers to the Reaction score</text>
+                </tooltip>
+            </number_charattribute_tempmod>
+            
+            <number_charattribute_score name="reaction"
+                source="attributes.reaction.score">
+                <anchored to="reaction_base" />
+                <target>reaction</target>
+                <description text="Reaction" />
+                <tooltip>
+                    <text>Current Reaction score</text>
+                </tooltip>
+            </number_charattribute_score>
+            
+            <!-- Strength -->
+            <number_charattribute_base name="strength_base"
+                source="attributes.strength.base">
+                <anchored to="att_frame"
+                    position="insidetopleft"
+                    offset="77,99" />
+                <description text="Strength base score" />
+                <tooltip>
+                    <text>The base Strength score</text>
+                </tooltip>
+            </number_charattribute_base>
+            
+            <string_charattribute_label>
+                <anchored to="strength_base"/>
+                <static>Strength</static>
+            </string_charattribute_label>
+            
+            <number_charattribute_permmod name="strength_augs"
+                source="attributes.strength.augs">
+                <anchored to="strength_base" />
+                <target>strength</target> 
+                <description text="Strength augmentations" />
+                <tooltip>
+                    <text>Augmentations to the Strength score</text>
+                </tooltip>
+            </number_charattribute_permmod>
+            
+            <number_charattribute_tempmod name="strength_tempmod"
+                source="attributes.strength.temp">
+                <anchored to="strength_base"/>
+                <target>strength</target>
+                <description text="Strength temporary modifier" />
+                <tooltip>
+                    <text>Temporary modifiers to the Strength score</text>
+                </tooltip>
+            </number_charattribute_tempmod>
+            
+            <number_charattribute_score name="strength"
+                source="attributes.strength.score">
+                <anchored to="strength_base" />
+                <target>strength</target>
+                <description text="Strength" />
+                <tooltip>
+                    <text>Current Strength score</text>
+                </tooltip>
+            </number_charattribute_score>
+            
+            
+            <!-- Intuition -->
+            <number_charattribute_base name="intuition_base"
+                source="attributes.intuition.base">
+                <anchored to="att_frame"
+                    position="insidetopleft"
+                    offset="77,123" />
+                <description text="Intuition base score" />
+                <tooltip>
+                    <text>The base Intuition score</text>
+                </tooltip>
+            </number_charattribute_base>
+            
+            <string_charattribute_label>
+                <anchored to="intuition_base"/>
+                <static>Intuition</static>
+            </string_charattribute_label>
+            
+            <number_charattribute_permmod name="intuition_augs"
+                source="attributes.intuition.augs">
+                <anchored to="intuition_base" />
+                <target>intuition</target> 
+                <description text="Intuition augmentations" />
+                <tooltip>
+                    <text>Augmentations to the Intuition score</text>
+                </tooltip>
+            </number_charattribute_permmod>
+            
+            <number_charattribute_tempmod name="intuition_tempmod"
+                source="attributes.intuition.temp">
+                <anchored to="intuition_base"/>
+                <target>intuition</target>
+                <description text="Intuition temporary modifier" />
+                <tooltip>
+                    <text>Temporary modifiers to the Intuition score</text>
+                </tooltip>
+            </number_charattribute_tempmod>
+            
+            <number_charattribute_score name="intuition"
+                source="attributes.intuition.score">
+                <anchored to="intuition_base" />
+                <target>intuition</target>
+                <description text="Intuition final score" />
+                <tooltip>
+                    <text>Current Intuition score</text>
+                </tooltip>
+            </number_charattribute_score>
+            
+            
+            <!-- Logic -->
+            <number_charattribute_base name="logic_base"
+                source="attributes.logic.base">
+                <anchored to="att_frame"
+                    position="insidetopleft"
+                    offset="77,147" />
+                <description text="Logic base score" />
+                <tooltip>
+                    <text>The base Logic score</text>
+                </tooltip>
+            </number_charattribute_base>
+            
+            <string_charattribute_label>
+                <anchored to="logic_base"/>
+                <static>Logic</static>
+            </string_charattribute_label>
+            
+            <number_charattribute_permmod name="logic_augs"
+                source="attributes.logic.augs">
+                <anchored to="logic_base" />
+                <target>logic</target> 
+                <description text="Logic augmentations" />
+                <tooltip>
+                    <text>Augmentations to the Logic score</text>
+                </tooltip>
+            </number_charattribute_permmod>
+            
+            <number_charattribute_tempmod name="logic_tempmod"
+                source="attributes.logic.temp">
+                <anchored to="logic_base"/>
+                <target>logic</target>
+                <description text="Logic temporary modifier" />
+                <tooltip>
+                    <text>Temporary modifiers to the Logic score</text>
+                </tooltip>
+            </number_charattribute_tempmod>
+            
+            <number_charattribute_score name="logic"
+                source="attributes.logic.score">
+                <anchored to="logic_base" />
+                <target>logic</target>
+                <description text="Logic final score" />
+                <tooltip>
+                    <text>Current Logic score</text>
+                </tooltip>
+            </number_charattribute_score>
+            
+            
+            <!-- Willpower -->
+            <number_charattribute_base name="willpower_base"
+                source="attributes.willpower.base">
+                <anchored to="att_frame"
+                    position="insidetopleft"
+                    offset="77,171" />
+                <description text="Willpower base score" />
+                <tooltip>
+                    <text>The base Willpower score</text>
+                </tooltip>
+            </number_charattribute_base>
+            
+            <string_charattribute_label>
+                <anchored to="willpower_base"/>
+                <static>Willpower</static>
+            </string_charattribute_label>
+            
+            <number_charattribute_permmod name="willpower_augs"
+                source="attributes.willpower.augs">
+                <anchored to="willpower_base" />
+                <target>willpower</target> 
+                <description text="Willpower augmentations" />
+                <tooltip>
+                    <text>Augmentations to the Willpower score</text>
+                </tooltip>
+            </number_charattribute_permmod>
+            
+            <number_charattribute_tempmod name="willpower_tempmod"
+                source="attributes.willpower.temp">
+                <anchored to="willpower_base"/>
+                <target>willpower</target>
+                <description text="Willpower temporary modifier" />
+                <tooltip>
+                    <text>Temporary modifiers to the Willpower score</text>
+                </tooltip>
+            </number_charattribute_tempmod>
+            
+            <number_charattribute_score name="willpower"
+                source="attributes.willpower.score">
+                <anchored to="willpower_base" />
+                <target>willpower</target>
+                <description text="Willpower final score" />
+                <tooltip>
+                    <text>Current Willpower score</text>
+                </tooltip>
+            </number_charattribute_score>
+            
+            
+            <!-- Charisma -->
+            <number_charattribute_base name="charisma_base"
+                source="attributes.charisma.base">
+                <anchored to="att_frame"
+                    position="insidetopleft"
+                    offset="77,195" />
+                <description text="Charisma base score" />
+                <tooltip>
+                    <text>The base Charisma score</text>
+                </tooltip>
+            </number_charattribute_base>
+            
+            <string_charattribute_label>
+                <anchored to="charisma_base"/>
+                <static>Charisma</static>
+            </string_charattribute_label>
+            
+            <number_charattribute_permmod name="charisma_augs"
+                source="attributes.charisma.augs">
+                <anchored to="charisma_base" />
+                <target>charisma</target> 
+                <description text="Charisma augmentations" />
+                <tooltip>
+                    <text>Augmentations to the Charisma score</text>
+                </tooltip>
+            </number_charattribute_permmod>
+            
+            <number_charattribute_tempmod name="charisma_tempmod"
+                source="attributes.charisma.temp">
+                <anchored to="charisma_base"/>
+                <target>charisma</target>
+                <description text="Charisma temporary modifier" />
+                <tooltip>
+                    <text>Temporary modifiers to the Charisma score</text>
+                </tooltip>
+            </number_charattribute_tempmod>
+            
+            <number_charattribute_score name="charisma"
+                source="attributes.charisma.score">
+                <anchored to="charisma_base" />
+                <target>charisma</target>
+                <description text="Charisma final score" />
+                <tooltip>
+                    <text>Current Charisma score</text>
+                </tooltip>
+            </number_charattribute_score>
+            
+            
+            <!-- Magic/Resonance -->
+            <number_charattribute_base name="magres_base"
+                source="attributes.magres.base">
+                <anchored to="att_frame"
+                    position="insidetopleft"
+                    offset="77,219" />
+                <description text="Magic/Resonance base score" />
+                <tooltip>
+                    <text>The base Magic/Resonance score</text>
+                </tooltip>
+            </number_charattribute_base>
+            
+            <string_charattribute_label>
+                <anchored to="magres_base"/>
+                <static>Magic/Res</static>
+            </string_charattribute_label>
+            
+            <number_charattribute_permmod name="magres_augs"
+                source="attributes.magres.augs">
+                <anchored to="magres_base" />
+                <target>magres</target> 
+                <description text="Magic/Resonance augmentations" />
+                <tooltip>
+                    <text>Augmentations to the Magic/Resonance score</text>
+                </tooltip>
+            </number_charattribute_permmod>
+            
+            <number_charattribute_tempmod name="magres_tempmod"
+                source="attributes.magres.temp">
+                <anchored to="magres_base"/>
+                <target>magres</target>
+                <description text="Magic/Resonance temporary modifier" />
+                <tooltip>
+                    <text>Temporary modifiers to the Magic/Resonance score</text>
+                </tooltip>
+            </number_charattribute_tempmod>
+            
+            <number_charattribute_score name="magres"
+                source="attributes.magres.score">
+                <anchored to="magres_base" />
+                <target>magres</target>
+                <description text="Magic/Resonance final score" />
+                <tooltip>
+                    <text>Current Magic/Resonance score</text>
+                </tooltip>
+            </number_charattribute_score>
+            
+            
+            <!-- Labels -->
+            <label_fieldtop>
+				<anchored to="body_base" />
+				<static>Base</static>
+			</label_fieldtop>
+			<label_fieldtop>
+				<anchored to="body_augs" />
+				<static>Augs</static>
+			</label_fieldtop>
+			<label_fieldtop>
+				<anchored to="body_tempmod" />
+				<static>Tmp</static>
+			</label_fieldtop>
+            <label_fieldtop>
+				<anchored to="body" />
+				<static>Score</static>
+			</label_fieldtop>
+            
 
+        <!-- Field
+        Initiative Scores
+         -->
          <frame_char name="init_frame">
-            <anchored to="att_frame" position="right" offset="10,0" width="150" />
+            <anchored to="att_frame" 
+                position="right" 
+                offset="1,0" 
+                width="260" />
          </frame_char>
+         
          <label_frametop>
             <anchored to="init_frame" />
             <static>Initiative</static>
          </label_frametop>
-
-         <frame_char name="edge_frame">
-            <anchored to="init_frame" position="right" offset="10,0" width="150" />
-         </frame_char>
          
+         <!-- Real Combat Initiative -->
+         <string_charattribute_label>
+            <anchored to="init_frame"
+                position="insidetopleft"
+                offset="15,27" />
+            <static>Initiative</static>
+        </string_charattribute_label>
+        
+        <!-- Matrix Initative: Cold Sim -->
+        <string_charattribute_label>
+            <anchored to="init_frame"
+                position="insidetopleft"
+                offset="15,51" 
+                width="90" />
+            <static>Cold Sim Matrix</static>
+        </string_charattribute_label>
+        
+        <!-- Matrix Initiative: Hot Sim -->
+        <string_charattribute_label>
+            <anchored to="init_frame"
+                position="insidetopleft"
+                offset="15,75" 
+                width="90" />
+            <static>Hot Sim Matrix</static>
+        </string_charattribute_label>
+        
+        <!-- Astral Initiative -->
+        <string_charattribute_label>
+            <anchored to="init_frame"
+                position="insidetopleft"
+                offset="15,99" />
+            <static>Astral</static>
+        </string_charattribute_label>
+
+         
+         <!-- Edge -->
+        <string_charattribute_label>
+            <anchored to="init_frame"
+                position="insidetopleft"
+                offset="15,123" />
+            <static>Edge</static>
+        </string_charattribute_label>
+        
+        <!-- Essence -->
+        <string_charattribute_label>
+            <anchored to="init_frame"
+                position="insidetopleft"
+                offset="15,147" />
+            <static>Essence</static>
+        </string_charattribute_label>
+        
+        <!-- Karma -->
+        <string_charattribute_label>
+            <anchored to="init_frame"
+                position="insidetopleft"
+                offset="15,171" />
+            <static>Karma</static>
+        </string_charattribute_label>
+         
+         
+         <!-- Field
+         Damage taken
+          -->
          <frame_char name="dmg_frame">
-            <anchored to="detail_frame" position="below" offset="0,220"
-            height="100" />
+            <anchored to="detail_frame" 
+                position="below" 
+                offset="0,250"
+                height="80" />
          </frame_char>
-
-         <frame_char name="note_frame">
-            <anchored to="dmg_frame" position="below" offset="0,10" height="100" />
-         </frame_char>
-             
-         <label_frametop>
-            <anchored to="edge_frame" />
-            <static>Edge / Karma / Essence</static>
-         </label_frametop>
          
+         <label_frametop>
+            <anchored to="dmg_frame" />
+            <static>Damage</static>
+         </label_frametop>
 
+
+        <!-- Notes -->
+         <frame_char name="note_frame">
+            <anchored to="dmg_frame" 
+                position="below" 
+                offset="0,1" 
+                height="100" />
+         </frame_char>
+         
+         <label_frametop>
+            <anchored to="note_frame" />
+            <static>Notes</static>
+         </label_frametop>
             
 		</sheetdata>
 	</windowclass>
