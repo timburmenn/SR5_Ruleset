@@ -218,16 +218,9 @@
                 if nodeWin then
                     local nTotal = DB.getValue(nodeWin, 
                             "attributes." .. target[1] .. ".score");
-<<<<<<< HEAD
                     local aLabel = self.alabel[1];
-=======
-                    local nodeName = nodeWin.getName();
-                    Debug.chat("Calling nodename");
-                    local nLabel = getDescription()
-                    Debug.chat(nLabel);
->>>>>>> 2df936c6f5577f820d54bad07f6f9436f480f66c
-
-                    local rActor = ActorManager.getActor("pc", nodeWin.getChild("..."));
+                    
+		    local rActor = ActorManager.getActor("pc", nodeWin.getChild("..."));
                     local sDesc = "[ATTRIBUTE] " .. aLabel;
                     local rRoll = { sType = "dice", sDesc = sDesc, aDice = {"d6"}, nDice=nTotal, nMod = 0 };
                     ActionsManager.performAction(draginfo, rActor, rRoll, 0);
