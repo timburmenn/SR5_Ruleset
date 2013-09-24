@@ -131,6 +131,7 @@
                 <anchored to="body_base" />
                 <description text="Body final score" />
                 <target>body</target>
+                <alabel>Body</alabel>
                 <tooltip>
                     <text>Current Body score</text>
                 </tooltip>
@@ -179,6 +180,7 @@
                 <anchored to="agility_base" />
                 <target>agility</target>
                 <description text="Agility final score" />
+                <alabel>Agility</alabel>
                 <tooltip>
                     <text>Current Agility score</text>
                 </tooltip>
@@ -226,6 +228,7 @@
                 <anchored to="reaction_base" />
                 <target>reaction</target>
                 <description text="Reaction" />
+                <alabel>Reaction</alabel>
                 <tooltip>
                     <text>Current Reaction score</text>
                 </tooltip>
@@ -273,6 +276,7 @@
                 <anchored to="strength_base" />
                 <target>strength</target>
                 <description text="Strength" />
+                <alabel>Strength</alabel>
                 <tooltip>
                     <text>Current Strength score</text>
                 </tooltip>
@@ -321,6 +325,7 @@
                 <anchored to="intuition_base" />
                 <target>intuition</target>
                 <description text="Intuition final score" />
+                <alabel>Intuition</alabel>
                 <tooltip>
                     <text>Current Intuition score</text>
                 </tooltip>
@@ -369,6 +374,7 @@
                 <anchored to="logic_base" />
                 <target>logic</target>
                 <description text="Logic final score" />
+                <alabel>Logic</alabel>
                 <tooltip>
                     <text>Current Logic score</text>
                 </tooltip>
@@ -416,6 +422,7 @@
                 source="attributes.willpower.score">
                 <anchored to="willpower_base" />
                 <target>willpower</target>
+                <alabel>Willpower</alabel>
                 <description text="Willpower final score" />
                 <tooltip>
                     <text>Current Willpower score</text>
@@ -465,6 +472,7 @@
                 <anchored to="charisma_base" />
                 <target>charisma</target>
                 <description text="Charisma final score" />
+                <alabel>Charisma</alabel>
                 <tooltip>
                     <text>Current Charisma score</text>
                 </tooltip>
@@ -513,6 +521,7 @@
                 <anchored to="magres_base" />
                 <target>magres</target>
                 <description text="Magic/Resonance final score" />
+                <alabel>Magic/Resonance</alabel>
                 <tooltip>
                     <text>Current Magic/Resonance score</text>
                 </tooltip>
@@ -548,12 +557,10 @@
                 width="260" />
          </frame_char>
          
-         <label_frametop>
-            <anchored to="init_frame" />
-            <static>Initiative</static>
-         </label_frametop>
-         
-         <!-- Real Combat Initiative -->
+         <!-- 
+         Real Combat Initiative 
+         -->
+         <!-- Combat: Label -->
          <string_charattribute_label>
             <anchored to="init_frame"
                 position="insidetopleft"
@@ -561,7 +568,55 @@
             <static>Initiative</static>
         </string_charattribute_label>
         
-        <!-- Matrix Initative: Cold Sim -->
+        <!-- Combat: Permanent modifier: Augmentations -->
+        <number_charinitiative_permmod name="combat_init_augs"
+                source="initiative.combat.augs">
+            <anchored to="init_frame" 
+                position="insidetopleft"
+                offset="115,27" />
+            <target>combat</target> 
+            <tooltip>
+                <text>Augmentations to the combat initiative score</text>
+            </tooltip>
+        </number_charinitiative_permmod>
+            
+        <!-- Combat: Temp modifier: wounds e.g. -->
+        <number_charinitiative_tempmod name="combat_init_tempmod"
+                source="initiative.combat.temp">
+            <anchored to="combat_init_augs"/>
+            <target>combat</target>
+            <tooltip>
+                <text>Temporary modifier of the combat initiative</text>
+            </tooltip>
+        </number_charinitiative_tempmod>
+        
+        <!-- Combat: Final Initiative Score -->
+        <number_charinitiative_score name="combat_init_score"
+                source="initiative.combat.score">
+            <anchored to="combat_init_tempmod" />
+            <target>combat</target>
+            <source_one>reaction</source_one>
+            <source_two>intuition</source_two>
+            <alabel>Combat Initiative</alabel>
+            <tooltip>
+                <text>The final resulting combat initiative score</text>
+            </tooltip>
+        </number_charinitiative_score>
+        
+        <!-- Combat: Number of dice -->
+        <number_charinitiative_mult name="combat_init_mult"
+                source="initiative.combat.mult">
+            <anchored to="combat_init_score" />
+            <target>combat</target>
+            <tooltip>
+                <text>The number of dice used to roll initiative</text>
+            </tooltip>
+        </number_charinitiative_mult>
+        
+        <!-- 
+        Matrix Initative: Cold Sim 
+        -->
+        <!-- Label -->
         <string_charattribute_label>
             <anchored to="init_frame"
                 position="insidetopleft"
@@ -570,7 +625,53 @@
             <static>Cold Sim Matrix</static>
         </string_charattribute_label>
         
-        <!-- Matrix Initiative: Hot Sim -->
+        <!-- ColdSim: Permanent modifier: Augmentations -->
+        <number_charinitiative_permmod name="coldsim_init_augs"
+                source="initiative.coldsim.augs">
+            <anchored to="combat_init_augs"/>
+            <target>coldsim</target> 
+            <tooltip>
+                <text>Augmentations to the cold sim matrix initiative score</text>
+            </tooltip>
+        </number_charinitiative_permmod>
+            
+        <!-- ColdSim: Temp modifier: wounds e.g. -->
+        <number_charinitiative_tempmod name="coldsim_init_tempmod"
+                source="initiative.coldsim.temp">
+            <anchored to="coldsim_init_augs"/>
+            <target>coldsim</target>
+            <tooltip>
+                <text>Temporary modifier of the cold sim initiative</text>
+            </tooltip>
+        </number_charinitiative_tempmod>
+        
+        <!-- Cold Sim: Final Initiative Score -->
+        <number_charinitiative_score name="coldsim_init_score"
+                source="initiative.coldsim.score">
+            <anchored to="coldsim_init_tempmod" />
+            <target>coldsim</target>
+            <source_one>reaction</source_one>
+            <source_two>logic</source_two>
+            <alabel>Cold Sim Matrix Initiative</alabel>
+            <tooltip>
+                <text>The final resulting cold sim matrix initiative score</text>
+            </tooltip>
+        </number_charinitiative_score>
+        
+        <!-- Cold Sim: Number of dice -->
+        <number_charinitiative_mult name="coldsim_init_mult"
+                source="initiative.coldsim.mult">
+            <anchored to="coldsim_init_score" />
+            <target>coldsim</target>
+            <tooltip>
+                <text>The number of dice used to roll initiative</text>
+            </tooltip>
+        </number_charinitiative_mult>
+        
+        <!-- 
+        Matrix Initiative: Hot Sim 
+        -->
+        <!-- Label -->
         <string_charattribute_label>
             <anchored to="init_frame"
                 position="insidetopleft"
@@ -579,14 +680,58 @@
             <static>Hot Sim Matrix</static>
         </string_charattribute_label>
         
-        <!-- Astral Initiative -->
+        <!-- Hot Sim: Permanent modifier: Augmentations -->
+        <number_charinitiative_permmod name="hotsim_init_augs"
+                source="initiative.hotsim.augs">
+            <anchored to="coldsim_init_augs"/>
+            <target>hotsim</target> 
+            <tooltip>
+                <text>Augmentations to the hot sim matrix initiative score</text>
+            </tooltip>
+        </number_charinitiative_permmod>
+            
+        <!-- Hot Sim: Temp modifier: wounds e.g. -->
+        <number_charinitiative_tempmod name="hotsim_init_tempmod"
+                source="initiative.hotsim.temp">
+            <anchored to="hotsim_init_augs"/>
+            <target>hotsim</target>
+            <tooltip>
+                <text>Temporary modifier of the hot sim initiative</text>
+            </tooltip>
+        </number_charinitiative_tempmod>
+        
+        <!-- Hot Sim: Final Initiative Score -->
+        <number_charinitiative_score name="hotsim_init_score"
+                source="initiative.hotsim.score">
+            <anchored to="hotsim_init_tempmod" />
+            <target>hotsim</target>
+            <source_one>willpower</source_one>
+            <source_two>strength</source_two>
+            <alabel>Hot Sim Matrix Initiative</alabel>
+            <tooltip>
+                <text>The final resulting hot sim matrix initiative score, computed from [(WIL+STR/2)]</text>
+            </tooltip>
+        </number_charinitiative_score>
+        
+        <!-- Hot Sim: Number of dice -->
+        <number_charinitiative_mult name="hotsim_init_mult"
+                source="initiative.hotsim.mult">
+            <anchored to="hotsim_init_score" />
+            <target>hotsim</target>
+            <tooltip>
+                <text>The number of dice used to roll hot sim initiative</text>
+            </tooltip>
+        </number_charinitiative_mult>
+        
+        <!-- 
+        Astral Initiative 
+        -->
         <string_charattribute_label>
             <anchored to="init_frame"
                 position="insidetopleft"
                 offset="15,99" />
             <static>Astral</static>
         </string_charattribute_label>
-
          
          <!-- Edge -->
         <string_charattribute_label>

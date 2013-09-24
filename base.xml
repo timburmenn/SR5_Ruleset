@@ -14,6 +14,9 @@
     
     <!-- Generate this ruleset from the coreRPG -->
     <importruleset source="CoreRPG" />
+    
+    <!-- switch off the wrong dice -->
+    <includefile source="gameelements.xml" />
 	
 	<!-- Campaign Records -->
 	<includefile source="campaign/template_campaign.xml" />
