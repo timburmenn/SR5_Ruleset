@@ -33,6 +33,17 @@
 		</label>
 	</template>
     
+    <!-- Test label -->
+    <template name="string_attribute_label">
+		<label>
+			<anchored position="left" 
+                width="90" 
+                offset="12"/>
+			<!--static / -->
+		</label>
+	</template>
+    
+    
     <!-- Permanent modifier for attributes, e.g. augmentations -->
     <template name="number_charattribute_permmod">
 		<basicnumber>
@@ -167,7 +178,8 @@
                     
                     local rActor = ActorManager.getActor("pc", nodeWin.getChild("..."));
                     local sDesc = "[Initiative] " .. iLabel;
-                    local rRoll = {sType = "dice", sDesc = sDesc, aDice = {"d6"}, nDice=nMult, nMod = nTotal};
+                    local aDice = {"d6"};
+                    local rRoll = {sType = "dice", sDesc = sDesc, aDice, nDice=nMult, nMod = nTotal};
                     ActionsManager.performAction(draginfo, rActor, rRoll, 0);
                 end
             end

@@ -560,14 +560,6 @@
          <!-- 
          Real Combat Initiative 
          -->
-         <!-- Combat: Label -->
-         <string_charattribute_label>
-            <anchored to="init_frame"
-                position="insidetopleft"
-                offset="15,27" />
-            <static>Initiative</static>
-        </string_charattribute_label>
-        
         <!-- Combat: Permanent modifier: Augmentations -->
         <number_charinitiative_permmod name="combat_init_augs"
                 source="initiative.combat.augs">
@@ -579,6 +571,12 @@
                 <text>Augmentations to the combat initiative score</text>
             </tooltip>
         </number_charinitiative_permmod>
+        
+        <!-- Combat: Label -->
+        <string_attribute_label>
+            <anchored to="combat_init_augs" />
+            <static>Initiative</static>
+        </string_attribute_label>
             
         <!-- Combat: Temp modifier: wounds e.g. -->
         <number_charinitiative_tempmod name="combat_init_tempmod"
@@ -613,18 +611,27 @@
             </tooltip>
         </number_charinitiative_mult>
         
+        <!-- Headers for the columns -->
+        <label_fieldtop>
+            <anchored to="combat_init_augs" />
+            <static>Augs</static>
+        </label_fieldtop>
+        <label_fieldtop>
+            <anchored to="combat_init_tempmod" />
+            <static>Tmp</static>
+        </label_fieldtop>
+        <label_fieldtop>
+            <anchored to="combat_init_score" />
+            <static>Total</static>
+        </label_fieldtop>
+        <label_fieldtop>
+            <anchored to="combat_init_mult" />
+            <static>Dice</static>
+        </label_fieldtop>
+        
         <!-- 
         Matrix Initative: Cold Sim 
         -->
-        <!-- Label -->
-        <string_charattribute_label>
-            <anchored to="init_frame"
-                position="insidetopleft"
-                offset="15,51" 
-                width="90" />
-            <static>Cold Sim Matrix</static>
-        </string_charattribute_label>
-        
         <!-- ColdSim: Permanent modifier: Augmentations -->
         <number_charinitiative_permmod name="coldsim_init_augs"
                 source="initiative.coldsim.augs">
@@ -634,6 +641,12 @@
                 <text>Augmentations to the cold sim matrix initiative score</text>
             </tooltip>
         </number_charinitiative_permmod>
+        
+        <!-- Label -->
+        <string_attribute_label>
+            <anchored to="coldsim_init_augs" />
+            <static>Cold Sim Matrix</static>
+        </string_attribute_label>
             
         <!-- ColdSim: Temp modifier: wounds e.g. -->
         <number_charinitiative_tempmod name="coldsim_init_tempmod"
@@ -670,16 +683,7 @@
         
         <!-- 
         Matrix Initiative: Hot Sim 
-        -->
-        <!-- Label -->
-        <string_charattribute_label>
-            <anchored to="init_frame"
-                position="insidetopleft"
-                offset="15,75" 
-                width="90" />
-            <static>Hot Sim Matrix</static>
-        </string_charattribute_label>
-        
+        -->        
         <!-- Hot Sim: Permanent modifier: Augmentations -->
         <number_charinitiative_permmod name="hotsim_init_augs"
                 source="initiative.hotsim.augs">
@@ -689,6 +693,12 @@
                 <text>Augmentations to the hot sim matrix initiative score</text>
             </tooltip>
         </number_charinitiative_permmod>
+        
+        <!-- Label -->
+        <string_attribute_label>
+            <anchored to="hotsim_init_augs" />
+            <static>Hot Sim Matrix</static>
+        </string_attribute_label>
             
         <!-- Hot Sim: Temp modifier: wounds e.g. -->
         <number_charinitiative_tempmod name="hotsim_init_tempmod"
@@ -725,15 +735,60 @@
         
         <!-- 
         Astral Initiative 
-        -->
-        <string_charattribute_label>
-            <anchored to="init_frame"
-                position="insidetopleft"
-                offset="15,99" />
+        -->        
+        <!-- AstralSim: Permanent modifier: Augmentations -->
+        <number_charinitiative_permmod name="astral_init_augs"
+                source="initiative.astral.augs">
+            <anchored to="hotsim_init_augs"/>
+            <target>astral</target> 
+            <tooltip>
+                <text>Augmentations to the astral initiative score</text>
+            </tooltip>
+        </number_charinitiative_permmod>
+        
+         <!-- Label -->
+        <string_attribute_label>
+            <anchored to="astral_init_augs" />
             <static>Astral</static>
-        </string_charattribute_label>
+        </string_attribute_label>
+            
+        <!-- Astral: Temp modifier: wounds e.g. -->
+        <number_charinitiative_tempmod name="astral_init_tempmod"
+                source="initiative.astral.temp">
+            <anchored to="astral_init_augs"/>
+            <target>astral</target>
+            <tooltip>
+                <text>Temporary modifier of the astral initiative</text>
+            </tooltip>
+        </number_charinitiative_tempmod>
+        
+        <!-- Astral: Final Initiative Score -->
+        <number_charinitiative_score name="astral_init_score"
+                source="initiative.astral.score">
+            <anchored to="astral_init_tempmod" />
+            <target>astral</target>
+            <source_one>reaction</source_one>
+            <source_two>magres</source_two>
+            <alabel>Astral Initiative</alabel>
+            <tooltip>
+                <text>The final resulting astral initiative score</text>
+            </tooltip>
+        </number_charinitiative_score>
+        
+        <!-- Astral: Number of dice -->
+        <number_charinitiative_mult name="astral_init_mult"
+                source="initiative.astral.mult">
+            <anchored to="astral_init_score" />
+            <target>astral</target>
+            <tooltip>
+                <text>The number of dice used to roll initiative</text>
+            </tooltip>
+        </number_charinitiative_mult>
          
-         <!-- Edge -->
+        <!-- 
+         Edge 
+        -->
+        <!-- Label -->
         <string_charattribute_label>
             <anchored to="init_frame"
                 position="insidetopleft"

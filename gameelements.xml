@@ -4,27 +4,8 @@
 	attribution and copyright information. -->
 
 <root>
-
-	<desktopframe>desktop</desktopframe>
-
-	<tokenroot source="tokens" />
-
-	<characterdbroot>charsheet</characterdbroot>
-
-	<die name="gmdie">
-		<icon>gmdieicon</icon>
-	</die>
-
-	<die name="dF">
-		<icon>d6icon</icon>
-		<position>420,-68</position>
-	</die>
-	<die name="d6">
-		<icon>d6icon</icon>
-		<position>320,-68</position>
-	</die>
-	<die name="d100">
-		<icon>d10icon</icon>
-	</die>
+<!-- Doesn't work --
+    <die mergerule="delete" name="d20"/>
+!-- end -->
     
 </root>

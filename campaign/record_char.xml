@@ -55,7 +55,7 @@
 			<frame_char name="overviewframe">
 				<bounds>15,20,-140,45</bounds>
 			</frame_char>
-			<string_labeled name="street_name">
+			<string_labeled name="name">
 				<anchored to="overviewframe" position="insidetopleft"
 					offset="15,10" height="20">
                     <right offset="-15" />

@@ -29,6 +29,7 @@
 	<includefile source="campaign/record_char_notes.xml" />
     
     <!-- High Level Scripts -->
+    <script name="TableManager" file="scripts/manager_table.lua" />
 <!--    
     <script name="ActionAbility" file="scripts/manager_action_ability.lua" />
 -->
