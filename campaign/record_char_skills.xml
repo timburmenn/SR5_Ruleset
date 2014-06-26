@@ -58,10 +58,14 @@
 			end
 			
 			function onDoubleClick(x, y)
-				if dice.isEmpty() then
-					if OptionsManager.getOption("DCLK") ~= "off" then
-						ModifierStack.addSlot(label.getValue(), bonus.getValue());
+				nDice = bonus.getValue();
+				tDice = {};
+				if nDice > 0 then
+					for i = 1, nDice do
+						table.insert (tDice, "d6");
 					end
+					local rRoll = { sType = "dice", sDesc = label.getValue(), aDice = tDice, nMod = 0 };
+					ActionsManager.performAction(nil, nil, rRoll);
 				else
 					local rRoll = { sType = "dice", sDesc = label.getValue(), aDice = dice.getDice(), nMod = bonus.getValue() };
 					ActionsManager.performAction(nil, nil, rRoll);

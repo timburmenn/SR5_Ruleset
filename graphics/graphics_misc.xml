@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+	<!-- Die icons -->
+	<icon name="d6ricon" file="graphics/icons/d6_rot_icon.png" />
+	<icon name="d6hgicon" file="graphics/icons/d6_hellgruen_icon.png" />
+	<icon name="d6gicon" file="graphics/icons/d6_gelb_icon.png" />
+</root>

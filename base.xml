@@ -28,9 +28,23 @@
 	<includefile source="campaign/record_char_inventory.xml" />
 	<includefile source="campaign/record_char_notes.xml" />
     
+	<includefile source="graphics/graphics_frames.xml" />
+	<includefile source="graphics/graphics_misc.xml" />
     <!-- High Level Scripts -->
     <script name="TableManager" file="scripts/manager_table.lua" />
+	<script name="ActionsManager" file="scripts/manager_actions.lua" />
+	<script name="ActionSkill" file="scripts/manager_actions_skill.lua" />
 <!--    
     <script name="ActionAbility" file="scripts/manager_action_ability.lua" />
 -->
+
+	<die name="dhg6">
+      <icon>d6hgicon</icon>
+    </die>
+     <die name="dg6">
+      <icon>d6gicon</icon>
+    </die>
+	<die name="dr6">
+      <icon>d6ricon</icon>
+    </die>	
 </root>

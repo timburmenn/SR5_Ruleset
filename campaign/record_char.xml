@@ -6,6 +6,7 @@
 <root>
 	<windowclass name="charsheet">
 		<frame>charsheet</frame>
+		<bitmap file='/graphics/frames/charsheet.png' />
 		<placement>
 			<size width="525" height="568" />
 		</placement>
