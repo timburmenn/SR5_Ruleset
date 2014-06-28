@@ -7,7 +7,7 @@
 
 <root>
 	<!-- Die icons -->
-	<icon name="d6ricon" file="graphics/icons/d6_rot_icon.png" />
-	<icon name="d6hgicon" file="graphics/icons/d6_hellgruen_icon.png" />
+	<icon name="d6redicon" file="graphics/icons/d6_red_icon.png" />
+	<icon name="d6grnicon" file="graphics/icons/d6_green_icon.png" />
 	<icon name="d6gicon" file="graphics/icons/d6_gelb_icon.png" />
 </root>

@@ -647,7 +647,7 @@ function createRollTable(rSource, rRoll)
 				if rRoll.aDice[i].result >= 5 then 
 					nSuccesses = nSuccesses + 1;
 					nSuccessesCalling = nSuccessesCalling + 1;
-					rRoll.aDice[i].type = "dhg6";
+					rRoll.aDice[i].type = "dg6";
 				elseif rRoll.aDice[i].result == 1 then 
 					nFailures = nFailures + 1;
 					rRoll.aDice[i].type = "dr6";

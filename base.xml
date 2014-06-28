@@ -38,13 +38,10 @@
     <script name="ActionAbility" file="scripts/manager_action_ability.lua" />
 -->
 
-	<die name="dhg6">
-      <icon>d6hgicon</icon>
-    </die>
      <die name="dg6">
-      <icon>d6gicon</icon>
+      <icon>d6grnicon</icon>
     </die>
 	<die name="dr6">
-      <icon>d6ricon</icon>
+      <icon>d6redicon</icon>
     </die>	
 </root>
