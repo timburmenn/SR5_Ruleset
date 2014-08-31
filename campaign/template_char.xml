@@ -155,7 +155,7 @@
                 local nScoreTwo = DB.getValue(nodeWin, "attributes." .. source_two[1] .. ".score",1);
                 local nMod = DB.getValue(nodeWin, "initiative." .. target[1] .. ".temp",0);
                 local nAugs = DB.getValue(nodeWin, "initiative." .. target[1] .. ".augs",0);
-                local nCurrent = math.floor((nScoreOne + nScoreTwo)/2) + nMod + nAugs;
+                local nCurrent = (nScoreOne + nScoreTwo) + nMod + nAugs;
                 setValue(nCurrent);
             end
             
@@ -177,9 +177,13 @@
                     local iLabel = self.alabel[1];
                     
                     local rActor = ActorManager.getActor("pc", nodeWin.getChild("..."));
-                    local sDesc = "[Initiative] " .. iLabel;
-                    local aDice = {"d6"};
-                    local rRoll = {sType = "dice", sDesc = sDesc, aDice, nDice=nMult, nMod = nTotal};
+                    local sDesc = "[INIT] " .. iLabel;
+                    local tDice = {};
+					for i = 1, nMult do
+						table.insert (tDice, "d6");
+					end
+					
+                    local rRoll = {sType = "dice", sDesc = sDesc, aDice=tDice, nDice=nMult, nMod = nTotal};
                     ActionsManager.performAction(draginfo, rActor, rRoll, 0);
                 end
             end
@@ -233,8 +237,12 @@
                     local aLabel = self.alabel[1];
                     
 		    local rActor = ActorManager.getActor("pc", nodeWin.getChild("..."));
-                    local sDesc = "[ATTRIBUTE] " .. aLabel;
-                    local rRoll = { sType = "dice", sDesc = sDesc, aDice = {"d6"}, nDice=nTotal, nMod = 0 };
+                    local sDesc = "[Attribute] " .. aLabel;
+					aDice = {}
+					for i=1,nTotal do
+						table.insert(aDice,"d6")
+					end
+                    local rRoll = { sType = "dice", sDesc = sDesc, aDice = aDice, nDice=nTotal, nMod = 0 };
                     ActionsManager.performAction(draginfo, rActor, rRoll, 0);
                 end
             end
@@ -262,7 +270,7 @@
 				labelwidget = addTextWidget("sheetlabelinline", string.upper(label[1]));
 				if labelwidget then
 				local w,h = labelwidget.getSize();
-				labelwidget.setPosition("bottomleft", w/2, h/2-4);
+				labelwidget.setPosition("bottomleft", 3*w/4, h/2-4);
 				end
 				end
 			</script>
@@ -285,7 +293,7 @@
 				local w = addEntry(true);
 				if w then
 				w.label.setValue(draginfo.getDescription());
-				w.bonus.setValue(draginfo.getNumberData());
+				w.rating.setValue(draginfo.getNumberData());
 				end
 				return true;
 				elseif sDragType == "dice" then
@@ -299,7 +307,7 @@
 				w = addEntry(true);
 				if w then
 				w.label.setValue(draginfo.getDescription());
-				w.bonus.setValue(draginfo.getNumberData());
+				w.rating.setValue(draginfo.getNumberData());
 				for _,vDie in ipairs(aDropDice) do
 				w.dice.addDie(vDie.type);
 				end
@@ -361,5 +369,42 @@
 				end
 			</script>
 		</list_text>
+	</template>
+	
+	<template name="toggle_button">
+		
+	</template>
+	
+	<template name="labelcycler">
+		<stringcontrol>
+			<stateframe>
+				<hover>
+					<name>sheetfocus</name>
+					<offset>6,5,6,5</offset>
+				</hover>
+			</stateframe>
+			<font>sheettext</font>
+			<static />
+			<script file="scripts/button_labelcycler.lua" />
+		</stringcontrol>
+	</template>
+	
+	<template name="char_skilltotal">
+		<basicnumber>
+			<rollable />
+			<nodrag />
+			<hideonvalue>0</hideonvalue>
+			<min>0</min>
+            <default>0</default>			
+		</basicnumber>
+	</template>
+
+	<template name="char_skillrating">
+		<basicnumber>
+            <default>0</default>
+			<nodrag />
+			<hideonvalue>0</hideonvalue>
+			<min>0</min>
+		</basicnumber>
 	</template>
 </root>

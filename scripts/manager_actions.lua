@@ -592,13 +592,25 @@ function resolveAction(rSource, rTarget, rRoll)
 			return;
 		end
 	end
-	local rMessage, rSource, rRoll = createRollTable(rSource, rRoll);
+	local rolltype = rRoll.sDesc;
+	print('RTYP = ' .. rolltype);
+	if string.match(rolltype,'Skill') or string.match(rolltype,'Attribute') then 
+	    local sDesc, nStackMod = ModifierStack.getStack(true);
+		print(nStackMod);
+		local rMessage, rSource, rRoll = createExtendedRollTable(rSource, rRoll);
+	else
+		print('Init!')
+		local rMessage, rSource, rRoll = createRollTable(rSource, rRoll);
+	end	
 	rMessage, rSource, rRoll = createActionMessage(rSource, rRoll, rMessage);
 	Comm.deliverChatMessage(rMessage); 
 end
 
+	function createRollTable(rSource,rRoll)
 
-function createRollTable(rSource, rRoll)
+	end
+
+function createExtendedRollTable(rSource, rRoll)
 	local nSuccesses = 0;
 	local nFailures = 0;
 	local nGlitchDice = 0;
@@ -681,29 +693,29 @@ function createRollTable(rSource, rRoll)
 			rMessage.text = "[GM] " .. rMessage.text;
 		end
 		rRoll.sRerollDesc = rRoll.sDesc;
-		rRoll. sDesc = "Reroll comenced";
+		rRoll. sDesc = "Reroll commenced";
 		rRoll.nRerollCount = nRerollCount
 		rMessage.text = rRoll.sDesc;
 		rMessage.dice = rRoll.aDice;
 		rRoll.sType = "reroll"
 		return rMessage, rSource, rRoll;
 	else
-		rRoll.sDesc = rRoll.sDesc .. "Total Dice Pool: " .. nTotalDice .. " " .. "\rSUCCESSES: ".. nSuccesses .. " "
+		rRoll.sDesc = rRoll.sDesc .. "\rHits: ".. nSuccesses .. " "
 		rRoll.nSuccessesCalling = nSuccessesCalling
 		
 		local nHalfDice = math.ceil(nTotalDice / 2)
 		if bEdge == false then
 			if OptionsManager.isOption("SHGL", "on") then
 				if (nSuccesses < nFailures or nHalfDice < nFailures) and nSuccesses >= 1 then
-					rRoll.sDesc = rRoll.sDesc .. " ".. "[GLITCH]"
+					rRoll.sDesc = rRoll.sDesc .. " ".. "\r[GLITCH]"
 				elseif (nSuccesses < nFailures or nHalfDice < nFailures) and nSuccesses <= 0 then
-					rRoll.sDesc = rRoll.sDesc .. " ".. "[CRITICAL GLITCH]"
+					rRoll.sDesc = rRoll.sDesc .. " ".. "\r[CRITICAL GLITCH]"
 				end
 			else
 				if nHalfDice <= nFailures and nSuccesses <= 0 then
-					rRoll.sDesc = rRoll.sDesc .. " ".. "[CRITICAL GLITCH]"
+					rRoll.sDesc = rRoll.sDesc .. " ".. "\r[CRITICAL GLITCH]"
 				elseif nHalfDice <= nFailures and nSuccesses >= 1 then
-					rRoll.sDesc = rRoll.sDesc .. " ".. "[GLITCH]"
+					rRoll.sDesc = rRoll.sDesc .. " ".. "\r[GLITCH]"
 				end
 			end
 		end	

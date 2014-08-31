@@ -11,12 +11,12 @@
 			</frame_char>
 			<label_frametop>
 				<anchored to="skillsframe" />
-				<static>Many Skills</static>
+				<static>Active Skills</static>
 			</label_frametop>
 			<list_charskill name="skills">
 				<anchored to="skillsframe">
 					<left offset="15" />
-					<top offset="35" />
+					<top offset="55" />
 					<right offset="-15" />
 					<bottom offset="-20" />
 				</anchored>
@@ -39,44 +39,7 @@
 
 	<windowclass name="char_skill">
 		<margins control="0,0,0,2" />
-		<script>
-			function onDragStart(button, x, y, draginfo)
-				if label.isEmpty() and dice.isEmpty() and bonus.getValue() == 0 then
-					return nil;
-				end
 
-				if dice.isEmpty() then
-					draginfo.setType("number");
-					draginfo.setDescription(label.getValue());
-					draginfo.setStringData(label.getValue());
-					draginfo.setNumberData(bonus.getValue());
-				else
-					local rRoll = { sType = "dice", sDesc = label.getValue(), aDice = dice.getDice(), nMod = bonus.getValue() };
-					ActionsManager.performAction(draginfo, nil, rRoll);
-				end
-				return true;
-			end
-			
-			function onDoubleClick(x, y)
-				nDice = bonus.getValue();
-				tDice = {};
-				if nDice > 0 then
-					for i = 1, nDice do
-						table.insert (tDice, "d6");
-					end
-					local rRoll = { sType = "dice", sDesc = label.getValue(), aDice = tDice, nMod = 0 };
-					ActionsManager.performAction(nil, nil, rRoll);
-				else
-					local rRoll = { sType = "dice", sDesc = label.getValue(), aDice = dice.getDice(), nMod = bonus.getValue() };
-					ActionsManager.performAction(nil, nil, rRoll);
-				end
-				return true;
-			end
-
-			function onDrop(x, y, draginfo)
-				return windowlist.onDrop(x, y, draginfo);
-			end
-		</script>
 		<sheetdata>
 			<genericcontrol name="rightanchor">
 				<anchored height="0" width="0">
@@ -90,22 +53,76 @@
 					<right parent="rightanchor" anchor="left" relation="relative" offset="-5" />
 				</anchored>
 			</button_idelete>
-
-			<basicnumber name="bonus">
-				<anchored width="30" height="20">
+			<char_skilltotal name="dice_pool">
+				<anchored to="idelete" width="30" height="20">
+					<top offset="2" />
+					<right parent="rightanchor" anchor="left" relation="relative" offset="-14" />
+				</anchored>
+				<tooltip>
+					<text>Dice pool</text>
+				</tooltip>
+				<tabtarget prev="rating" />
+					<script>
+						function onDragStart(button, x, y, draginfo)
+							local nDice = window.getDatabaseNode().getChild("dice_pool").getValue()
+							local modDesc, modStack = ModifierStack.getStack(true)
+							nDice = nDice + modStack
+							local label = window.getDatabaseNode().getChild("label").getValue()
+							tDice = {};
+							if nDice > 0 then
+								for i = 1, nDice do
+									table.insert (tDice, "d6");
+								end
+								local msg = "[Skill] ".. label
+								if modDesc ~= "" then
+									msg = msg .. " (" .. modDesc .. ")"
+								end
+								local rRoll = { sType = "dice", sDesc = msg, aDice = tDice, nMod = 0 };
+								ActionsManager.performAction(draginfo, nil, rRoll);
+							else
+								local rRoll = { sType = "dice", sDesc = label, aDice = tDice, nMod = 0 };
+								ActionsManager.performAction(draginfo, nil, rRoll);
+							end
+							return true;						end
+						
+						function onDoubleClick(x, y)
+							local nDice = window.getDatabaseNode().getChild("dice_pool").getValue()
+							local modDesc, modStack = ModifierStack.getStack(true)
+							nDice = nDice + modStack
+							local label = window.getDatabaseNode().getChild("label").getValue()
+							tDice = {};
+							if nDice > 0 then
+								for i = 1, nDice do
+									table.insert (tDice, "d6");
+								end
+								local msg = "[Skill] ".. label
+								if modDesc ~= "" then
+									msg = msg .. " (" .. modDesc .. ")"
+								end
+								local rRoll = { sType = "dice", sDesc = msg, aDice = tDice, nMod = 0 };
+								ActionsManager.performAction(nil, nil, rRoll);
+							else
+								local rRoll = { sType = "dice", sDesc = label, aDice = tDice, nMod = 0 };
+								ActionsManager.performAction(nil, nil, rRoll);
+							end
+							return true;
+						end
+					
+						function onDrop(x, y, draginfo)
+							return windowlist.onDrop(x, y, draginfo);
+						end
+					</script>
+			</char_skilltotal>
+			<char_skillrating name="rating">
+				<anchored to="idelete" width="30" height="20">
 					<top offset="2" />
 					<right parent="rightanchor" anchor="left" relation="relative" offset="-7" />
 				</anchored>
+				<tooltip>
+					<text>Rating</text>
+				</tooltip>
 				<tabtarget prev="label" />
 				<script>
-					function onDragStart(button, x, y, draginfo)
-						return window.onDragStart(button, x, y, draginfo);
-					end
-
-					function onDoubleClick(x, y)
-						return window.onDoubleClick(x, y);
-					end
-
 					function onGainFocus()
 						window.setFrame("rowshade");
 					end
@@ -113,33 +130,55 @@
 					function onLoseFocus()
 						window.setFrame(nil);
 					end
+					
+					function onValueChanged()
+						local attr_nodename = window.getDatabaseNode().getChild("attribute").getValue()
+						local attr_node = window.getDatabaseNode().getParent().getParent()
+						local skill_rating = window.getDatabaseNode().getChild("rating").getValue()
+						if attr_nodename ~= "" and attr_nodename ~= "-" then
+							attr_nodename ="attributes."..attr_nodename..".score"
+							local a = DB.getValue(attr_node,attr_nodename,0)
+							window.getDatabaseNode().getChild("dice_pool").setValue(a+skill_rating);
+						else
+							window.getDatabaseNode().getChild("dice_pool").setValue(skill_rating)
+						end
+					end					
 				</script>
-			</basicnumber>
-			<basicdice name="dice">
-				<anchored width="30" height="20">
+			</char_skillrating>
+			<labelcycler name="attribute">
+				<anchored to="rating" width="30" height="20">
 					<top offset="2" />
-					<right parent="rightanchor" anchor="left" relation="relative" offset="-10" />
+					<right parent="rightanchor" anchor="left" relation="relative" offset="-14" />
 				</anchored>
+				<font>sheetlabel</font>
+				<center />
 				<frame name="fielddark" offset="7,5,7,5" />
-				<invisible />
+				<parameters>
+					<labels>Bod|Agi|Rea|Str|Wil|Log|Int|Cha|Mag|Res</labels>
+					<values>body|agility|reaction|strength|willpower|logic|intuition|charisma|magic|resonance</values>
+					<defaultlabel>-</defaultlabel>
+					<defaultvalue>-</defaultvalue>
+				</parameters>
 				<script>
 					function onInit()
+						super.onInit();
 						onValueChanged();
 					end
 					
 					function onValueChanged()
-						setVisible(not isEmpty());
-					end
-
-					function onDragStart(button, x, y, draginfo)
-						return window.onDragStart(button, x, y, draginfo);
-					end
-
-					function onDoubleClick(x, y)
-						return window.onDoubleClick(x, y);
+						local attr_nodename = window.getDatabaseNode().getChild("attribute").getValue()
+						local attr_node = window.getDatabaseNode().getParent().getParent()
+						local skill_rating = window.getDatabaseNode().getChild("rating").getValue()
+						if attr_nodename ~= "" and attr_nodename ~= "-" then
+							attr_nodename ="attributes."..attr_nodename..".score"
+							local a = DB.getValue(attr_node,attr_nodename,0)
+							window.getDatabaseNode().getChild("dice_pool").setValue(a+skill_rating);
+						else
+							window.getDatabaseNode().getChild("dice_pool").setValue(skill_ratings)
+						end
 					end
 				</script>
-			</basicdice>
+			</labelcycler>
 			<string_textlistitem name="label">
 				<anchored height="20">
 					<top offset="2" />
@@ -147,15 +186,6 @@
 					<right parent="rightanchor" anchor="left" relation="relative" offset="-10" />
 				</anchored>
 				<tabtarget next="bonus" />
-				<script>
-					function onDragStart(button, x, y, draginfo)
-						return window.onDragStart(button, x, y, draginfo);
-					end
-
-					function onDoubleClick(x, y)
-						return window.onDoubleClick(x, y);
-					end
-				</script>
 			</string_textlistitem>
 		</sheetdata>
 	</windowclass>

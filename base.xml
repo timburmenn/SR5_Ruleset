@@ -30,6 +30,7 @@
     
 	<includefile source="graphics/graphics_frames.xml" />
 	<includefile source="graphics/graphics_misc.xml" />
+	
     <!-- High Level Scripts -->
     <script name="TableManager" file="scripts/manager_table.lua" />
 	<script name="ActionsManager" file="scripts/manager_actions.lua" />
