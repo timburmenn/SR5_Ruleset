@@ -359,20 +359,22 @@
 					end					
 				</script>
 			</char_skillrating>
-			<labelcycler name="attribute">
+		<button_stringcycler name="attribute">
 				<anchored to="rating" width="30" height="17">
 					<top offset="2"/>
 					<right parent="rightanchor" anchor="left" relation="relative" offset="-14" />
 				</anchored>
-				<font>sheetlabel</font>
-				<center />
-				<frame name="fielddark" offset="7,5,7,5" />
-				<parameters>
-					<labels>Bod|Agi|Rea|Str|Wil|Log|Int|Cha|Mag|Res</labels>
-					<values>body|agility|reaction|strength|willpower|logic|intuition|charisma|magic|resonance</values>
-					<defaultlabel>-</defaultlabel>
-					<defaultvalue>-</defaultvalue>
-				</parameters>
+			<frame mergerule="replace" name="fielddark" offset="7,5,7,5" />
+			<center />
+			<font>sheetlabel</font>
+			<stateframe mergerule="replace">
+				<hover name="fieldfocus" offset="7,5,7,5" />
+			</stateframe>
+			<parameters>
+				<defaultlabel mergerule="replace">base</defaultlabel>
+				<labels mergerule="replace">Bod|Agi|Rea|Str|Wil|Log|Int|Cha|Mag|Res</labels>
+				<values mergerule="replace">body|agility|reaction|strength|willpower|logic|intuition|charisma|magic|resonance</values>
+			</parameters>
 				<script>
 					function onInit()
 						super.onInit();
@@ -391,8 +393,8 @@
 							window.getDatabaseNode().getChild("dice_pool").setValue(skill_ratings)
 						end
 					end
-				</script>
-			</labelcycler>
+				</script>			
+			</button_stringcycler>			
 			<string_textlistitem name="label">
 				<anchored to="attribute" width="225" height="20">
 					<top offset="0"/>
@@ -400,7 +402,7 @@
 				</anchored>
 				<tabtarget next="bonus" />
 			</string_textlistitem>
-			<labelcycler name="skilltype">
+			<button_stringcycler name="skilltype">
 				<anchored width="75" height="17">
 					<top offset="2"/>
 					<left offset="5" />
@@ -412,10 +414,10 @@
 				<parameters>
 					<labels>Active (Cbt)|Active (Phy)|Social|Magical|Resonance|Technical|Vehicle|Knowledge|Language</labels>
 					<values>active_cbt|active_phy|social|magic|resonance|technical|vehicle|knowledge|language</values>
-					<defaultlabel>-</defaultlabel>
+					<defaultlabel>Group</defaultlabel>
 					<defaultvalue>-</defaultvalue>
 				</parameters>
-			</labelcycler>
+			</button_stringcycler>
 		</sheetdata>
 	</windowclass>
 </root>

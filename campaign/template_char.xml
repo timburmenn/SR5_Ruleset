@@ -338,21 +338,7 @@
 	<template name="toggle_button">
 		
 	</template>
-	
-	<template name="labelcycler">
-		<stringcontrol>
-			<stateframe>
-				<hover>
-					<name>sheetfocus</name>
-					<offset>6,5,6,5</offset>
-				</hover>
-			</stateframe>
-			<font>sheettext</font>
-			<static />
-			<script file="scripts/button_labelcycler.lua" />
-		</stringcontrol>
-	</template>
-	
+		
 	<template name="char_skilltotal">
 		<basicnumber>
 			<rollable />
