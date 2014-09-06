@@ -812,7 +812,6 @@
             <static>Karma</static>
         </string_charattribute_label>
          
-         
          <!-- Field
          Damage taken
           -->
@@ -841,7 +840,29 @@
             <anchored to="note_frame" />
             <static>Notes</static>
          </label_frametop>
-            
+		 
+		 <status_damagecounter name="physicaldamage">
+				<anchored>
+					<to>dmg_frame</to>
+					<position>lefthigh</position>
+					<offset>0,0</offset>
+				</anchored>
+				<sourcefields>
+					<maximum>damage.physical.max</maximum>
+					<current>damage.physical.current</current>
+				</sourcefields>
+			</status_damagecounter>
+		 <status_damagecounter name="stundamage">
+				<anchored>
+					<to>dmg_frame</to>
+					<position>lefthigh</position>
+					<offset>0,0</offset>
+				</anchored>
+				<sourcefields>
+					<maximum>damage.stun.max</maximum>
+					<current>damage.stun.current</current>
+				</sourcefields>
+			</status_damagecounter> 			
 		</sheetdata>
 	</windowclass>
 </root>

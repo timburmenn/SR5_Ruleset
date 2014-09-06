@@ -24,25 +24,25 @@
 	</template>
     
     <!-- Basic label class for character attributes -->
-	<template name="string_charattribute_label">
-		<label>
-			<anchored position="lefthigh" 
-                width="65" 
-                height="18" />
-			<static />
-		</label>
-	</template>
     
     <!-- Test label -->
-    <template name="string_attribute_label">
+    <template name="string_charattribute_label">
 		<label>
-			<anchored position="left" 
-                width="90" 
-                offset="12"/>
+			<anchored position="left"                  
+				width="65" 
+                height="18"/>
 			<!--static / -->
 		</label>
 	</template>
     
+    <template name="string_attribute_label">
+		<label>
+			<anchored position="left"                  
+				width="100" 
+                height="18"/>
+			<!--static / -->
+		</label>
+	</template>
     
     <!-- Permanent modifier for attributes, e.g. augmentations -->
     <template name="number_charattribute_permmod">
@@ -50,14 +50,6 @@
 			<anchored position="right" offset="10,0" width="24" />
 			<hideonvalue value="0" />
             <default>0</default>
-			<script>
-				function onValueChanged()
-					local nTarget = DB.getValue(window.getDatabaseNode(), "attributes." .. target[1] .. ".augs", 0);
-					if getValue() &gt; nTarget then
-						setValue(nTarget);
-					end
-				end
-			</script>
 		</basicnumber>
 	</template>
     
@@ -67,14 +59,6 @@
 			<anchored position="right" offset="44,0" width="24" />
 			<hideonvalue value="0" />
             <default>0</default>
-			<script>
-				function onValueChanged()
-					local nTarget = DB.getValue(window.getDatabaseNode(), "attributes." .. target[1] .. ".temp", 0);
-					if getValue() &gt; nTarget then
-						DB.setValue(nTarget);
-					end
-				end
-			</script>
 		</basicnumber>
 	</template>
     
@@ -85,14 +69,6 @@
                 offset="0,24"
                 width="24" />
             <default>0</default>
-            <script>
-                function onValueChanged()
-                    local nTarget = DB.getValue(window.getDatabaseNode(), "initiative." .. target[1] .. ".augs", 0);
-                    if getValue() &gt; nTarget then
-                        DB.setValue(nTarget);
-                    end
-                end
-            </script>
         </basicnumber>
     </template>
     
@@ -104,14 +80,6 @@
                 width="24" />
             <default>0</default>
             <hideonvalue value="0" />
-            <script>
-                function onValueChanged()
-                    local nTarget = DB.getValue(window.getDatabaseNode(), "initiative." .. target[1] .. ".temp", 0);
-                    if getValue() &gt; nTarget then
-                        DB.setValue(nTarget);
-                    end
-                end
-            </script>
         </basicnumber>
     </template>
     
@@ -123,14 +91,6 @@
                 width="24" />
             <default>1</default>
             <hideonvalue value="1" />
-            <script>
-                function onValueChanged()
-                    local nTarget = DB.getValue(window.getDatabaseNode(), "initiative." .. target[1] .. ".mult", 1);
-                    if getValue() &gt; nTarget then
-                        DB.setValue(nTarget);
-                    end
-                end
-            </script>
         </basicnumber>
     </template>
     
@@ -270,20 +230,24 @@
 				labelwidget = addTextWidget("sheetlabelinline", string.upper(label[1]));
 				if labelwidget then
 				local w,h = labelwidget.getSize();
-				labelwidget.setPosition("bottomleft", 3*w/4, h/2-4);
+				labelwidget.setPosition("bottomleft", w/2, h/2-4);
 				end
 				end
 			</script>
 		</stringfield>
 	</template>
 
+	<template name="list_skilllimits">
+				
+	</template>
+	
 	<template name="list_charskill">
 		<list_text>
 			<datasource>.skilllist</datasource>
 			<class>char_skill</class>
-			<columns width="225" filldown="true" />
+			<columns width="375" filldown="true" />
 			<sortby>
-				<control>label</control>
+				<control>skilltype</control>
 			</sortby>
 			<newfocus>label</newfocus>
 			<script>
@@ -406,5 +370,90 @@
 			<hideonvalue>0</hideonvalue>
 			<min>0</min>
 		</basicnumber>
+	</template>
+	
+	<template name="number_limit_base">
+		<number_chartotal>
+			<anchored position="belowleft" 
+                offset="-10,9" 
+                width="24"  />
+			<default>0</default>
+            <script>
+				function onInit()
+					addSource("attributes." .. source_one[1] .. ".score");
+					addSource("attributes." .. source_two[1] .. ".score");
+					addSource("attributes." .. source_three[1] .. ".score");				
+					super.onInit();
+				end
+			
+				function onSourceUpdate()
+					local nodeWin = window.getDatabaseNode();
+					local nScoreOne = DB.getValue(nodeWin, "attributes." .. source_one[1] .. ".score",1);
+					local nScoreTwo = DB.getValue(nodeWin, "attributes." .. source_two[1] .. ".score",1);
+					local nScoreThree = DB.getValue(nodeWin, "attributes." .. source_three[1] .. ".score",1);
+					local nCurrent = math.ceil((nScoreOne*2 + nScoreTwo + nScoreThree)/3);
+					setValue(nCurrent);
+				end            
+				</script>			
+		</number_chartotal>
+	</template>
+	
+    <!-- Permanent modifier for initiative scores, e.g. wired reflexes -->
+    <template name="number_limit_mod">
+		<basicnumber>
+            <anchored position="insidetopleft"
+                offset="35,0"
+                width="24" />
+            <default>0</default>
+		</basicnumber>
+    </template>	
+	
+    <template name="number_limit_score">
+		<number_chartotal>
+            <anchored position="insidetopleft"
+                offset="70,0"
+                width="24" />
+            <default>0</default>
+            <script>
+				function onInit()
+					addSource("attributes.limits." .. target[1] .. ".base");
+					addSource("attributes.limits." .. target[1] .. ".augs");
+					super.onInit();
+				end
+			
+				function onSourceUpdate()
+					local nodeWin = window.getDatabaseNode();
+					local nBase = DB.getValue(nodeWin, "attributes.limits." .. target[1] .. ".base",1);
+					local nAugs = DB.getValue(nodeWin, "attributes.limits." .. target[1] .. ".augs",0);
+					local nCurrent = nBase + nAugs;
+					setValue(nCurrent);
+				end            
+			</script>						
+		</number_chartotal>
+    </template>		
+	
+	<template name="string_limit_label">
+		<label>
+			<anchored position="right" 
+                width="40" 
+                height="18" 
+				offset="-55"/>
+			<static />
+		</label>
+	</template>
+	
+	<template name="status_damagecounter">
+		<buttongroup_counter>
+			<anchored>
+				<position>lefthigh</position>
+				<offset>0,0</offset>
+				<size>
+					<height>10</height>
+					<width>40</width>
+				</size>
+			</anchored>
+		</buttongroup_counter>
+		<script>
+		</script>
 	</template>
 </root>

@@ -6,13 +6,229 @@
 <root>
     <windowclass name="charsheet_skills">
 		<sheetdata>
-			<frame_char name="skillsframe">
-				<bounds>15,0,-29,-5</bounds>
+		    <frame_char name="limits_frame">
+				<bounds>15,0,-29,55</bounds>
 			</frame_char>
-			<label_frametop>
-				<anchored to="skillsframe" />
-				<static>Active Skills</static>
-			</label_frametop>
+			
+            <number_limit_base name="physical_limit_base"
+                source="attributes.limits.physical.base">
+                <anchored to="limits_frame"
+                    position="insidetopleft"
+                    offset="55,20" />
+                <description text="Physical" />
+				<source_one>strength</source_one>
+				<source_two>body</source_two>
+				<source_three>reaction</source_three>
+				<target>physical</target>
+                <tooltip>
+                    <text>Base Physical Limit</text>
+                </tooltip>
+            </number_limit_base>
+			
+            <string_limit_label name = "physical_limit_label">
+                <anchored to="physical_limit_base"/>
+                <static>Phy</static>
+            </string_limit_label>
+			
+            <number_limit_mod name="physical_limit_augs"
+                source="attributes.limits.physical.augs">
+                <anchored to="physical_limit_base" />
+                <target>physical</target> 
+                <description text="Body augmentations" />
+                <tooltip>
+				<text>Augmentations to the Physical limit</text>
+                </tooltip>
+            </number_limit_mod>
+                        
+            <number_limit_score name="physical_limit"
+                source="attributes.limits.physical.final">
+                <anchored to="physical_limit_base" />
+                <description text="Physical Limit final score" />
+                <target>physical</target>
+                <alabel>Physical</alabel>
+                <tooltip>
+                    <text>Current Physical limit</text>
+                </tooltip>
+            </number_limit_score>
+			
+            <label_fieldtop>
+				<anchored to="physical_limit_base" />
+				<static>Base</static>
+			</label_fieldtop>
+			<label_fieldtop>
+				<anchored to="physical_limit_augs" />
+				<static>Augs</static>
+			</label_fieldtop>
+            <label_fieldtop>
+				<anchored to="physical_limit" />
+				<static>Score</static>
+			</label_fieldtop>
+            
+            <number_limit_base name="mental_limit_base"
+                source="attributes.limits.mental.base">
+                <anchored to="limits_frame"
+                    position="insidetopleft"
+                    offset="205,20" />
+                <description text="Mental" />
+				<source_one>logic</source_one>
+				<source_two>intuition</source_two>
+				<source_three>willpower</source_three>
+				<target>mental</target>
+                <tooltip>
+                    <text>Base Mental Limit</text>
+                </tooltip>
+            </number_limit_base>
+			
+            <string_limit_label name = "mental_limit_label">
+                <anchored to="mental_limit_base"/>
+                <static>Men</static>
+            </string_limit_label>
+			
+            <number_limit_mod name="mental_limit_augs"
+                source="attributes.limits.mental.augs">
+                <anchored to="mental_limit_base" />
+                <target>mental</target> 
+                <description text="Mental limit augmentations" />
+                <tooltip>
+				<text>Augmentations to the Mental limit</text>
+                </tooltip>
+            </number_limit_mod>
+                        
+            <number_limit_score name="mental_limit"
+                source="attributes.limits.mental.final">
+                <anchored to="mental_limit_base" />
+                <description text="Mental Limit final score" />
+                <target>mental</target>
+                <alabel>Mental</alabel>
+                <tooltip>
+                    <text>Current Mental limit</text>
+                </tooltip>
+            </number_limit_score>
+			
+            <label_fieldtop>
+				<anchored to="mental_limit_base" />
+				<static>Base</static>
+			</label_fieldtop>
+			<label_fieldtop>
+				<anchored to="mental_limit_augs" />
+				<static>Augs</static>
+			</label_fieldtop>
+            <label_fieldtop>
+				<anchored to="mental_limit" />
+				<static>Score</static>
+			</label_fieldtop>
+			
+            <number_limit_base name="social_limit_base"
+                source="attributes.limits.social.base">
+                <anchored to="limits_frame"
+                    position="insidetopleft"
+                    offset="355,20" />
+                <description text="Physical" />
+				<source_one>charisma</source_one>
+				<source_two>willpower</source_two>
+				<source_three>essence</source_three>
+				<target>social</target>
+                <tooltip>
+                    <text>Base Social Limit</text>
+                </tooltip>
+            </number_limit_base>
+			
+            <string_limit_label name = "social_limit_label">
+                <anchored to="social_limit_base"/>
+                <static>Soc</static>
+            </string_limit_label>
+			
+            <number_limit_mod name="social_limit_augs"
+                source="attributes.limits.social.augs">
+                <anchored to="social_limit_base" />
+                <target>physical</target> 
+                <description text="Social limit augmentations" />
+                <tooltip>
+				<text>Augmentations to the Social limit</text>
+                </tooltip>
+            </number_limit_mod>
+                        
+            <number_limit_score name="social_limit"
+                source="attributes.limits.social.final">
+                <anchored to="social_limit_base" />
+                <description text="Social Limit final score" />
+                <target>social</target>
+                <alabel>Social</alabel>
+                <tooltip>
+                    <text>Current Social limit</text>
+                </tooltip>
+            </number_limit_score>
+			
+            <label_fieldtop>
+				<anchored to="social_limit_base" />
+				<static>Base</static>
+			</label_fieldtop>
+			<label_fieldtop>
+				<anchored to="social_limit_augs" />
+				<static>Augs</static>
+			</label_fieldtop>
+            <label_fieldtop>
+				<anchored to="social_limit" />
+				<static>Score</static>
+			</label_fieldtop>			
+			<frame_char name="skillsframe">
+				<bounds>15,55,-29,-5</bounds>
+			</frame_char>
+			
+			<genericcontrol name="rightanchor">
+				<anchored to="skillsframe" width="0" height="0">
+					<top offset="10" />
+					<right offset="-20" />
+				</anchored>
+				<invisible />
+			</genericcontrol>
+
+			<label name="dicepool_label">
+				<anchored to="rightanchor" width="30">
+					<top offset="27"/>
+					<right anchor="left" relation="relative" offset="-3" />
+				</anchored>
+				<center />
+				<static>Pool</static>
+				<tooltip text="Final Dice Pool" />
+			</label>
+			<label name="rating_label">
+				<anchored to="rightanchor" width="30">
+					<top offset="27"/>
+					<right anchor="left" relation="relative" offset="-14" />
+				</anchored>
+				<center />
+				<static>Rtg</static>
+				<tooltip text="Skill Rating" />
+			</label>
+			<label name="skillattr_label">
+				<anchored to="rightanchor" width="30">
+					<top offset="27"/>
+					<right anchor="left" relation="relative" offset="-10" />
+				</anchored>
+				<center />
+				<static>Attr</static>
+				<tooltip text="Controlling Attribute" />
+			</label>
+			<label name="skillname_label">
+				<anchored to="rightanchor" width="225">
+					<top offset="27"/>
+					<right anchor="left" relation="relative" offset="-10" />
+				</anchored>
+				<center />
+				<static>Skill</static>
+				<tooltip text="Skill Name" />
+			</label>
+			<label name="skilltype_label">
+				<anchored to="rightanchor" width="75">
+					<top offset="27"/>
+					<right anchor="left" relation="relative" offset="-10" />
+				</anchored>
+				<center />
+				<static>Type</static>
+				<tooltip text="Skill Type" />
+			</label>
+
 			<list_charskill name="skills">
 				<anchored to="skillsframe">
 					<left offset="15" />
@@ -25,22 +241,20 @@
 				<anchored to="skills" />
 				<target>skills</target>
 			</scrollbar_list>
-
 			<button_iedit name="skills_iedit">
-				<anchored to="skills" position="aboveright" offset="5,5" />
+				<anchored to="skills" position="aboveright" offset="5,15" />
 				<target>skills</target>
 			</button_iedit>
 			<button_iadd name="skills_iadd">
-				<anchored to="skills_iedit" position="lefthigh" offset="5,0" />
+				<anchored to="skills_iedit" position="lefthigh" offset="5,10" />
 				<target>skills</target>
 			</button_iadd>
 		</sheetdata>
 	</windowclass>
 
 	<windowclass name="char_skill">
-		<margins control="0,0,0,2" />
-
 		<sheetdata>
+			<margins control="0,0,0,15" />
 			<genericcontrol name="rightanchor">
 				<anchored height="0" width="0">
 					<top />
@@ -54,9 +268,9 @@
 				</anchored>
 			</button_idelete>
 			<char_skilltotal name="dice_pool">
-				<anchored to="idelete" width="30" height="20">
-					<top offset="2" />
-					<right parent="rightanchor" anchor="left" relation="relative" offset="-14" />
+				<anchored to="idelete" width="30" height="17">
+					<top offset="2"/>
+					<right parent="rightanchor" anchor="left" relation="relative" offset="-4" />
 				</anchored>
 				<tooltip>
 					<text>Dice pool</text>
@@ -114,9 +328,9 @@
 					</script>
 			</char_skilltotal>
 			<char_skillrating name="rating">
-				<anchored to="idelete" width="30" height="20">
-					<top offset="2" />
-					<right parent="rightanchor" anchor="left" relation="relative" offset="-7" />
+				<anchored to="idelete" width="30" height="17">
+					<top offset="2"/>
+					<right parent="rightanchor" anchor="left" relation="relative" offset="-17" />
 				</anchored>
 				<tooltip>
 					<text>Rating</text>
@@ -146,8 +360,8 @@
 				</script>
 			</char_skillrating>
 			<labelcycler name="attribute">
-				<anchored to="rating" width="30" height="20">
-					<top offset="2" />
+				<anchored to="rating" width="30" height="17">
+					<top offset="2"/>
 					<right parent="rightanchor" anchor="left" relation="relative" offset="-14" />
 				</anchored>
 				<font>sheetlabel</font>
@@ -180,13 +394,28 @@
 				</script>
 			</labelcycler>
 			<string_textlistitem name="label">
-				<anchored height="20">
-					<top offset="2" />
-					<left offset="5" />
+				<anchored to="attribute" width="225" height="20">
+					<top offset="0"/>
 					<right parent="rightanchor" anchor="left" relation="relative" offset="-10" />
 				</anchored>
 				<tabtarget next="bonus" />
 			</string_textlistitem>
+			<labelcycler name="skilltype">
+				<anchored width="75" height="17">
+					<top offset="2"/>
+					<left offset="5" />
+					<right parent="rightanchor" anchor="left" relation="relative" offset="-14" />
+				</anchored>
+				<font>sheetlabel</font>
+				<center />
+				<frame name="fielddark" offset="7,5,7,5" />
+				<parameters>
+					<labels>Active (Cbt)|Active (Phy)|Social|Magical|Resonance|Technical|Vehicle|Knowledge|Language</labels>
+					<values>active_cbt|active_phy|social|magic|resonance|technical|vehicle|knowledge|language</values>
+					<defaultlabel>-</defaultlabel>
+					<defaultvalue>-</defaultvalue>
+				</parameters>
+			</labelcycler>
 		</sheetdata>
 	</windowclass>
 </root>
