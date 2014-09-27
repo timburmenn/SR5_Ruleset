@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+	<template name="buttongroup_counter_var">
+		<genericcontrol>
+			<stateicons>
+				<on>button_checkon</on>
+				<off>button_checkoff</off>
+				<overflow_on>button_red_checkon</overflow_on>
+				<overflow_off>button_red_checkoff</overflow_off>
+			</stateicons>
+			<script file="common/scripts/buttongroup_counter_var.lua" />
+		</genericcontrol>
+	</template>
+	
+	<template name="checkbox_sr">
+		<genericcontrol>
+			<stateicons> 
+				<on>button_checkon</on> 
+				<off>button_checkoff</off> 
+			</stateicons> 
+			<script file="common/scripts/button_checkbox_sr.lua"/>
+		</genericcontrol>
+	</template>	
+</root>

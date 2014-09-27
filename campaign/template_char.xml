@@ -179,9 +179,16 @@
                 local nTemp = DB.getValue(nodeWin, "attributes." .. target[1] .. ".temp", 0);
                 local nCurrent = nBase + nAugs + nTemp;
                 setValue(nCurrent);
+				if target[1] == "body" then
+					DB.setValue(nodeWin,"damage.physical.max","number",math.floor(8+nCurrent/2));
+					DB.setValue(nodeWin,"damage.physical.overflow","number",nCurrent);					
+				elseif target[1] == "willpower" then
+					DB.setValue(nodeWin,"damage.stun.max","number",math.floor(8+nCurrent/2));
+				end
             end
             
             function onInit()
+				sLabel = target[1];
                 addSource("attributes." .. target[1] .. ".base");
                 addSource("attributes." .. target[1] .. ".augs");
                 addSource("attributes." .. target[1] .. ".temp");
@@ -190,21 +197,36 @@
             end
             
             function action(draginfo)
-                local nodeWin = window.getDatabaseNode();
-                if nodeWin then
-                    local nTotal = DB.getValue(nodeWin, 
+				local nodeWin = window.getDatabaseNode();
+				local nDice = DB.getValue(nodeWin, 
                             "attributes." .. target[1] .. ".score");
-                    local aLabel = self.alabel[1];
-                    
-		    local rActor = ActorManager.getActor("pc", nodeWin.getChild("..."));
-                    local sDesc = "[Attribute] " .. aLabel;
-					aDice = {}
-					for i=1,nTotal do
-						table.insert(aDice,"d6")
+				local modDesc, modStack = ModifierStack.getStack(true);
+				nDice = nDice + modStack;
+				local label = target[1]:sub(1,1):upper()..target[1]:sub(2);
+				local nWoundPen = DB.getValue(nodeWin, "damage.penalty");
+				wpmsg = ""
+				if nWoundPen &lt; 0 then
+					wpmsg = " (Wound Penalty: "..nWoundPen..") ";
+				end
+				nDice = nDice + nWoundPen;
+				nDice = math.max(nDice,0);
+				tDice = {};
+				if nDice > 0 then
+					for i = 1, nDice do
+						table.insert (tDice, "d6");
 					end
-                    local rRoll = { sType = "dice", sDesc = sDesc, aDice = aDice, nDice=nTotal, nMod = 0 };
-                    ActionsManager.performAction(draginfo, rActor, rRoll, 0);
-                end
+					local msg = "[Attribute] ".. label
+					if modDesc ~= "" then
+						msg = msg .. " (" .. modDesc .. ")"
+					end
+					msg = msg .. wpmsg;
+					local rRoll = { sType = "dice", sDesc = msg, aDice = tDice, nMod = 0 };
+					ActionsManager.performAction(draginfo, nil, rRoll);
+				else
+					local rRoll = { sType = "dice", sDesc = label, aDice = tDice, nMod = 0 };
+					ActionsManager.performAction(draginfo, nil, rRoll);
+				end
+				return true;
             end
             
             function onDragStart(button, x, y, draginfo)
@@ -365,13 +387,6 @@
                 width="24"  />
 			<default>0</default>
             <script>
-				function onInit()
-					addSource("attributes." .. source_one[1] .. ".score");
-					addSource("attributes." .. source_two[1] .. ".score");
-					addSource("attributes." .. source_three[1] .. ".score");				
-					super.onInit();
-				end
-			
 				function onSourceUpdate()
 					local nodeWin = window.getDatabaseNode();
 					local nScoreOne = DB.getValue(nodeWin, "attributes." .. source_one[1] .. ".score",1);
@@ -380,6 +395,14 @@
 					local nCurrent = math.ceil((nScoreOne*2 + nScoreTwo + nScoreThree)/3);
 					setValue(nCurrent);
 				end            
+
+				function onInit()
+					addSource("attributes." .. source_one[1] .. ".score");
+					addSource("attributes." .. source_two[1] .. ".score");
+					addSource("attributes." .. source_three[1] .. ".score");				
+					super.onInit();
+				end
+			
 				</script>			
 		</number_chartotal>
 	</template>
@@ -429,17 +452,42 @@
 	</template>
 	
 	<template name="status_damagecounter">
-		<buttongroup_counter>
+		<buttongroup_counter_var>
 			<anchored>
 				<position>lefthigh</position>
 				<offset>0,0</offset>
-				<size>
-					<height>10</height>
-					<width>40</width>
-				</size>
-			</anchored>
-		</buttongroup_counter>
-		<script>
-		</script>
+				</anchored>
+		</buttongroup_counter_var>
+	</template>
+	
+	<template name="status_damagepenalty">
+			<number_chartotal>
+            <anchored position="insidetopleft"
+                offset="35,0"
+                width="24" />
+            <default>0</default>
+            <script>
+				function onInit()
+					addSource("damage.physical.current");
+					addSource("damage.stun.current");
+					addSource("damage.painthreshold.low");
+					addSource("damage.painthreshold.ignore");
+					super.onInit();
+				end
+			
+				function onSourceUpdate()
+					local nodeWin = window.getDatabaseNode();
+					local nPhysCurr = DB.getValue(nodeWin, "damage.physical.current",1);
+					local nStunCurr = DB.getValue(nodeWin, "damage.stun.current",1);
+					local nLow = 	  DB.getValue(nodeWin, "damage.painthreshold.low",1);
+					local nIgnore =   DB.getValue(nodeWin, "damage.painthreshold.tol",1);
+					
+					local effDmg = math.max(nPhysCurr-nIgnore,nStunCurr-nIgnore,0);
+					local damPen = math.floor(effDmg/(3-nLow));
+					print("dP = "..nPhysCurr.." dS = "..nStunCurr.." Lo = "..nLow.."  nI="..nIgnore.."  eD="..effDmg);
+					setValue(-damPen);
+				end            
+			</script>						
+		</number_chartotal>
 	</template>
 </root>

@@ -18,6 +18,10 @@
     <!-- switch off the wrong dice -->
     <includefile source="gameelements.xml" />
 	
+    <!-- modified button template -->
+	<includefile source="common/template_buttons.xml" />
+
+	
 	<!-- Campaign Records -->
 	<includefile source="campaign/template_campaign.xml" />
 	<includefile source="campaign/template_char.xml" />
@@ -27,7 +31,7 @@
     <includefile source="campaign/record_char_skills.xml" />
 	<includefile source="campaign/record_char_inventory.xml" />
 	<includefile source="campaign/record_char_notes.xml" />
-    
+
 	<includefile source="graphics/graphics_frames.xml" />
 	<includefile source="graphics/graphics_misc.xml" />
 	

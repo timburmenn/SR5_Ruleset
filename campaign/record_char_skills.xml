@@ -14,7 +14,7 @@
                 source="attributes.limits.physical.base">
                 <anchored to="limits_frame"
                     position="insidetopleft"
-                    offset="55,20" />
+                    offset="55,25" />
                 <description text="Physical" />
 				<source_one>strength</source_one>
 				<source_two>body</source_two>
@@ -68,7 +68,7 @@
                 source="attributes.limits.mental.base">
                 <anchored to="limits_frame"
                     position="insidetopleft"
-                    offset="205,20" />
+                    offset="205,25" />
                 <description text="Mental" />
 				<source_one>logic</source_one>
 				<source_two>intuition</source_two>
@@ -122,7 +122,7 @@
                 source="attributes.limits.social.base">
                 <anchored to="limits_frame"
                     position="insidetopleft"
-                    offset="355,20" />
+                    offset="355,25" />
                 <description text="Physical" />
 				<source_one>charisma</source_one>
 				<source_two>willpower</source_two>
@@ -278,10 +278,18 @@
 				<tabtarget prev="rating" />
 					<script>
 						function onDragStart(button, x, y, draginfo)
-							local nDice = window.getDatabaseNode().getChild("dice_pool").getValue()
+							local nodeWin = window.getDatabaseNode();
+							local nDice = nodeWin.getChild("dice_pool").getValue()
 							local modDesc, modStack = ModifierStack.getStack(true)
 							nDice = nDice + modStack
-							local label = window.getDatabaseNode().getChild("label").getValue()
+							local label = nodeWin.getChild("label").getValue()
+							local nWoundPen = nodeWin.getParent().getParent().getChild("damage.penalty").getValue();
+							wpmsg = ""
+							if nWoundPen &lt; 0 then
+								wpmsg = " (Wound Penalty: "..nWoundPen..") ";
+							end
+							nDice = nDice + nWoundPen;
+							nDice = math.max(nDice,0);
 							tDice = {};
 							if nDice > 0 then
 								for i = 1, nDice do
@@ -291,19 +299,30 @@
 								if modDesc ~= "" then
 									msg = msg .. " (" .. modDesc .. ")"
 								end
+								msg = msg .. wpmsg;
 								local rRoll = { sType = "dice", sDesc = msg, aDice = tDice, nMod = 0 };
 								ActionsManager.performAction(draginfo, nil, rRoll);
 							else
 								local rRoll = { sType = "dice", sDesc = label, aDice = tDice, nMod = 0 };
 								ActionsManager.performAction(draginfo, nil, rRoll);
 							end
-							return true;						end
+							return true;						
+						end
 						
 						function onDoubleClick(x, y)
-							local nDice = window.getDatabaseNode().getChild("dice_pool").getValue()
+							local nodeWin = window.getDatabaseNode();
+							local nDice = nodeWin.getChild("dice_pool").getValue()
 							local modDesc, modStack = ModifierStack.getStack(true)
 							nDice = nDice + modStack
-							local label = window.getDatabaseNode().getChild("label").getValue()
+							local label = nodeWin.getChild("label").getValue()
+							local nWoundPen = nodeWin.getParent().getParent().getChild("damage.penalty").getValue();
+							wpmsg = ""
+							if nWoundPen &lt; 0 then
+								wpmsg = " (Wound Penalty: "..nWoundPen..") ";
+							end
+							nDice = nDice + nWoundPen;
+							nDice = math.max(nDice,0);
+							
 							tDice = {};
 							if nDice > 0 then
 								for i = 1, nDice do
@@ -313,6 +332,7 @@
 								if modDesc ~= "" then
 									msg = msg .. " (" .. modDesc .. ")"
 								end
+								msg = msg..wpmsg
 								local rRoll = { sType = "dice", sDesc = msg, aDice = tDice, nMod = 0 };
 								ActionsManager.performAction(nil, nil, rRoll);
 							else

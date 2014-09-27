@@ -10,4 +10,6 @@
 	<icon name="d6redicon" file="graphics/icons/d6_red_icon.png" />
 	<icon name="d6grnicon" file="graphics/icons/d6_green_icon.png" />
 	<icon name="d6gicon" file="graphics/icons/d6_gelb_icon.png" />
+	<icon name="button_red_checkon" file="graphics/buttons/button_red_checkon.png" />
+	<icon name="button_red_checkoff" file="graphics/buttons/button_red_checkoff.png" />
 </root>
