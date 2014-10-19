@@ -36,10 +36,14 @@
 	<includefile source="graphics/graphics_misc.xml" />
 	
     <!-- High Level Scripts -->
+	<script name="GameSystem" file="scripts/manager_gamesystem.lua" />
     <script name="TableManager" file="scripts/manager_table.lua" />
-	<script name="ActionsManager" file="scripts/manager_actions.lua" />
-	<script name="ActionSkill" file="scripts/manager_actions_skill.lua" />
-<!--    
+<!--	<script name="ActionsManager" file="scripts/manager_actions.lua" /> <!-- for debug purposes, delete when finished -->
+	<script name="ActionDicepool" file="scripts/manager_actions_dicepool.lua" />
+	<script name="ActionInit" file="scripts/manager_action_init.lua" />
+<!--	<script name="ActorManager" file="scripts/manager_actor.lua" /> <!-- for debug purposes, delete when finished -->
+
+	<!--    
     <script name="ActionAbility" file="scripts/manager_action_ability.lua" />
 -->
 

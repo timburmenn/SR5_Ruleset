@@ -289,7 +289,7 @@
 								wpmsg = " (Wound Penalty: "..nWoundPen..") ";
 							end
 							nDice = nDice + nWoundPen;
-							nDice = math.max(nDice,0);
+							nDice = math.max(nDice,1);
 							tDice = {};
 							if nDice > 0 then
 								for i = 1, nDice do
@@ -300,10 +300,10 @@
 									msg = msg .. " (" .. modDesc .. ")"
 								end
 								msg = msg .. wpmsg;
-								local rRoll = { sType = "dice", sDesc = msg, aDice = tDice, nMod = 0 };
+								local rRoll = { sType = "dicepool", sDesc = msg, aDice = tDice, nMod = 0 };
 								ActionsManager.performAction(draginfo, nil, rRoll);
 							else
-								local rRoll = { sType = "dice", sDesc = label, aDice = tDice, nMod = 0 };
+								local rRoll = { sType = "dicepool", sDesc = label, aDice = tDice, nMod = 0 };
 								ActionsManager.performAction(draginfo, nil, rRoll);
 							end
 							return true;						
@@ -321,7 +321,7 @@
 								wpmsg = " (Wound Penalty: "..nWoundPen..") ";
 							end
 							nDice = nDice + nWoundPen;
-							nDice = math.max(nDice,0);
+							nDice = math.max(nDice,1);
 							
 							tDice = {};
 							if nDice > 0 then
@@ -333,10 +333,10 @@
 									msg = msg .. " (" .. modDesc .. ")"
 								end
 								msg = msg..wpmsg
-								local rRoll = { sType = "dice", sDesc = msg, aDice = tDice, nMod = 0 };
+								local rRoll = { sType = "dicepool", sDesc = msg, aDice = tDice, nMod = 0 };
 								ActionsManager.performAction(nil, nil, rRoll);
 							else
-								local rRoll = { sType = "dice", sDesc = label, aDice = tDice, nMod = 0 };
+								local rRoll = { sType = "dicepools", sDesc = label, aDice = tDice, nMod = 0 };
 								ActionsManager.performAction(nil, nil, rRoll);
 							end
 							return true;

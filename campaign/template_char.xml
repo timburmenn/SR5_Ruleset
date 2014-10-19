@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-
 <!-- Please see the license.html file included with this distribution for 
 	attribution and copyright information. -->
 
@@ -131,27 +130,50 @@
             function action(draginfo)
                 local nodeWin = window.getDatabaseNode();
                 if nodeWin then
+					print("NodeWin OK");
                     local nTotal = DB.getValue(nodeWin,
                             "initiative." .. target[1] .. ".score");
                     local nMult = DB.getValue(nodeWin, "initiative." .. target[1] .. ".mult");
                     local iLabel = self.alabel[1];
                     
-                    local rActor = ActorManager.getActor("pc", nodeWin.getChild("..."));
+                    local rActor = ActorManager.getActor("pc", window.getDatabaseNode());
                     local sDesc = "[INIT] " .. iLabel;
                     local tDice = {};
 					for i = 1, nMult do
 						table.insert (tDice, "d6");
 					end
 					
-                    local rRoll = {sType = "dice", sDesc = sDesc, aDice=tDice, nDice=nMult, nMod = nTotal};
-                    ActionsManager.performAction(draginfo, rActor, rRoll, 0);
+                    local rRoll = {sType = "init", sDesc = sDesc, aDice=tDice, nMod = nTotal, bSecret=false};
+                    ActionInit.performRoll(nil, rActor, rRoll);
                 end
             end
             
             function onDragStart(button, x, y,  draginfo)
-                return action(draginfo);
-            end
-            
+                local nodeWin = window.getDatabaseNode();
+                if nodeWin then
+					print("NodeWin OK");
+                    local nTotal = DB.getValue(nodeWin,
+                            "initiative." .. target[1] .. ".score");
+                    local nMult = DB.getValue(nodeWin, "initiative." .. target[1] .. ".mult");
+                    local iLabel = self.alabel[1];
+                    
+                    local rActor = ActorManager.getActor("pc", window.getDatabaseNode());
+                    local sDesc = "[INIT] " .. iLabel;
+                    local tDice = {};
+					for i = 1, nMult do
+						table.insert (tDice, "d6");
+					end
+					
+                    local rRoll = {sType = "init", sDesc = sDesc, aDice=tDice, nMod = nTotal, bSecret=false};
+                    ActionInit.performRoll(draginfo, rActor, rRoll);
+                end
+				return true;
+            end        
+
+			function onDrop(x, y, draginfo)
+				return windowlist.onDrop(x, y, draginfo);
+			end			
+			
             function onDoubleClick(x,y)
                 return action();
             end
@@ -209,7 +231,7 @@
 					wpmsg = " (Wound Penalty: "..nWoundPen..") ";
 				end
 				nDice = nDice + nWoundPen;
-				nDice = math.max(nDice,0);
+				nDice = math.max(nDice,1);
 				tDice = {};
 				if nDice > 0 then
 					for i = 1, nDice do
@@ -220,10 +242,10 @@
 						msg = msg .. " (" .. modDesc .. ")"
 					end
 					msg = msg .. wpmsg;
-					local rRoll = { sType = "dice", sDesc = msg, aDice = tDice, nMod = 0 };
+					local rRoll = { sType = "dicepool", sDesc = msg, aDice = tDice, nMod = 0 };
 					ActionsManager.performAction(draginfo, nil, rRoll);
 				else
-					local rRoll = { sType = "dice", sDesc = label, aDice = tDice, nMod = 0 };
+					local rRoll = { sType = "dicepool", sDesc = label, aDice = tDice, nMod = 0 };
 					ActionsManager.performAction(draginfo, nil, rRoll);
 				end
 				return true;
@@ -236,6 +258,10 @@
             function onDoubleClick(x,y)
                 return action();
             end
+			
+			function onDrop(x, y, draginfo)
+				return action(draginfo);
+			end
             </script>
 		</number_chartotal>
 	</template>
@@ -274,33 +300,33 @@
 			<newfocus>label</newfocus>
 			<script>
 				function onDrop(x, y, draginfo)
-				local sDragType = draginfo.getType();
-				if sDragType == "number" then
-				local w = addEntry(true);
-				if w then
-				w.label.setValue(draginfo.getDescription());
-				w.rating.setValue(draginfo.getNumberData());
-				end
-				return true;
-				elseif sDragType == "dice" then
-				local aDropDice = draginfo.getDieList();
-				local w = getWindowAt(x,y);
-				if w then
-				for _,vDie in ipairs(aDropDice) do
-				w.dice.addDie(vDie.type);
-				end
-				else
-				w = addEntry(true);
-				if w then
-				w.label.setValue(draginfo.getDescription());
-				w.rating.setValue(draginfo.getNumberData());
-				for _,vDie in ipairs(aDropDice) do
-				w.dice.addDie(vDie.type);
-				end
-				end
-				end
-				return true;
-				end
+					local sDragType = draginfo.getType();
+					if sDragType == "number" then
+						local w = addEntry(true);
+						if w then
+							w.label.setValue(draginfo.getDescription());
+							w.rating.setValue(draginfo.getNumberData());
+						end
+						return true;
+					elseif sDragType == "dice" then
+						local aDropDice = draginfo.getDieList();
+						local w = getWindowAt(x,y);
+						if w then
+							for _,vDie in ipairs(aDropDice) do
+								w.dice.addDie(vDie.type);
+							end
+						else
+							w = addEntry(true);
+							if w then
+								w.label.setValue(draginfo.getDescription());
+								w.rating.setValue(draginfo.getNumberData());
+								for _,vDie in ipairs(aDropDice) do
+									w.dice.addDie(vDie.type);
+								end
+							end
+						end
+						return true;
+					end
 				end
 			</script>
 		</list_text>
