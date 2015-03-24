@@ -477,6 +477,12 @@
 		</label>
 	</template>
 	
+	<template name="status_edgecounter">
+		<buttongroup_counter_var>
+
+		</buttongroup_counter_var>
+	</template>
+	
 	<template name="status_damagecounter">
 		<buttongroup_counter_var>
 			<anchored>

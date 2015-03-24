@@ -192,6 +192,15 @@
 				<static>Pool</static>
 				<tooltip text="Final Dice Pool" />
 			</label>
+			<label name="modifier_label">
+				<anchored to="rightanchor" width="30">
+					<top offset="27"/>
+					<right anchor="left" relation="relative" offset="-14" />
+				</anchored>
+				<center />
+				<static>Mod</static>
+				<tooltip text="Skill Modifier" />
+			</label>
 			<label name="rating_label">
 				<anchored to="rightanchor" width="30">
 					<top offset="27"/>
@@ -200,18 +209,17 @@
 				<center />
 				<static>Rtg</static>
 				<tooltip text="Skill Rating" />
-			</label>
-			<label name="skillattr_label">
+			</label>			<label name="skillattr_label">
 				<anchored to="rightanchor" width="30">
 					<top offset="27"/>
-					<right anchor="left" relation="relative" offset="-10" />
+					<right anchor="left" relation="relative" offset="-14" />
 				</anchored>
 				<center />
 				<static>Attr</static>
 				<tooltip text="Controlling Attribute" />
 			</label>
 			<label name="skillname_label">
-				<anchored to="rightanchor" width="225">
+				<anchored to="rightanchor" width="205">
 					<top offset="27"/>
 					<right anchor="left" relation="relative" offset="-10" />
 				</anchored>
@@ -222,7 +230,7 @@
 			<label name="skilltype_label">
 				<anchored to="rightanchor" width="75">
 					<top offset="27"/>
-					<right anchor="left" relation="relative" offset="-10" />
+					<right anchor="left" relation="relative" offset="-5" />
 				</anchored>
 				<center />
 				<static>Type</static>
@@ -347,6 +355,39 @@
 						end
 					</script>
 			</char_skilltotal>
+			<char_skillrating name="modifier">
+				<anchored to="idelete" width="30" height="17">
+					<top offset="2"/>
+					<right parent="rightanchor" anchor="left" relation="relative" offset="-17" />
+				</anchored>
+				<tooltip>
+					<text>Modifier</text>
+				</tooltip>
+				<tabtarget prev="label" />
+				<script>
+					function onGainFocus()
+						window.setFrame("rowshade");
+					end
+
+					function onLoseFocus()
+						window.setFrame(nil);
+					end
+					
+					function onValueChanged()
+						local attr_nodename = window.getDatabaseNode().getChild("attribute").getValue()
+						local attr_node = window.getDatabaseNode().getParent().getParent()
+						local skill_rating = window.getDatabaseNode().getChild("rating").getValue()
+						local skill_mod = window.getDatabaseNode().getChild("modifier").getValue()
+						if attr_nodename ~= "" and attr_nodename ~= "-" then
+							attr_nodename ="attributes."..attr_nodename..".score"
+							local a = DB.getValue(attr_node,attr_nodename,0)
+							window.getDatabaseNode().getChild("dice_pool").setValue(a+skill_rating+skill_mod);
+						else
+							window.getDatabaseNode().getChild("dice_pool").setValue(skill_rating+skill_mod)
+						end
+					end					
+				</script>
+			</char_skillrating>
 			<char_skillrating name="rating">
 				<anchored to="idelete" width="30" height="17">
 					<top offset="2"/>
@@ -369,16 +410,17 @@
 						local attr_nodename = window.getDatabaseNode().getChild("attribute").getValue()
 						local attr_node = window.getDatabaseNode().getParent().getParent()
 						local skill_rating = window.getDatabaseNode().getChild("rating").getValue()
+						local skill_mod = window.getDatabaseNode().getChild("modifier").getValue()
 						if attr_nodename ~= "" and attr_nodename ~= "-" then
 							attr_nodename ="attributes."..attr_nodename..".score"
 							local a = DB.getValue(attr_node,attr_nodename,0)
-							window.getDatabaseNode().getChild("dice_pool").setValue(a+skill_rating);
+							window.getDatabaseNode().getChild("dice_pool").setValue(a+skill_rating+skill_mod);
 						else
-							window.getDatabaseNode().getChild("dice_pool").setValue(skill_rating)
+							window.getDatabaseNode().getChild("dice_pool").setValue(skill_rating+skill_mod)
 						end
 					end					
 				</script>
-			</char_skillrating>
+			</char_skillrating>			
 		<button_stringcycler name="attribute">
 				<anchored to="rating" width="30" height="17">
 					<top offset="2"/>
@@ -392,8 +434,8 @@
 			</stateframe>
 			<parameters>
 				<defaultlabel mergerule="replace">base</defaultlabel>
-				<labels mergerule="replace">Bod|Agi|Rea|Str|Wil|Log|Int|Cha|Mag|Res</labels>
-				<values mergerule="replace">body|agility|reaction|strength|willpower|logic|intuition|charisma|magic|resonance</values>
+				<labels mergerule="replace">Bod|Agi|Rea|Str|Wil|Log|Int|Cha|MR</labels>
+				<values mergerule="replace">body|agility|reaction|strength|willpower|logic|intuition|charisma|magres</values>
 			</parameters>
 				<script>
 					function onInit()
@@ -405,18 +447,19 @@
 						local attr_nodename = window.getDatabaseNode().getChild("attribute").getValue()
 						local attr_node = window.getDatabaseNode().getParent().getParent()
 						local skill_rating = window.getDatabaseNode().getChild("rating").getValue()
+						local skill_mod = window.getDatabaseNode().getChild("modifier").getValue()
 						if attr_nodename ~= "" and attr_nodename ~= "-" then
 							attr_nodename ="attributes."..attr_nodename..".score"
 							local a = DB.getValue(attr_node,attr_nodename,0)
-							window.getDatabaseNode().getChild("dice_pool").setValue(a+skill_rating);
+							window.getDatabaseNode().getChild("dice_pool").setValue(a+skill_rating+skill_mod);
 						else
-							window.getDatabaseNode().getChild("dice_pool").setValue(skill_ratings)
+							window.getDatabaseNode().getChild("dice_pool").setValue(skill_ratings+skill_mod)
 						end
 					end
 				</script>			
 			</button_stringcycler>			
 			<string_textlistitem name="label">
-				<anchored to="attribute" width="225" height="20">
+				<anchored to="attribute" width="205" height="20">
 					<top offset="0"/>
 					<right parent="rightanchor" anchor="left" relation="relative" offset="-10" />
 				</anchored>
@@ -432,7 +475,7 @@
 				<center />
 				<frame name="fielddark" offset="7,5,7,5" />
 				<parameters>
-					<labels>Active (Cbt)|Active (Phy)|Social|Magical|Resonance|Technical|Vehicle|Knowledge|Language</labels>
+					<labels>Act/Cbt|Act/Phy|Social|Magical|Reson|Tech|Vehicle|Know|Lang</labels>
 					<values>active_cbt|active_phy|social|magic|resonance|technical|vehicle|knowledge|language</values>
 					<defaultlabel>Group</defaultlabel>
 					<defaultvalue>-</defaultvalue>

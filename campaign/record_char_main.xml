@@ -795,6 +795,36 @@
                 offset="15,123" />
             <static>Edge</static>
         </string_charattribute_label>
+		
+		<number_charattribute_base name="edge_base"
+            source="attributes.edge.max">
+            <anchored to="astral_init_augs" />
+            <description text="Edge base score" />
+            <tooltip>
+                <text>The base Edge score</text>
+            </tooltip>
+        </number_charattribute_base>
+		
+		<status_edgecounter name="edge_count">
+            <anchored>
+				<left>
+					<parent>edge_base</parent>
+					<anchor>right</anchor>
+					<offset>10</offset>
+				</left>
+				<top>
+					<parent>astral_init_tempmod</parent>
+					<anchor>below</anchor>
+					<offset>8</offset>
+				</top>
+			</anchored>
+			<sourcefields>
+				<maximum>attributes.edge.max</maximum>
+				<overflow>0</overflow>
+				<current>attributes.edge.spent</current>
+			</sourcefields>
+			<rows>9</rows>				
+		</status_edgecounter>
         
         <!-- Essence -->
         <string_charattribute_label>
@@ -803,6 +833,15 @@
                 offset="15,147" />
             <static>Essence</static>
         </string_charattribute_label>
+		
+		<number_charattribute_base name="essence_base"
+            source="attributes.essence.base">
+            <anchored to="edge_base" />
+            <description text="Essence base score" />
+            <tooltip>
+                <text>The base Essence score</text>
+            </tooltip>
+        </number_charattribute_base>
         
         <!-- Karma -->
         <string_charattribute_label>
