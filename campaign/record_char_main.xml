@@ -835,11 +835,11 @@
         </string_charattribute_label>
 		
 		<number_charattribute_base name="essence_base"
-            source="attributes.essence.base">
+            source="attributes.essence.score">
             <anchored to="edge_base" />
             <description text="Essence base score" />
             <tooltip>
-                <text>The base Essence score</text>
+                <text>The current Essence score</text>
             </tooltip>
         </number_charattribute_base>
         
