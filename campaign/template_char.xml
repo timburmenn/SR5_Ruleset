@@ -266,6 +266,48 @@
 		</number_chartotal>
 	</template>
     
+	<template name="number_charedge_score">
+		<basicnumber>
+            <rollable />
+            <script>
+            function onInit()
+                super.onInit();
+            end
+            
+            function action(draginfo)
+				local nodeWin = window.getDatabaseNode();
+				local nDice = DB.getValue(nodeWin, 
+                            "attributes.edge.max");
+				tDice = {};
+				if nDice > 0 then
+					for i = 1, nDice do
+						table.insert (tDice, "d6");
+					end
+					local msg = "[Push the Limit] "
+					local rRoll = { sType = "dicepool", sDesc = msg, aDice = tDice, nMod = 0 };
+					ActionsManager.performAction(draginfo, nil, rRoll);
+				else
+					local rRoll = { sType = "dicepool", sDesc = "Edge", aDice = tDice, nMod = 0 };
+					ActionsManager.performAction(draginfo, nil, rRoll);
+				end
+				return true;
+            end
+            
+            function onDragStart(button, x, y, draginfo)
+                return action(draginfo);
+            end
+            
+            function onDoubleClick(x,y)
+                return action();
+            end
+			
+			function onDrop(x, y, draginfo)
+				return action(draginfo);
+			end
+            </script>
+		</basicnumber>
+	</template>
+	
     <!-- label for our attributes -->
 	<template name="string_labeled">
 		<stringfield>
@@ -418,6 +460,11 @@
 					local nScoreOne = DB.getValue(nodeWin, "attributes." .. source_one[1] .. ".score",1);
 					local nScoreTwo = DB.getValue(nodeWin, "attributes." .. source_two[1] .. ".score",1);
 					local nScoreThree = DB.getValue(nodeWin, "attributes." .. source_three[1] .. ".score",1);
+					print("Limits changed due to Stat"..source_three[1]);
+					if source_three[1] == "essence" then
+						print("Checking Essence");
+						nScoreThree = math.ceil(nScoreThree);
+					end
 					local nCurrent = math.ceil((nScoreOne*2 + nScoreTwo + nScoreThree)/3);
 					setValue(nCurrent);
 				end            

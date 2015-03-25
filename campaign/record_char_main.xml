@@ -796,14 +796,27 @@
             <static>Edge</static>
         </string_charattribute_label>
 		
-		<number_charattribute_base name="edge_base"
+		<number_charedge_score name="edge_base"
             source="attributes.edge.max">
-            <anchored to="astral_init_augs" />
-            <description text="Edge base score" />
+            <anchored>
+				<to>astral_init_augs</to>
+				<position>insidetopleft</position>
+				<offset>0,25</offset>				
+				<!-- left>
+					<parent>init_frame</parent>
+					<anchor>insideleft</anchor>
+					<offset>30</offset>
+				</left -->
+				<size>
+					<width>25</width>
+				</size>
+
+			</anchored>
+			<description text="Edge base score" />
             <tooltip>
                 <text>The base Edge score</text>
             </tooltip>
-        </number_charattribute_base>
+        </number_charedge_score>
 		
 		<status_edgecounter name="edge_count">
             <anchored>
