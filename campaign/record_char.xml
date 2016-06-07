@@ -103,7 +103,7 @@
 					<subwindow>window_notes</subwindow>
 				</tab>
 				<tab>
-					<icon>tab_lines</icon>
+					<icon>tab_notes</icon>
 					<subwindow>window_lines</subwindow>
 				</tab>
 				<activate>1</activate>
