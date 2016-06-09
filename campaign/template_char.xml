@@ -202,10 +202,10 @@
                 local nCurrent = nBase + nAugs + nTemp;
                 setValue(nCurrent);
 				if target[1] == "body" then
-					DB.setValue(nodeWin,"damage.physical.max","number",math.floor(8+nCurrent/2));
+					DB.setValue(nodeWin,"damage.physical.max","number",math.ceil(8+nCurrent/2));
 					DB.setValue(nodeWin,"damage.physical.overflow","number",nCurrent);					
 				elseif target[1] == "willpower" then
-					DB.setValue(nodeWin,"damage.stun.max","number",math.floor(8+nCurrent/2));
+					DB.setValue(nodeWin,"damage.stun.max","number",math.ceil(8+nCurrent/2));
 				end
             end
             
