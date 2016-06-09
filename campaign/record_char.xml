@@ -80,6 +80,10 @@
 				<bounds>0,65,-1,-20</bounds>
 				<class>charsheet_notes</class>
 			</subwindow>
+			<subwindow name="window_lines">
+				<bounds>0,65,-1,-20</bounds>
+				<class>charsheet_lines</class>
+			</subwindow>
 
 			<tabs_charsheet>
 				<tab>
@@ -97,6 +101,10 @@
 				<tab>
 					<icon>tab_notes</icon>
 					<subwindow>window_notes</subwindow>
+				</tab>
+				<tab>
+					<icon>tab_notes</icon>
+					<subwindow>window_lines</subwindow>
 				</tab>
 				<activate>1</activate>
 			</tabs_charsheet>
