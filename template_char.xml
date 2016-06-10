@@ -217,10 +217,10 @@
                 local nCurrent = nBase + nAugs + nTemp;
                 setValue(nCurrent);
 				if target[1] == "body" then
-					DB.setValue(nodeWin,"damage.physical.max","number",math.ceil(8+nCurrent/2));
+					DB.setValue(nodeWin,"damage.physical.max","number",math.floor(8+nCurrent/2));
 					DB.setValue(nodeWin,"damage.physical.overflow","number",nCurrent);					
 				elseif target[1] == "willpower" then
-					DB.setValue(nodeWin,"damage.stun.max","number",math.ceil(8+nCurrent/2));
+					DB.setValue(nodeWin,"damage.stun.max","number",math.floor(8+nCurrent/2));
 				end
             end
             
@@ -242,10 +242,11 @@
 				local label = target[1]:sub(1,1):upper()..target[1]:sub(2);
 				local nWoundPen = DB.getValue(nodeWin, "damage.penalty");
 				wpmsg = ""
-				if nWoundPen &lt; 0 then
+				if nWoundPen &lt; 0 and label ~= "Soak" then
 					wpmsg = " (Wound Penalty: "..nWoundPen..") ";
+					nDice = nDice + nWoundPen;
 				end
-				nDice = nDice + nWoundPen;
+				
 				nDice = math.max(nDice,1);
 				tDice = {};
 				if nDice > 0 then
