@@ -242,10 +242,11 @@
 				local label = target[1]:sub(1,1):upper()..target[1]:sub(2);
 				local nWoundPen = DB.getValue(nodeWin, "damage.penalty");
 				wpmsg = ""
-				if nWoundPen &lt; 0 then
+				if nWoundPen &lt; 0 and label ~= "Soak" then
 					wpmsg = " (Wound Penalty: "..nWoundPen..") ";
+					nDice = nDice + nWoundPen;
 				end
-				nDice = nDice + nWoundPen;
+				
 				nDice = math.max(nDice,1);
 				tDice = {};
 				if nDice > 0 then
