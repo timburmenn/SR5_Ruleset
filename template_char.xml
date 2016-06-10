@@ -1,0 +1,600 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!-- Please see the license.html file included with this distribution for 
+	attribution and copyright information. -->
+
+<root>
+    <!-- Basic attribute score before modifications -->
+    <template name="number_charattribute_base">
+		<basicnumber>
+			<anchored position="belowleft" 
+                offset="0,9" 
+                width="24" 
+                height="18" />
+			<default>1</default>
+		</basicnumber>
+	</template>
+    
+    <!-- The grand total: Base class -->
+    <template name="number_chartotal">
+		<number_modifier>
+			<frame name="fieldlight" offset="7,5,7,5" />
+			<showemptywidget />
+		</number_modifier>
+	</template>
+    
+    <!-- Basic label class for character attributes -->
+    
+    <!-- Test label -->
+    <template name="string_charattribute_label">
+		<label>
+			<anchored position="left"                  
+				width="65" 
+                height="18"/>
+			<!--static / -->
+		</label>
+	</template>
+    
+    <template name="string_attribute_label">
+		<label>
+			<anchored position="left"                  
+				width="100" 
+                height="18"/>
+			<!--static / -->
+		</label>
+	</template>
+    
+    <!-- Permanent modifier for attributes, e.g. augmentations -->
+    <template name="number_charattribute_permmod">
+		<basicnumber>
+			<anchored position="right" offset="10,0" width="24" />
+			<hideonvalue value="0" />
+            <default>0</default>
+		</basicnumber>
+	</template>
+    
+    <!-- Temporary modifier for attributes, e.g. wounds or similar -->
+    <template name="number_charattribute_tempmod">
+		<basicnumber>
+			<anchored position="right" offset="44,0" width="24" />
+			<hideonvalue value="0" />
+            <default>0</default>
+		</basicnumber>
+	</template>
+    
+    <!-- Permanent modifier for initiative scores, e.g. wired reflexes -->
+    <template name="number_charinitiative_permmod">
+        <basicnumber>
+            <anchored position="insidetopleft"
+                offset="0,24"
+                width="24" />
+            <default>0</default>
+        </basicnumber>
+    </template>
+    
+    <!-- Temporary modifier for initiative scores, e.g. wounds -->
+    <template name="number_charinitiative_tempmod">
+        <basicnumber>
+            <anchored position="right"
+                offset="10,0"
+                width="24" />
+            <default>0</default>
+            <hideonvalue value="0" />
+        </basicnumber>
+    </template>
+    
+    <!-- The number of dice for the initiative roll -->
+    <template name="number_charinitiative_mult">
+        <basicnumber>
+            <anchored position="right"
+                offset="10,0"
+                width="24" />
+            <default>1</default>
+            <hideonvalue value="1" />
+        </basicnumber>
+    </template>
+    
+    <!-- The character's initiative score:
+         Components are                     
+            - source_one (e.g. reaction)    
+            - source_two (e.g. intuition)   
+            - perm modifier (e.g. reaction enhancers)   
+            - temp modifier (e.g. wounds)   
+            - multiplier (e.g. due to wired reflexes)  
+    --> 
+    <template name="number_charinitiative_score">
+        <number_chartotal>
+            <anchored position="right"
+                offset="12,0"
+                width="24" />
+            <rollable />
+            <script>
+            function onSourceUpdate()
+                local nodeWin = window.getDatabaseNode();
+                local nScoreOne = DB.getValue(nodeWin, "attributes." .. source_one[1] .. ".score",1);
+                local nScoreTwo = DB.getValue(nodeWin, "attributes." .. source_two[1] .. ".score",1);
+                local nMod = DB.getValue(nodeWin, "initiative." .. target[1] .. ".temp",0);
+                local nAugs = DB.getValue(nodeWin, "initiative." .. target[1] .. ".augs",0);
+                local nCurrent = (nScoreOne + nScoreTwo) + nMod + nAugs;
+                setValue(nCurrent);
+            end
+            
+            function onInit()
+                addSource("attributes." .. source_one[1] .. ".score");
+                addSource("attributes." .. source_two[1] .. ".score");
+                addSource("initiative." .. target[1] .. ".augs");
+                addSource("initiative." .. target[1] .. ".temp");
+                
+                super.onInit();
+            end
+            
+            function action(draginfo)
+                local nodeWin = window.getDatabaseNode();
+                if nodeWin then
+					print("NodeWin OK");
+                    local nTotal = DB.getValue(nodeWin,
+                            "initiative." .. target[1] .. ".score");
+                    local nMult = DB.getValue(nodeWin, "initiative." .. target[1] .. ".mult");
+                    local iLabel = self.alabel[1];
+                    local msg = "[INIT] " .. iLabel;
+                    local nWoundPen = DB.getValue(nodeWin, "damage.penalty");
+                    local rActor = ActorManager.getActor("pc", window.getDatabaseNode());
+                    
+                    local tDice = {};
+					if nWoundPen &lt; 0 then
+						msg = msg .. " (Wound Penalty: "..nWoundPen..") ";
+						nTotal = nTotal + nWoundPen;
+					end
+					
+					for i = 1, nMult do
+						table.insert (tDice, "d6");
+					end
+					
+                    local rRoll = {sType = "init", sDesc = msg, aDice=tDice, nMod = nTotal, bSecret=false};
+                    ActionInit.performRoll(nil, rActor, rRoll);
+                end
+            end
+            
+            function onDragStart(button, x, y,  draginfo)
+                local nodeWin = window.getDatabaseNode();
+                if nodeWin then
+					print("NodeWin OK");
+                    local nTotal = DB.getValue(nodeWin,
+                            "initiative." .. target[1] .. ".score");
+                    local nMult = DB.getValue(nodeWin, "initiative." .. target[1] .. ".mult");
+                    local iLabel = self.alabel[1];
+					local nWoundPen = DB.getValue(nodeWin, "damage.penalty");
+					
+					
+                    
+                    local rActor = ActorManager.getActor("pc", window.getDatabaseNode());
+                    local msg = "[INIT] " .. iLabel;
+                    local tDice = {};
+			
+					if nWoundPen &lt; 0 then
+						msg = msg .. " (Wound Penalty: "..nWoundPen..") ";
+						nTotal = nTotal + nWoundPen;
+					end
+					
+					for i = 1, nMult do
+						table.insert (tDice, "d6");
+					end
+					
+                    local rRoll = {sType = "init", sDesc = msg, aDice=tDice, nMod = nTotal, bSecret=false};
+                    ActionInit.performRoll(draginfo, rActor, rRoll);
+                end
+				return true;
+            end        
+
+			function onDrop(x, y, draginfo)
+				return windowlist.onDrop(x, y, draginfo);
+			end			
+			
+            function onDoubleClick(x,y)
+                return action();
+            end
+            </script>
+        </number_chartotal>
+    </template>
+    
+    <!-- Base class for final tally of attribute.           
+         Components are:                                    
+            - base score                                    
+            - augmentation modifier                         
+            - temporary modifier (e.g. wounds or toxins)    
+    -->
+    <template name="number_charattribute_score">
+		<number_chartotal>
+			<anchored position="right" 
+                offset="78" 
+                width="24" />
+            <rollable />
+            <script>
+            function onSourceUpdate()
+                local nodeWin = window.getDatabaseNode();
+                local nBase = DB.getValue(nodeWin, "attributes." .. target[1] .. ".base", 1);
+                local nAugs = DB.getValue(nodeWin, "attributes." .. target[1] .. ".augs", 0);
+                local nTemp = DB.getValue(nodeWin, "attributes." .. target[1] .. ".temp", 0);
+                local nCurrent = nBase + nAugs + nTemp;
+                setValue(nCurrent);
+				if target[1] == "body" then
+					DB.setValue(nodeWin,"damage.physical.max","number",math.floor(8+nCurrent/2));
+					DB.setValue(nodeWin,"damage.physical.overflow","number",nCurrent);					
+				elseif target[1] == "willpower" then
+					DB.setValue(nodeWin,"damage.stun.max","number",math.floor(8+nCurrent/2));
+				end
+            end
+            
+            function onInit()
+				sLabel = target[1];
+                addSource("attributes." .. target[1] .. ".base");
+                addSource("attributes." .. target[1] .. ".augs");
+                addSource("attributes." .. target[1] .. ".temp");
+                
+                super.onInit();
+            end
+            
+            function action(draginfo)
+				local nodeWin = window.getDatabaseNode();
+				local nDice = DB.getValue(nodeWin, 
+                            "attributes." .. target[1] .. ".score");
+				local modDesc, modStack = ModifierStack.getStack(true);
+				nDice = nDice + modStack;
+				local label = target[1]:sub(1,1):upper()..target[1]:sub(2);
+				local nWoundPen = DB.getValue(nodeWin, "damage.penalty");
+				wpmsg = ""
+				if nWoundPen &lt; 0 and label ~= "Soak" then
+					wpmsg = " (Wound Penalty: "..nWoundPen..") ";
+					nDice = nDice + nWoundPen;
+				end
+				
+				nDice = math.max(nDice,1);
+				tDice = {};
+				if nDice > 0 then
+					for i = 1, nDice do
+						table.insert (tDice, "d6");
+					end
+					local msg = "[Attribute] ".. label
+					if modDesc ~= "" then
+						msg = msg .. " (" .. modDesc .. ")"
+					end
+					msg = msg .. wpmsg;
+					local rRoll = { sType = "dicepool", sDesc = msg, aDice = tDice, nMod = 0 };
+					ActionsManager.performAction(draginfo, nil, rRoll);
+				else
+					local rRoll = { sType = "dicepool", sDesc = label, aDice = tDice, nMod = 0 };
+					ActionsManager.performAction(draginfo, nil, rRoll);
+				end
+				return true;
+            end
+            
+            function onDragStart(button, x, y, draginfo)
+                return action(draginfo);
+            end
+            
+            function onDoubleClick(x,y)
+                return action();
+            end
+			
+			function onDrop(x, y, draginfo)
+				return action(draginfo);
+			end
+            </script>
+		</number_chartotal>
+	</template>
+    
+	<template name="number_charedge_score">
+		<basicnumber>
+            <rollable />
+            <script>
+            function onInit()
+                super.onInit();
+            end
+            
+            function action(draginfo)
+				local nodeWin = window.getDatabaseNode();
+				local nDice = DB.getValue(nodeWin, 
+                            "attributes.edge.max");
+				tDice = {};
+				if nDice > 0 then
+					for i = 1, nDice do
+						table.insert (tDice, "d6");
+					end
+					local msg = "[Push the Limit] "
+					local rRoll = { sType = "dicepool", sDesc = msg, aDice = tDice, nMod = 0 };
+					ActionsManager.performAction(draginfo, nil, rRoll);
+				else
+					local rRoll = { sType = "dicepool", sDesc = "Edge", aDice = tDice, nMod = 0 };
+					ActionsManager.performAction(draginfo, nil, rRoll);
+				end
+				return true;
+            end
+            
+            function onDragStart(button, x, y, draginfo)
+                return action(draginfo);
+            end
+            
+            function onDoubleClick(x,y)
+                return action();
+            end
+			
+			function onDrop(x, y, draginfo)
+				return action(draginfo);
+			end
+            </script>
+		</basicnumber>
+	</template>
+	
+    <!-- label for our attributes -->
+	<template name="string_labeled">
+		<stringfield>
+			<font>sheettext</font>
+			<lineoffset default="on">1</lineoffset>
+			<script>
+				labelwidget = nil;
+
+				function onInit()
+				labelwidget = addTextWidget("sheetlabelinline", string.upper(label[1]));
+				if labelwidget then
+				local w,h = labelwidget.getSize();
+				labelwidget.setPosition("bottomleft", w/2, h/2-4);
+				end
+				end
+			</script>
+		</stringfield>
+	</template>
+
+	<template name="list_skilllimits">
+				
+	</template>
+	
+	<template name="list_charskill">
+		<list_text>
+			<datasource>.skilllist</datasource>
+			<class>char_skill</class>
+			<columns width="375" filldown="true" />
+			<sortby>
+				<control>skilltype</control>
+			</sortby>
+			<newfocus>label</newfocus>
+			<script>
+				function onDrop(x, y, draginfo)
+					local sDragType = draginfo.getType();
+					if sDragType == "number" then
+						local w = addEntry(true);
+						if w then
+							w.label.setValue(draginfo.getDescription());
+							w.rating.setValue(draginfo.getNumberData());
+						end
+						return true;
+					elseif sDragType == "dice" then
+						local aDropDice = draginfo.getDieList();
+						local w = getWindowAt(x,y);
+						if w then
+							for _,vDie in ipairs(aDropDice) do
+								w.dice.addDie(vDie.type);
+							end
+						else
+							w = addEntry(true);
+							if w then
+								w.label.setValue(draginfo.getDescription());
+								w.rating.setValue(draginfo.getNumberData());
+								for _,vDie in ipairs(aDropDice) do
+									w.dice.addDie(vDie.type);
+								end
+							end
+						end
+						return true;
+					end
+				end
+			</script>
+		</list_text>
+	</template>
+
+
+	<template name="number_charinv">
+		<basicnumber>
+			<nodrag />
+			<hideonvalue>0</hideonvalue>
+			<min>0</min>
+		</basicnumber>
+	</template>
+	<template name="string_charinvname">
+		<string_textlistitem>
+			<script file="campaign/scripts/char_invname.lua" />
+		</string_textlistitem>
+	</template>
+	<template name="string_charinvloc">
+		<string_textlistitem>
+			<nodelete />
+			<script file="campaign/scripts/char_invloc.lua" />
+		</string_textlistitem>
+	</template>
+	<template name="list_charinv">
+		<windowlist>
+			<datasource>.inventorylist</datasource>
+			<class>char_invitem</class>
+			<allowcreate />
+			<allowdelete />
+			<script file="campaign/scripts/char_invlist.lua" />
+		</windowlist>
+	</template>
+
+	<template name="list_language">
+		<list_text>
+			<datasource>.languagelist</datasource>
+			<class>char_language</class>
+			<sortby>
+				<control>name</control>
+			</sortby>
+			<newfocus>name</newfocus>
+			<allowcreate />
+			<allowdelete />
+			<script>
+				function onDrop(x, y, draginfo)
+				if draginfo.getType() == "string" then
+				local w = addEntry(true);
+				w.name.setValue(draginfo.getStringData());
+				return true;
+				end
+				end
+			</script>
+		</list_text>
+	</template>
+	
+	<template name="toggle_button">
+		
+	</template>
+		
+	<template name="char_skilltotal">
+		<basicnumber>
+			<rollable />
+			<nodrag />
+			<hideonvalue>0</hideonvalue>
+			<min>0</min>
+            <default>0</default>			
+		</basicnumber>
+	</template>
+
+	<template name="char_skillrating">
+		<basicnumber>
+            <default>0</default>
+			<nodrag />
+			<hideonvalue>0</hideonvalue>
+			<min>0</min>
+		</basicnumber>
+	</template>
+	
+	<template name="number_limit_base">
+		<number_chartotal>
+			<anchored position="belowleft" 
+                offset="-10,9" 
+                width="24"  />
+			<default>0</default>
+            <script>
+				function onSourceUpdate()
+					local nodeWin = window.getDatabaseNode();
+					local nScoreOne = DB.getValue(nodeWin, "attributes." .. source_one[1] .. ".score",1);
+					local nScoreTwo = DB.getValue(nodeWin, "attributes." .. source_two[1] .. ".score",1);
+					local nScoreThree = DB.getValue(nodeWin, "attributes." .. source_three[1] .. ".score",1);
+					print("Limits changed due to Stat"..source_three[1]);
+					if source_three[1] == "essence" then
+						print("Checking Essence");
+						nScoreThree = math.ceil(nScoreThree);
+					end
+					local nCurrent = math.ceil((nScoreOne*2 + nScoreTwo + nScoreThree)/3);
+					setValue(nCurrent);
+				end            
+
+				function onInit()
+					addSource("attributes." .. source_one[1] .. ".score");
+					addSource("attributes." .. source_two[1] .. ".score");
+					addSource("attributes." .. source_three[1] .. ".score");				
+					super.onInit();
+				end
+			
+				</script>			
+		</number_chartotal>
+	</template>
+	
+    <!-- Permanent modifier for initiative scores, e.g. wired reflexes -->
+    <template name="number_limit_mod">
+		<basicnumber>
+            <anchored position="insidetopleft"
+                offset="35,0"
+                width="24" />
+            <default>0</default>
+		</basicnumber>
+    </template>	
+	
+    <template name="number_limit_score">
+		<number_chartotal>
+            <anchored position="insidetopleft"
+                offset="70,0"
+                width="24" />
+            <default>0</default>
+            <script>
+				function onInit()
+					addSource("attributes.limits." .. target[1] .. ".base");
+					addSource("attributes.limits." .. target[1] .. ".augs");
+					super.onInit();
+				end
+			
+				function onSourceUpdate()
+					local nodeWin = window.getDatabaseNode();
+					local nBase = DB.getValue(nodeWin, "attributes.limits." .. target[1] .. ".base",1);
+					local nAugs = DB.getValue(nodeWin, "attributes.limits." .. target[1] .. ".augs",0);
+					local nCurrent = nBase + nAugs;
+					setValue(nCurrent);
+				end            
+			</script>						
+		</number_chartotal>
+    </template>	
+	<!--- Defense stuff starts --->
+    <template name="number_defense_base">
+		<basicnumber>
+			<anchored position="belowleft" 
+                offset="0,9" 
+                width="24" 
+                height="18" />
+
+		</basicnumber>
+	</template>	
+	
+	<!--- Defense stuff ends --->
+	
+	<template name="string_limit_label">
+		<label>
+			<anchored position="right" 
+                width="40" 
+                height="18" 
+				offset="-55"/>
+			<static />
+		</label>
+	</template>
+	
+	<template name="status_edgecounter">
+		<buttongroup_counter_var>
+
+		</buttongroup_counter_var>
+	</template>
+	
+	<template name="status_damagecounter">
+		<buttongroup_counter_var>
+			<anchored>
+				<position>lefthigh</position>
+				<offset>0,0</offset>
+				</anchored>
+		</buttongroup_counter_var>
+	</template>
+	
+	<template name="status_damagepenalty">
+			<number_chartotal>
+            <anchored position="insidetopleft"
+                offset="35,0"
+                width="24" />
+            <default>0</default>
+            <script>
+				function onInit()
+					addSource("damage.physical.current");
+					addSource("damage.stun.current");
+					addSource("damage.painthreshold.low");
+					addSource("damage.painthreshold.ignore");
+					super.onInit();
+				end
+			
+				function onSourceUpdate()
+					local nodeWin = window.getDatabaseNode();
+					local nPhysCurr = DB.getValue(nodeWin, "damage.physical.current",1);
+					local nStunCurr = DB.getValue(nodeWin, "damage.stun.current",1);
+					local nLow = 	  DB.getValue(nodeWin, "damage.painthreshold.low",1);
+					local nIgnore =   DB.getValue(nodeWin, "damage.painthreshold.tol",1);
+					
+					local effDmg = math.max(nPhysCurr-nIgnore,nStunCurr-nIgnore,0);
+					local damPen = math.floor(effDmg/(3-nLow));
+					print("dP = "..nPhysCurr.." dS = "..nStunCurr.." Lo = "..nLow.."  nI="..nIgnore.."  eD="..effDmg);
+					setValue(-damPen);
+				end            
+			</script>						
+		</number_chartotal>
+	</template>
+</root>
