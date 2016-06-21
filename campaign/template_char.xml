@@ -389,6 +389,67 @@
 			</script>
 		</list_text>
 	</template>
+		<template name="list_charweapon">
+		<list_text>
+			<datasource>.weaponlist</datasource>
+			<class>char_weapon</class>
+			<columns width="375" filldown="true" />
+			<sortby>
+				<control>weapontype</control>
+			</sortby>
+			<newfocus>weaponlabel</newfocus>
+			<script>
+				function onDrop(x, y, draginfo)
+					local sDragType = draginfo.getType();
+					if sDragType == "number" then
+						local w = addEntry(true);
+						if w then
+							w.label.setValue(draginfo.getDescription());
+							w.rating.setValue(draginfo.getNumberData());
+						end
+						return true;
+					elseif sDragType == "dice" then
+						local aDropDice = draginfo.getDieList();
+						local w = getWindowAt(x,y);
+						if w then
+							for _,vDie in ipairs(aDropDice) do
+								w.dice.addDie(vDie.type);
+							end
+						else
+							w = addEntry(true);
+							if w then
+								w.label.setValue(draginfo.getDescription());
+								w.rating.setValue(draginfo.getNumberData());
+								for _,vDie in ipairs(aDropDice) do
+									w.dice.addDie(vDie.type);
+								end
+							end
+						end
+						return true;
+					end
+				end
+			</script>
+		</list_text>
+	</template>
+		<template name="char_weapontotal">
+		<basicnumber>
+			<rollable />
+			<nodrag />
+			<hideonvalue>0</hideonvalue>
+			<min>0</min>
+            <default>0</default>			
+		</basicnumber>
+	</template>
+
+	<template name="char_weaponrating">
+		<basicnumber>
+            <default>0</default>
+			<nodrag />
+			<hideonvalue>0</hideonvalue>
+			<min>0</min>
+			<default>0</default>
+		</basicnumber>
+	</template>
 
 
 	<template name="number_charinv">

@@ -12,42 +12,41 @@
 		<website>http://www.fantasygrounds.com</website>
 	</description>
     
-    <!-- Generate this ruleset from the coreRPG -->
-    <importruleset source="CoreRPG" />
+    	<!-- Generate this ruleset from the coreRPG -->
+    		<importruleset source="CoreRPG" />
     
-    <!-- switch off the wrong dice -->
-    <includefile source="gameelements.xml" />
+    	<!-- switch off the wrong dice -->
+    		<includefile source="gameelements.xml" />
 	
-    <!-- modified button template -->
-	<includefile source="common/template_buttons.xml" />
-
+    	<!-- modified button template -->
+		<includefile source="common/template_buttons.xml" />
 	
 	<!-- Campaign Records -->
-	<includefile source="campaign/template_campaign.xml" />
-	<includefile source="campaign/template_char.xml" />
-	
-	<includefile source="campaign/record_char.xml" />
-	<includefile source="campaign/record_char_main.xml" />
-    <includefile source="campaign/record_char_skills.xml" />
-	<includefile source="campaign/record_char_inventory.xml" />
-	<includefile source="campaign/record_char_notes.xml" />
+		<includefile source="campaign/template_campaign.xml" />
+		<includefile source="campaign/template_char.xml" />
 
-	<includefile source="graphics/graphics_frames.xml" />
-	<includefile source="graphics/graphics_misc.xml" />
-	<includefile source="campaign/record_char_lines.xml" />
-	<includefile source="campaign/record_char_combat.xml" />
-	
-    <!-- High Level Scripts -->
-	<script name="GameSystem" file="scripts/manager_gamesystem.lua" />
-    <script name="TableManager" file="scripts/manager_table.lua" />
-<!--	<script name="ActionsManager" file="scripts/manager_actions.lua" /> <!-- for debug purposes, delete when finished -->
-	<script name="ActionDicepool" file="scripts/manager_actions_dicepool.lua" />
-	<script name="ActionInit" file="scripts/manager_action_init.lua" />
-<!--	<script name="ActorManager" file="scripts/manager_actor.lua" /> <!-- for debug purposes, delete when finished -->
+		<includefile source="campaign/record_char.xml" />
+		<includefile source="campaign/record_char_main.xml" />
+    		<includefile source="campaign/record_char_skills.xml" />
+		<includefile source="campaign/record_char_inventory.xml" />
+		<includefile source="campaign/record_char_notes.xml" />
 
-	<!--    
-    <script name="ActionAbility" file="scripts/manager_action_ability.lua" />
--->
+		<includefile source="graphics/graphics_frames.xml" />
+		<includefile source="graphics/graphics_misc.xml" />
+		<includefile source="campaign/record_char_lines.xml" />
+		<includefile source="campaign/record_char_combat.xml" />
+	
+	<!-- High Level Scripts -->
+		<script name="GameSystem" file="scripts/manager_gamesystem.lua" />
+    		<script name="TableManager" file="scripts/manager_table.lua" />
+
+	<!--<script name="ActionsManager" file="scripts/manager_actions.lua" /> 
+	<!-- for debug purposes, delete when finished -->
+		<script name="ActionDicepool" file="scripts/manager_actions_dicepool.lua" />
+		<script name="ActionInit" file="scripts/manager_action_init.lua" />
+	<!--	<script name="ActorManager" file="scripts/manager_actor.lua" /> <!-- for debug purposes, delete when finished -->
+
+	<!--    <script name="ActionAbility" file="scripts/manager_action_ability.lua" / -->
 
      <die name="dg6">
       <icon>d6grnicon</icon>
