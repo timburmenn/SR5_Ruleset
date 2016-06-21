@@ -35,6 +35,7 @@
 	<includefile source="graphics/graphics_frames.xml" />
 	<includefile source="graphics/graphics_misc.xml" />
 	<includefile source="campaign/record_char_lines.xml" />
+	<includefile source="campaign/record_char_combat.xml" />
 	
     <!-- High Level Scripts -->
 	<script name="GameSystem" file="scripts/manager_gamesystem.lua" />
