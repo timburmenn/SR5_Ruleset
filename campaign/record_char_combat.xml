@@ -209,7 +209,7 @@
 			
 	<!-- Weaponshit -->
 		<frame_char name="weaponframe">
-			<bounds>15,125,-29,-5</bounds>
+			<bounds>15,125,-29,250</bounds>
 		</frame_char>
 		
 		<genericcontrol name="rightanchor">
@@ -312,6 +312,113 @@
 				<anchored to="weapon_iedit" position="lefthigh" offset="5,10" />
 				<target>weapon</target>
 			</button_iadd>
+			         <!-- Field
+         Damage taken
+          -->
+		<frame_char name="dmg_frame">
+			<bounds>15,370,-29,-5</bounds>
+		</frame_char>
+		
+		<genericcontrol name="rightanchor">
+				<anchored to="dmg_frame" width="0" height="0">
+					<top offset="10" />
+					<right offset="-20" />
+				</anchored>
+				<invisible />
+			</genericcontrol>
+			<label_frametop>
+			<anchored to="dmg_frame" />
+            <static>Damage</static>
+            </label_frametop>
+		 
+		 <status_damagecounter name="physicaldamage">
+				<anchored>
+					<to>dmg_frame</to>
+					<position>insidetopleft</position>
+					<offset>85,30</offset>
+				</anchored>
+				<sourcefields>
+					<maximum>damage.physical.max</maximum>
+					<overflow>damage.physical.overflow</overflow>
+					<current>damage.physical.current</current>
+				</sourcefields>
+				<rows> 20 </rows>				
+			</status_damagecounter>
+
+            <string_charattribute_label>
+                <anchored to="physicaldamage"/>
+                <static>Physical</static>
+            </string_charattribute_label>
+			
+		 <status_damagecounter name="stundamage">
+				<anchored>
+					<to>physicaldamage</to>
+					<position>below</position>
+					<offset>0,10</offset>
+				</anchored>
+				<sourcefields>
+					<maximum>damage.stun.max</maximum>
+					<current>damage.stun.current</current>
+				</sourcefields>
+				<rows>20</rows>
+			</status_damagecounter> 	
+
+            <string_charattribute_label>
+                <anchored to="stundamage"/>
+                <static>Stun</static>
+            </string_charattribute_label>
+			
+            <string_attribute_label name="painlabel">
+				<anchored to="physicaldamage">
+					<position>right</position>
+					<offset>10,0</offset>
+				</anchored>
+                <static>Pain Threshold</static>
+			</string_attribute_label>
+
+		 <checkbox_sr name="lpt">
+				<anchored to="painlabel" >
+					<position>right</position>
+					<offset>5,0</offset>
+				</anchored>		
+				<sourcefields>
+					<value>damage.painthreshold.low</value>
+				</sourcefields>				
+		</checkbox_sr>
+		
+		<label_fieldtop>
+            <anchored to="lpt" />
+            <static>Lo</static>
+        </label_fieldtop>
+			
+		<number_charattribute_base name="painignore" source="damage.painthreshold.tol">
+			<anchored to="painlabel" >
+				<position>right</position>
+				<offset>35,0</offset>
+			</anchored>	
+		</number_charattribute_base>
+
+		<label_fieldtop>
+            <anchored to="painignore" />
+            <static>Ignore</static>
+        </label_fieldtop>
+		
+		
+		<string_attribute_label name="woundpenaltylabel">
+			<anchored to="stundamage">
+				<position>right</position>
+				<offset>10,0</offset>
+			</anchored>
+			<static>Wound Penalty</static>
+		</string_attribute_label>
+		
+		<status_damagepenalty  name="damage_penalty" source="damage.penalty">
+			<anchored to="woundpenaltylabel" >
+				<position>right</position>
+				<offset>35,0</offset>
+			</anchored>			
+		</status_damagepenalty>
+			
 		</sheetdata>
 	</windowclass>
 
@@ -364,7 +471,7 @@
 								if modDesc ~= "" then
 									msg = msg .. " (" .. modDesc .. ")"
 								end
-								msg = msg .. wpmsg;
+								msg = msg .. "\r" .. wpmsg;
 								local rRoll = { sType = "dicepool", sDesc = msg, aDice = tDice, nMod = 0 };
 								ActionsManager.performAction(draginfo, nil, rRoll);
 							else
@@ -399,7 +506,7 @@
 								if modDesc ~= "" then
 									msg = msg .. " (" .. modDesc .. ")"
 								end
-								msg = msg..wpmsg
+								msg = msg.. "\r" .. wpmsg
 								local rRoll = { sType = "dicepool", sDesc = msg, aDice = tDice, nMod = 0 };
 								ActionsManager.performAction(nil, nil, rRoll);
 							else
@@ -585,25 +692,7 @@
 				</anchored>
 				<tabtarget next="bonus" />
 			</string_textlistitem>
-			
-			<!-- remove the skilltype cycler, will not  be used for weapon
-			<button_stringcycler name="skilltype">
-				<anchored width="75" height="17">
-					<top offset="2"/>
-					<left offset="5" />
-					<right parent="rightanchor" anchor="left" relation="relative" offset="-14" />
-				</anchored>
-				<font>sheetlabel</font>
-				<center />
-				<frame name="fielddark" offset="7,5,7,5" />
-				<parameters>
-					<labels>Act/Cbt|Act/Phy|Social|Magical|Reson|Tech|Vehicle|Know|Lang</labels>
-					<values>active_cbt|active_phy|social|magic|resonance|technical|vehicle|knowledge|language</values>
-					<defaultlabel>Group</defaultlabel>
-					<defaultvalue>-</defaultvalue>
-				</parameters>
-			</button_stringcycler>-->
-			
-		</sheetdata>
+			</sheetdata>
 	</windowclass>
+
 </root>
