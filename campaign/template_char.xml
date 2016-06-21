@@ -446,7 +446,6 @@
             <default>0</default>
 			<nodrag />
 			<hideonvalue>0</hideonvalue>
-			<min>0</min>
 			<default>0</default>
 		</basicnumber>
 	</template>

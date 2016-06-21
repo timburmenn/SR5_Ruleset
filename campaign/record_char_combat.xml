@@ -265,6 +265,24 @@
 				<static>Attr</static>
 				<tooltip text="Controlling Attribute" />
 			</label>
+			<label name="wpnDV_label">
+				<anchored to="rightanchor" width="30">
+					<top offset="27"/>
+					<right anchor="left" relation="relative" offset="-15" />
+				</anchored>
+				<center />
+				<static>DV</static>
+				<tooltip text="Damage Value" />
+			</label>
+			<label name="wpnAP_label">
+				<anchored to="rightanchor" width="30">
+					<top offset="27"/>
+					<right anchor="left" relation="relative" offset="-15" />
+				</anchored>
+				<center />
+				<static>AP</static>
+				<tooltip text="Armor Piercing" />
+			</label>
 			<label name="weaponname_label">
 				<anchored to="rightanchor" width="205">
 					<top offset="27"/>
@@ -328,6 +346,8 @@
 							local modDesc, modStack = ModifierStack.getStack(true)
 							nDice = nDice + modStack
 							local label = nodeWin.getChild("label").getValue()
+							local ap = nodeWin.getChild("wpnAP").getValue()
+							local dv = nodeWin.getChild("wpnDV").getValue()
 							local nWoundPen = nodeWin.getParent().getParent().getChild("damage.penalty").getValue();
 							wpmsg = ""
 							if nWoundPen &lt; 0 then
@@ -340,7 +360,7 @@
 								for i = 1, nDice do
 									table.insert (tDice, "d6");
 								end
-								local msg = "[Weapon] ".. label
+								local msg = "[Weapon] ".. label .. "\r DV: " .. dv .. "\r AP: " .. ap
 								if modDesc ~= "" then
 									msg = msg .. " (" .. modDesc .. ")"
 								end
@@ -360,6 +380,8 @@
 							local modDesc, modStack = ModifierStack.getStack(true)
 							nDice = nDice + modStack
 							local label = nodeWin.getChild("label").getValue()
+							local ap = nodeWin.getChild("wpnAP").getValue()
+							local dv = nodeWin.getChild("wpnDV").getValue()
 							local nWoundPen = nodeWin.getParent().getParent().getChild("damage.penalty").getValue();
 							wpmsg = ""
 							if nWoundPen &lt; 0 then
@@ -373,7 +395,7 @@
 								for i = 1, nDice do
 									table.insert (tDice, "d6");
 								end
-								local msg = "[Weapon] ".. label
+								local msg = "[Weapon] ".. label .. "\r DV: " .. dv .. "\r AP: " .. ap
 								if modDesc ~= "" then
 									msg = msg .. " (" .. modDesc .. ")"
 								end
@@ -535,6 +557,26 @@
 					end
 				</script>			
 			</button_stringcycler>
+			<char_weaponrating name="wpnDV">
+				<anchored to="idelete" width="30" height="17">
+					<top offset="2"/>
+					<right parent="rightanchor" anchor="left" relation="relative" offset="-17" />
+				</anchored>
+				<tooltip>
+					<text>Damage Value</text>
+				</tooltip>
+				<tabtarget prev="weaponLabel" />
+			</char_weaponrating>
+			<char_weaponrating name="wpnAP">
+				<anchored to="idelete" width="30" height="17">
+					<top offset="2"/>
+					<right parent="rightanchor" anchor="left" relation="relative" offset="-17" />
+				</anchored>
+				<tooltip>
+					<text>Armor Piercing</text>
+				</tooltip>
+				<tabtarget prev="weaponLabel" />
+			</char_weaponrating>
 			
 			<string_textlistitem name="label">
 				<anchored to="attribute" width="205" height="20">
