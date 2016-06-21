@@ -967,18 +967,118 @@
 			</anchored>			
 		</status_damagepenalty>
 			
-        <!-- Notes -->
-         <frame_char name="qualities_frame">
+        <!-- Roll frame for defense and soak rolls -->
+         <frame_char name="roll_frame">
             <anchored to="dmg_frame" 
-                position="below" 
-                offset="0,1" 
-                height="80" />
+                position="belowleft" 
+                    offset="0,0"
+					height="90" 
+                    width="220" />
          </frame_char>
          
          <label_frametop>
-            <anchored to="qualities_frame" />
-            <static>Qualities</static>
+            <anchored to="roll_frame"/>
+            <static>Defense and Soak (manual input)</static>
          </label_frametop>
-		</sheetdata>
+		
+		<!-- Defense roll -->
+            <number_charattribute_base name="defense_base"
+			source="attributes.defense.base">
+                <anchored to="roll_frame"
+				position="insidetopleft"
+				offset = "75,35"
+				/>
+				<target>defense</target>
+                <description text="Defense base score" />
+                <tooltip>
+                    <text>The base defense score</text>
+                </tooltip>
+            </number_charattribute_base>
+            
+            <string_charattribute_label>
+                <anchored to="defense_base"/>
+                <static>Defense</static>
+            </string_charattribute_label>
+           
+            <number_charattribute_permmod name="defense_augs"
+                source="attributes.defense.augs">
+                <anchored to="defense_base" />
+                <target>defense</target> 
+                <description text="defense augmentations" />
+                <tooltip>
+                    <text>Augmentations to the defense score</text>
+                </tooltip>
+            </number_charattribute_permmod>
+            
+            <number_charattribute_tempmod name="defense_tempmod"
+                source="attributes.defense.temp">
+                <anchored to="defense_base"/>
+                <target>defense</target>
+                <description text="defense temporary modifier" />
+                <tooltip>
+                    <text>Temporary modifiers to the defense score</text>
+                </tooltip>
+            </number_charattribute_tempmod>
+            
+            <number_charattribute_score name="defense"
+                source="attributes.defense.score">
+                <anchored to="defense_base" />
+                <description text="defense final score" />
+                <target>defense</target>
+                <alabel>defense</alabel>
+                <tooltip>
+                    <text>Current defense score</text>
+                </tooltip>
+            </number_charattribute_score>
+			<!-- Soak roll -->
+            <number_charattribute_base name="soak_base"
+			source="attributes.soak.base">
+                <anchored to="roll_frame"
+				position="insidetopleft"
+				offset = "75,60"
+				/>
+				<target>soak</target>
+                <description text="Soak base score" />
+                <tooltip>
+                    <text>The base soak score</text>
+                </tooltip>
+            </number_charattribute_base>
+            
+            <string_charattribute_label>
+                <anchored to="soak_base"/>
+                <static>Soak</static>
+            </string_charattribute_label>
+           
+            <number_charattribute_permmod name="soak_augs"
+                source="attributes.soak.augs">
+                <anchored to="soak_base" />
+                <target>soak</target> 
+                <description text="soak augmentations" />
+                <tooltip>
+                    <text>Augmentations to the soak score</text>
+                </tooltip>
+            </number_charattribute_permmod>
+            
+            <number_charattribute_tempmod name="soak_tempmod"
+                source="attributes.soak.temp">
+                <anchored to="soak_base"/>
+                <target>soak</target>
+                <description text="soak temporary modifier" />
+                <tooltip>
+                    <text>Temporary modifiers to the soak score</text>
+                </tooltip>
+            </number_charattribute_tempmod>
+            
+            <number_charattribute_score name="soak"
+                source="attributes.soak.score">
+                <anchored to="soak_base" />
+                <description text="soak final score" />
+                <target>soak</target>
+                <alabel>soak</alabel>
+                <tooltip>
+                    <text>Current soak score</text>
+                </tooltip>
+            </number_charattribute_score>
+			</sheetdata>
 	</windowclass>
 </root>

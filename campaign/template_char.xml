@@ -135,15 +135,21 @@
                             "initiative." .. target[1] .. ".score");
                     local nMult = DB.getValue(nodeWin, "initiative." .. target[1] .. ".mult");
                     local iLabel = self.alabel[1];
-                    
+                    local msg = "[INIT] " .. iLabel;
+                    local nWoundPen = DB.getValue(nodeWin, "damage.penalty");
                     local rActor = ActorManager.getActor("pc", window.getDatabaseNode());
-                    local sDesc = "[INIT] " .. iLabel;
+                    
                     local tDice = {};
+					if nWoundPen &lt; 0 then
+						msg = msg .. " (Wound Penalty: "..nWoundPen..") ";
+						nTotal = nTotal + nWoundPen;
+					end
+					
 					for i = 1, nMult do
 						table.insert (tDice, "d6");
 					end
 					
-                    local rRoll = {sType = "init", sDesc = sDesc, aDice=tDice, nMod = nTotal, bSecret=false};
+                    local rRoll = {sType = "init", sDesc = msg, aDice=tDice, nMod = nTotal, bSecret=false};
                     ActionInit.performRoll(nil, rActor, rRoll);
                 end
             end
@@ -156,15 +162,24 @@
                             "initiative." .. target[1] .. ".score");
                     local nMult = DB.getValue(nodeWin, "initiative." .. target[1] .. ".mult");
                     local iLabel = self.alabel[1];
+					local nWoundPen = DB.getValue(nodeWin, "damage.penalty");
+					
+					
                     
                     local rActor = ActorManager.getActor("pc", window.getDatabaseNode());
-                    local sDesc = "[INIT] " .. iLabel;
+                    local msg = "[INIT] " .. iLabel;
                     local tDice = {};
+			
+					if nWoundPen &lt; 0 then
+						msg = msg .. " (Wound Penalty: "..nWoundPen..") ";
+						nTotal = nTotal + nWoundPen;
+					end
+					
 					for i = 1, nMult do
 						table.insert (tDice, "d6");
 					end
 					
-                    local rRoll = {sType = "init", sDesc = sDesc, aDice=tDice, nMod = nTotal, bSecret=false};
+                    local rRoll = {sType = "init", sDesc = msg, aDice=tDice, nMod = nTotal, bSecret=false};
                     ActionInit.performRoll(draginfo, rActor, rRoll);
                 end
 				return true;
@@ -202,10 +217,10 @@
                 local nCurrent = nBase + nAugs + nTemp;
                 setValue(nCurrent);
 				if target[1] == "body" then
-					DB.setValue(nodeWin,"damage.physical.max","number",math.floor(8+nCurrent/2));
+					DB.setValue(nodeWin,"damage.physical.max","number",math.ceil(8+nCurrent/2));
 					DB.setValue(nodeWin,"damage.physical.overflow","number",nCurrent);					
 				elseif target[1] == "willpower" then
-					DB.setValue(nodeWin,"damage.stun.max","number",math.floor(8+nCurrent/2));
+					DB.setValue(nodeWin,"damage.stun.max","number",math.ceil(8+nCurrent/2));
 				end
             end
             
@@ -227,10 +242,11 @@
 				local label = target[1]:sub(1,1):upper()..target[1]:sub(2);
 				local nWoundPen = DB.getValue(nodeWin, "damage.penalty");
 				wpmsg = ""
-				if nWoundPen &lt; 0 then
+				if nWoundPen &lt; 0 and label ~= "Soak" then
 					wpmsg = " (Wound Penalty: "..nWoundPen..") ";
+					nDice = nDice + nWoundPen;
 				end
-				nDice = nDice + nWoundPen;
+				
 				nDice = math.max(nDice,1);
 				tDice = {};
 				if nDice > 0 then
@@ -512,7 +528,19 @@
 				end            
 			</script>						
 		</number_chartotal>
-    </template>		
+    </template>	
+	<!--- Defense stuff starts --->
+    <template name="number_defense_base">
+		<basicnumber>
+			<anchored position="belowleft" 
+                offset="0,9" 
+                width="24" 
+                height="18" />
+
+		</basicnumber>
+	</template>	
+	
+	<!--- Defense stuff ends --->
 	
 	<template name="string_limit_label">
 		<label>
