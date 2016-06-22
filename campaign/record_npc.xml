@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+	<windowclass name="npc">
+		<frame>recordsheet</frame>
+		<placement>
+			<size width="350" height="300" />
+		</placement>
+		<sizelimits>
+			<minimum width="350" height="300" />
+			<dynamic />
+		</sizelimits>
+		<minimize>minimized_npc</minimize>
+		<tooltip field="name" />
+		<nodelete />
+		<script>
+			function onInit()
+				onLockChanged();
+				DB.addHandler(DB.getPath(getDatabaseNode(), "locked"), "onUpdate", onLockChanged);
+			end
+			
+			function onClose()
+				DB.removeHandler(DB.getPath(getDatabaseNode(), "locked"), "onUpdate", onLockChanged);
+			end
+
+			function onLockChanged()
+				if header.subwindow then
+					header.subwindow.update();
+				end
+				if main.subwindow then
+					main.subwindow.update();
+				end
+
+				local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
+				notes.setReadOnly(bReadOnly);
+			end
+		</script>
+		<sheetdata>
+			<sub_record_header name="header">
+				<class>npc_header</class>
+			</sub_record_header>
+
+			<frame_record_content_tabbed name="contentframe" />
+
+			<subwindow_record name="main">
+				<class>npc_main</class>
+			</subwindow_record>
+			<ft_record name="notes">
+				<anchored to="contentframe" position="over" />
+				<empty textres="ft_empty" />
+				<invisible />
+			</ft_record>
+
+			<scrollbar_record>
+				<target>main</target>
+			</scrollbar_record>
+			<scrollbar_record>
+				<target>notes</target>
+			</scrollbar_record>
+
+			<tabs_recordsheet>
+				<tab>
+					<icon>tab_main</icon>
+					<subwindow>main</subwindow>
+				</tab>
+				<tab>
+					<icon>tab_notes</icon>
+					<subwindow>notes</subwindow>
+				</tab>
+			</tabs_recordsheet>
+			
+			<resize_recordsheet />
+			<close_recordsheet />
+		</sheetdata>
+	</windowclass>
+	
+	<windowclass name="npc_header">
+		<margins control="0,0,0,7" />
+		<script>
+			function onInit()
+				update();
+			end
+			function update()
+				local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
+				name.setReadOnly(bReadOnly);
+				token.setReadOnly(bReadOnly);
+			end
+		</script>
+		<sheetdata>
+			<link_record_header>
+				<class>npc</class>
+			</link_record_header>
+			
+			<anchor_record_header_right />
+			<button_activateid>
+				<anchored to="rightanchor" width="23" height="22">
+					<top offset="-2" />
+					<right anchor="left" relation="relative" offset="-5" />
+				</anchored>
+			</button_activateid>
+			<tokenfield name="token">
+				<anchored to="rightanchor" width="25" height="25">
+					<top offset="-2" />
+					<right parent="rightanchor" anchor="left" relation="relative" offset="-3" />
+				</anchored>
+				<empty>token_empty</empty>
+				<script>
+					function onDoubleClick(x, y)
+						CombatManager.openMap(window.getDatabaseNode());
+					end
+				</script>
+			</tokenfield>
+			<icon_record_locked>
+				<anchored>
+					<right offset="-7" />
+				</anchored>
+			</icon_record_locked>
+			<button_record_locked>
+				<anchored>
+					<right offset="-7" />
+				</anchored>
+			</button_record_locked>
+
+			<string_record_name name="name">
+				<anchored>
+					<top offset="5" />
+					<left offset="40" />
+					<right parent="rightanchor" anchor="left" relation="relative" offset="-15" />
+				</anchored>
+				<empty textres="npc_emptyname" />
+			</string_record_name>
+		</sheetdata>
+	</windowclass>
+	
+	<windowclass name="npc_main">
+		<margins control="0,0,0,2" />
+		<script>
+			function onInit()
+				update();
+			end
+			
+			function update()
+				local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
+
+				space.setReadOnly(bReadOnly);
+				reach.setReadOnly(bReadOnly);
+				
+				local bSection2 = false;
+				if skills.update(bReadOnly) then bSection2 = true; end;
+				if items.update(bReadOnly) then bSection2 = true; end;
+				if languages.update(bReadOnly) then bSection2 = true; end;
+				divider.setVisible(bSection2);
+			end
+		</script>
+		<sheetdata>
+			<anchor_column name="columnanchor" />
+
+			<label_column name="space_label">
+				<static textres="npc_label_size" />
+			</label_column>
+			<number_column name="space">
+				<default>1</default>
+			</number_column>
+			
+			<label_column_right name="reach_label">
+				<anchored to="space" />
+				<static textres="npc_label_reach" />
+			</label_column_right>
+			<number_column_right name="reach">
+				<anchored to="space" />
+				<default>1</default>
+			</number_column_right>
+			
+			<line_column name="divider" />
+			
+			<label_column name="skills_label">
+				<static textres="npc_label_skills" />
+			</label_column>
+			<string_columnh name="skills">
+				<nodragselect />
+				<script file="campaign/scripts/npc_roll.lua" />
+			</string_columnh>
+
+			<label_column name="items_label">
+				<static textres="npc_label_items" />
+			</label_column>
+			<string_columnh name="items" />
+
+			<label_column name="languages_label">
+				<static textres="npc_label_languages" />
+			</label_column>
+			<string_columnh name="languages" />
+		</sheetdata>
+	</windowclass>
+</root>
