@@ -780,8 +780,257 @@
                     <text>Current soak score</text>
                 </tooltip>
             </number_npcattribute_score>
+		<!-- 14 +/- 4 roll 1 -->
+            <number_npcattribute_base name="roll1_base"
+			source="npcattributes.roll1.base">
+            <anchored to="init_frame" 
+                position="insidetopleft"
+                offset="115,127" />
+				<target>roll1</target>
+                <description text="roll1 base score" />
+                <tooltip>
+                    <text>The base roll1 score</text>
+                </tooltip>
+            </number_npcattribute_base>
+            			
+		<string_attribute_label>
+            <anchored to="roll1_base" />
+            <static>roll1</static>
+        </string_attribute_label>
+           
+            <number_npcattribute_permmod name="roll1_augs"
+                source="npcattributes.roll1.augs">
+                <anchored to="roll1_base" />
+                <target>roll1</target> 
+                <description text="roll1 augmentations" />
+                <tooltip>
+                    <text>Augmentations to the roll1 score</text>
+                </tooltip>
+            </number_npcattribute_permmod>
+            
+            <number_npcattribute_tempmod name="roll1_tempmod"
+                source="npcattributes.roll1.temp">
+                <anchored to="roll1_base"/>
+                <target>roll1</target>
+                <description text="roll1 temporary modifier" />
+                <tooltip>
+                    <text>Temporary modifiers to the roll1 score</text>
+                </tooltip>
+            </number_npcattribute_tempmod>
+            
+            <number_npcattribute_score name="roll1"
+                source="npcattributes.roll1.score">
+                <anchored to="roll1_base" />
+                <description text="roll1 final score" />
+                <target>roll1</target>
+                <alabel>roll1</alabel>
+                <tooltip>
+                    <text>Current roll1 score</text>
+                </tooltip>
+            </number_npcattribute_score>
+			
+			<!-- 14 +/- 4 roll 2 -->
+            <number_npcattribute_base name="roll2_base"
+			source="npcattributes.roll2.base">
+            <anchored to="init_frame" 
+                position="insidetopleft"
+                offset="115,157" />
+				<target>roll2</target>
+                <description text="roll2 base score" />
+                <tooltip>
+                    <text>The base roll2 score</text>
+                </tooltip>
+            </number_npcattribute_base>
+            			
+		<string_attribute_label>
+            <anchored to="roll2_base" />
+            <static>roll2</static>
+        </string_attribute_label>
+           
+            <number_npcattribute_permmod name="roll2_augs"
+                source="npcattributes.roll2.augs">
+                <anchored to="roll2_base" />
+                <target>roll2</target> 
+                <description text="roll2 augmentations" />
+                <tooltip>
+                    <text>Augmentations to the roll2 score</text>
+                </tooltip>
+            </number_npcattribute_permmod>
+            
+            <number_npcattribute_tempmod name="roll2_tempmod"
+                source="npcattributes.roll2.temp">
+                <anchored to="roll2_base"/>
+                <target>roll2</target>
+                <description text="roll2 temporary modifier" />
+                <tooltip>
+                    <text>Temporary modifiers to the roll2 score</text>
+                </tooltip>
+            </number_npcattribute_tempmod>
+            
+            <number_npcattribute_score name="roll2"
+                source="npcattributes.roll2.score">
+                <anchored to="roll2_base" />
+                <description text="roll2 final score" />
+                <target>roll2</target>
+                <alabel>roll2</alabel>
+                <tooltip>
+                    <text>Current roll2 score</text>
+                </tooltip>
+            </number_npcattribute_score>
+	
+			<!-- 14 +/- 4 roll 3 -->
+            <number_npcattribute_base name="roll3_base"
+			source="npcattributes.roll3.base">
+            <anchored to="init_frame" 
+                position="insidetopleft"
+                offset="115,187" />
+				<target>roll3</target>
+                <description text="roll3 base score" />
+                <tooltip>
+                    <text>The base roll3 score</text>
+                </tooltip>
+            </number_npcattribute_base>
+            			
+		<string_attribute_label>
+            <anchored to="roll3_base" />
+            <static>Roll3</static>
+        </string_attribute_label>
+           
+            <number_npcattribute_permmod name="roll3_augs"
+                source="npcattributes.roll3.augs">
+                <anchored to="roll3_base" />
+                <target>roll3</target> 
+                <description text="roll3 augmentations" />
+                <tooltip>
+                    <text>Augmentations to the roll3 score</text>
+                </tooltip>
+            </number_npcattribute_permmod>
+            
+            <number_npcattribute_tempmod name="roll3_tempmod"
+                source="npcattributes.roll3.temp">
+                <anchored to="roll3_base"/>
+                <target>roll3</target>
+                <description text="roll3 temporary modifier" />
+                <tooltip>
+                    <text>Temporary modifiers to the roll3 score</text>
+                </tooltip>
+            </number_npcattribute_tempmod>
+            
+            <number_npcattribute_score name="roll3"
+                source="npcattributes.roll3.score">
+                <anchored to="roll3_base" />
+                <description text="roll3 final score" />
+                <target>roll3</target>
+                <alabel>roll3</alabel>
+                <tooltip>
+                    <text>Current roll3 score</text>
+                </tooltip>
+            </number_npcattribute_score>
+			
+		<!-- Field Damage taken -->
+         <frame_char name="dmg_frame">
+            <anchored to="att_frame" 
+                position="below" 
+                offset="0,10"
+                height="100" />
+         </frame_char>
+         
+         <label_frametop>
+			<anchored to="dmg_frame" />
+            <static>Damage</static>
+            </label_frametop>
+		 
+		 <status_damagecounter name="physicaldamage">
+				<anchored>
+					<to>dmg_frame</to>
+					<position>insidetopleft</position>
+					<offset>85,30</offset>
+				</anchored>
+				<sourcefields>
+					<maximum>damage.physical.max</maximum>
+					<overflow>damage.physical.overflow</overflow>
+					<current>damage.physical.current</current>
+				</sourcefields>
+				<rows> 20 </rows>				
+			</status_damagecounter>
 
+            <string_charattribute_label>
+                <anchored to="physicaldamage"/>
+                <static>Physical</static>
+            </string_charattribute_label>
+			
+		 <status_damagecounter name="stundamage">
+				<anchored>
+					<to>physicaldamage</to>
+					<position>below</position>
+					<offset>0,10</offset>
+				</anchored>
+				<sourcefields>
+					<maximum>damage.stun.max</maximum>
+					<current>damage.stun.current</current>
+				</sourcefields>
+				<rows>20</rows>
+			</status_damagecounter> 	
+
+            <string_charattribute_label>
+                <anchored to="stundamage"/>
+                <static>Stun</static>
+            </string_charattribute_label>
+			
+            <string_attribute_label name="painlabel">
+				<anchored to="physicaldamage">
+					<position>right</position>
+					<offset>10,0</offset>
+				</anchored>
+                <static>Pain Threshold</static>
+			</string_attribute_label>
+
+		 <checkbox_sr name="lpt">
+				<anchored to="painlabel" >
+					<position>right</position>
+					<offset>5,0</offset>
+				</anchored>		
+				<sourcefields>
+					<value>damage.painthreshold.low</value>
+				</sourcefields>				
+		</checkbox_sr>
+		
+		<label_fieldtop>
+            <anchored to="lpt" />
+            <static>Lo</static>
+        </label_fieldtop>
+			
+		<number_charattribute_base name="painignore" source="damage.painthreshold.tol">
+			<anchored to="painlabel" >
+				<position>right</position>
+				<offset>35,0</offset>
+			</anchored>	
+		</number_charattribute_base>
+
+		<label_fieldtop>
+            <anchored to="painignore" />
+            <static>Ignore</static>
+        </label_fieldtop>
+		
+		
+		<string_attribute_label name="woundpenaltylabel">
+			<anchored to="stundamage">
+				<position>right</position>
+				<offset>10,0</offset>
+			</anchored>
+			<static>Wound Penalty</static>
+		</string_attribute_label>
+		
+		<status_damagepenalty  name="damage_penalty" source="damage.penalty">
+			<anchored to="woundpenaltylabel" >
+				<position>right</position>
+				<offset>35,0</offset>
+			</anchored>			
+		</status_damagepenalty>
+			
 		</sheetdata>
+		
+		
 		
 	</windowclass>	
 </root>

@@ -138,7 +138,6 @@
                     local msg = "[INIT] " .. iLabel;
                     local nWoundPen = DB.getValue(nodeWin, "damage.penalty");
                     local rActor = ActorManager.getActor("npc", window.getDatabaseNode());
-                    local nWoundPen = 0;
 					
                     local tDice = {};
 					if nWoundPen &lt; 0 then
@@ -167,7 +166,6 @@
                     local nWoundPen = DB.getValue(nodeWin, "damage.penalty");
                     local rActor = ActorManager.getActor("npc", window.getDatabaseNode());
 					local msg = "[INIT] " .. iLabel;
-                    local nWoundPen = 0;
 					
                     local tDice = {};
 					if nWoundPen &lt; 0 then
@@ -238,14 +236,24 @@
 				local nDice = DB.getValue(nodeWin, 
                             "npcattributes." .. target[1] .. ".score");
 				
+				local modDesc, modStack = ModifierStack.getStack(true);
+				nDice = nDice + modStack;
 				local label = target[1]:sub(1,1):upper()..target[1]:sub(2);
+				local nWoundPen = DB.getValue(nodeWin, "damage.penalty");
+				wpmsg = ""
+				if nWoundPen &lt; 0 and label ~= "Soak" then
+					wpmsg = " (Wound Penalty: "..nWoundPen..") ";
+					nDice = nDice + nWoundPen;
+				end
+				
+				
 				nDice = math.max(nDice,1);
 				tDice = {};
 				if nDice > 0 then
 					for i = 1, nDice do
 						table.insert (tDice, "d6");
 					end
-					local msg = "[NPC Attribute]".. label
+					local msg = "[NPC Attribute]".. label .. wpmsg
 					local rRoll = { sType = "dicepool", sDesc = msg, aDice = tDice, nMod = 0, bSecret=true};
 					ActionsManager.performAction(draginfo, nil, rRoll);
 				else
