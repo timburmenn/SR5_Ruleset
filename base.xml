@@ -12,7 +12,7 @@
 		<website>http://www.fantasygrounds.com</website>
 	</description>
     
-    	<!-- Generate this ruleset from the coreRPG etst text-->
+    	<!-- Generate this ruleset from the coreRPG -->
     		<importruleset source="CoreRPG" />
     
     	<!-- switch off the wrong dice -->
