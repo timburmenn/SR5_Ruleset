@@ -10,7 +10,7 @@
                 offset="0,9" 
                 width="24" 
                 height="18" />
-			<default>1</default>
+			<default>0</default>
 		</basicnumber>
 	</template>
     
@@ -110,6 +110,7 @@
             <script>
             function onSourceUpdate()
                 local nodeWin = window.getDatabaseNode();
+				print(nodeWin);
                 local nScoreOne = DB.getValue(nodeWin, "attributes." .. source_one[1] .. ".score",1);
                 local nScoreTwo = DB.getValue(nodeWin, "attributes." .. source_two[1] .. ".score",1);
                 local nMod = DB.getValue(nodeWin, "initiative." .. target[1] .. ".temp",0);
@@ -192,6 +193,251 @@
             function onDoubleClick(x,y)
                 return action();
             end
+            </script>
+        </number_chartotal>
+    </template>
+    <!-- Permanent modifier for defense score -->
+    <template name="number_chardefense_permmod">
+        <basicnumber>
+            <anchored position="insidetopleft"
+                offset="0,24"
+                width="24" />
+            <default>0</default>
+        </basicnumber>
+    </template>
+    
+    <!-- Temporary modifier for defense score -->
+    <template name="number_chardefense_tempmod">
+        <basicnumber>
+            <anchored position="right"
+                offset="10,0"
+                width="24" />
+            <default>0</default>
+            <hideonvalue value="0" />
+        </basicnumber>
+    </template>
+	<template name="number_charsoak_score">
+        <number_chartotal>
+            <anchored position="right"
+                offset="12,0"
+                width="24" />
+            <rollable />
+			<script>
+            function onSourceUpdate()
+                local nodeWin = window.getDatabaseNode();
+					local nBody = DB.getValue(nodeWin, "attributes.body.score", 0);
+					local nAugs = DB.getValue(nodeWin, "attributes." .. target[1] .. ".augs", 0);
+					local nTemp = DB.getValue(nodeWin, "attributes." .. target[1] .. ".temp", 0);
+					local nCurrent = nBody + nAugs + nTemp;
+				setValue(nCurrent);
+            end
+            
+            function onInit()
+				sLabel = target[1];
+                addSource("attributes.body.score");
+				addSource("attributes." .. target[1] .. ".augs");
+                addSource("attributes." .. target[1] .. ".temp");
+                
+                super.onInit();
+            end
+            
+            function action(draginfo)
+				local nodeWin = window.getDatabaseNode();
+				local nDice = DB.getValue(nodeWin, 
+                            "attributes." .. target[1] .. ".score");
+				local modDesc, modStack = ModifierStack.getStack(true);
+				nDice = nDice + modStack;
+				local label = target[1]:sub(1,1):upper()..target[1]:sub(2);
+				local nWoundPen = DB.getValue(nodeWin, "damage.penalty");
+				wpmsg = ""
+				if nWoundPen &lt; 0 and label ~= "Soak" then
+					wpmsg = " (Wound Penalty: "..nWoundPen..") ";
+					nDice = nDice + nWoundPen;
+				end
+				
+				nDice = math.max(nDice,1);
+				tDice = {};
+				if nDice > 0 then
+					for i = 1, nDice do
+						table.insert (tDice, "d6");
+					end
+					local msg = "[Attribute] ".. label
+					if modDesc ~= "" then
+						msg = msg .. " (" .. modDesc .. ")"
+					end
+					msg = msg .. wpmsg;
+					local rRoll = { sType = "dicepool", sDesc = msg, aDice = tDice, nMod = 0 };
+					ActionsManager.performAction(draginfo, nil, rRoll);
+				else
+					local rRoll = { sType = "dicepool", sDesc = label, aDice = tDice, nMod = 0 };
+					ActionsManager.performAction(draginfo, nil, rRoll);
+				end
+				return true;
+            end
+            
+            function onDragStart(button, x, y, draginfo)
+                return action(draginfo);
+            end
+            
+            function onDoubleClick(x,y)
+                return action();
+            end
+			
+			function onDrop(x, y, draginfo)
+				return action(draginfo);
+			end
+            </script>
+        </number_chartotal>
+    </template>
+	
+	<template name="number_chardefense_score">
+        <number_chartotal>
+            <anchored position="right"
+                offset="12,0"
+                width="24" />
+            <rollable />
+			<script>
+            function onSourceUpdate()
+                local nodeWin = window.getDatabaseNode();
+					local nReaction = DB.getValue(nodeWin, "attributes.reaction.score", 0);
+					local nIntuition = DB.getValue(nodeWin, "attributes.intuition.score", 0);
+					local nAugs = DB.getValue(nodeWin, "attributes." .. target[1] .. ".augs", 0);
+					local nTemp = DB.getValue(nodeWin, "attributes." .. target[1] .. ".temp", 0);
+					local nCurrent = nReaction + nIntuition + nAugs + nTemp;
+				setValue(nCurrent);
+            end
+            
+            function onInit()
+				sLabel = target[1];
+                addSource("attributes.reaction.score");
+                addSource("attributes.intuition.score");
+				addSource("attributes." .. target[1] .. ".augs");
+                addSource("attributes." .. target[1] .. ".temp");
+                
+                super.onInit();
+            end
+            
+            function action(draginfo)
+				local nodeWin = window.getDatabaseNode();
+				local nDice = DB.getValue(nodeWin, 
+                            "attributes." .. target[1] .. ".score");
+				local modDesc, modStack = ModifierStack.getStack(true);
+				nDice = nDice + modStack;
+				local label = target[1]:sub(1,1):upper()..target[1]:sub(2);
+				local nWoundPen = DB.getValue(nodeWin, "damage.penalty");
+				wpmsg = ""
+				if nWoundPen &lt; 0 and label ~= "Soak" then
+					wpmsg = " (Wound Penalty: "..nWoundPen..") ";
+					nDice = nDice + nWoundPen;
+				end
+				
+				nDice = math.max(nDice,1);
+				tDice = {};
+				if nDice > 0 then
+					for i = 1, nDice do
+						table.insert (tDice, "d6");
+					end
+					local msg = "[Attribute] ".. label
+					if modDesc ~= "" then
+						msg = msg .. " (" .. modDesc .. ")"
+					end
+					msg = msg .. wpmsg;
+					local rRoll = { sType = "dicepool", sDesc = msg, aDice = tDice, nMod = 0 };
+					ActionsManager.performAction(draginfo, nil, rRoll);
+				else
+					local rRoll = { sType = "dicepool", sDesc = label, aDice = tDice, nMod = 0 };
+					ActionsManager.performAction(draginfo, nil, rRoll);
+				end
+				return true;
+            end
+            
+            function onDragStart(button, x, y, draginfo)
+                return action(draginfo);
+            end
+            
+            function onDoubleClick(x,y)
+                return action();
+            end
+			
+			function onDrop(x, y, draginfo)
+				return action(draginfo);
+			end
+            </script>
+        </number_chartotal>
+    </template>
+	
+	<template name="number_charsurprise_score">
+        <number_chartotal>
+            <anchored position="right"
+                offset="12,0"
+                width="24" />
+            <rollable />
+			<script>
+            function onSourceUpdate()
+                local nodeWin = window.getDatabaseNode();
+                local nReaction = DB.getValue(nodeWin, "attributes.reaction.score", 0);
+                local nIntuition = DB.getValue(nodeWin, "attributes.intuition.score", 0);
+				local nAugs = DB.getValue(nodeWin, "attributes." .. target[1] .. ".augs", 0);
+                local nTemp = DB.getValue(nodeWin, "attributes." .. target[1] .. ".temp", 0);
+                local nCurrent = nReaction + nIntuition + nAugs + nTemp;
+                setValue(nCurrent);
+            end
+            
+            function onInit()
+				sLabel = target[1];
+                addSource("attributes.reaction.score");
+                addSource("attributes.intuition.score");
+				addSource("attributes." .. target[1] .. ".augs");
+                addSource("attributes." .. target[1] .. ".temp");
+                
+                super.onInit();
+            end
+            
+            function action(draginfo)
+				local nodeWin = window.getDatabaseNode();
+				local nDice = DB.getValue(nodeWin, 
+                            "attributes." .. target[1] .. ".score");
+				local modDesc, modStack = ModifierStack.getStack(true);
+				nDice = nDice + modStack;
+				local label = target[1]:sub(1,1):upper()..target[1]:sub(2);
+				local nWoundPen = DB.getValue(nodeWin, "damage.penalty");
+				wpmsg = ""
+				if nWoundPen &lt; 0 and label ~= "Soak" then
+					wpmsg = " (Wound Penalty: "..nWoundPen..") ";
+					nDice = nDice + nWoundPen;
+				end
+				
+				nDice = math.max(nDice,1);
+				tDice = {};
+				if nDice > 0 then
+					for i = 1, nDice do
+						table.insert (tDice, "d6");
+					end
+					local msg = "[Attribute] ".. label
+					if modDesc ~= "" then
+						msg = msg .. " (" .. modDesc .. ")"
+					end
+					msg = msg .. wpmsg;
+					local rRoll = { sType = "dicepool", sDesc = msg, aDice = tDice, nMod = 0 };
+					ActionsManager.performAction(draginfo, nil, rRoll);
+				else
+					local rRoll = { sType = "dicepool", sDesc = label, aDice = tDice, nMod = 0 };
+					ActionsManager.performAction(draginfo, nil, rRoll);
+				end
+				return true;
+            end
+            
+            function onDragStart(button, x, y, draginfo)
+                return action(draginfo);
+            end
+            
+            function onDoubleClick(x,y)
+                return action();
+            end
+			
+			function onDrop(x, y, draginfo)
+				return action(draginfo);
+			end
             </script>
         </number_chartotal>
     </template>
@@ -629,9 +875,6 @@
 	
 	<template name="status_damagepenalty">
 			<number_chartotal>
-            <anchored position="insidetopleft"
-                offset="35,0"
-                width="24" />
             <default>0</default>
             <script>
 				function onInit()

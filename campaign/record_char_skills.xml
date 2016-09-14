@@ -453,7 +453,7 @@
 							local a = DB.getValue(attr_node,attr_nodename,0)
 							window.getDatabaseNode().getChild("dice_pool").setValue(a+skill_rating+skill_mod);
 						else
-							window.getDatabaseNode().getChild("dice_pool").setValue(skill_ratings+skill_mod)
+							window.getDatabaseNode().getChild("dice_pool").setValue(skill_rating+skill_mod)
 						end
 					end
 				</script>			

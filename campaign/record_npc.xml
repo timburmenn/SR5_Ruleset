@@ -9,7 +9,7 @@
 	<windowclass name="npc">
 		<frame>recordsheet</frame>
 		<placement>
-			<size width="600" height="550" />
+			<size width="400" height="325" />
 		</placement>
 		<sizelimits>
 			<minimum width="350" height="300" />
@@ -55,7 +55,6 @@
 				<empty textres="ft_empty" />
 				<invisible />
 			</ft_record>
-				
 
 			<scrollbar_record>
 				<target>main</target>
@@ -139,13 +138,236 @@
 	</windowclass>
 	
 	<windowclass name="npc_main">
-		<margins control="0,0,0,2" />
-		<sheetdata>	
-		<anchor_column name="columnanchor" />
-		<frame_char name="att_frame">
+	<margins control="0,0,0,2" />
+	<sheetdata>
+	<anchor_column name="columnanchor" />
+	
+		<frame_char name="CombatRolls">
 				<anchored to="columnanchor" 
                     position="insidetopleft" 
                     offset="0,10"
+					height="95" 
+                    width="220" />
+		</frame_char>
+			
+		<label_frametop>
+			<anchored to="CombatRolls" />
+            <static>Combat Rolls</static>
+		</label_frametop>
+		
+		<!-- Defense roll -->           
+            <number_chardefense_score name="defense"
+                source="npcattributes.defense.score">
+                <anchored to="CombatRolls"
+				position="insidetopleft"
+				offset = "75,45"
+				/>
+                <description text="defense final score" />
+                <target>defense</target>
+                <alabel>defense</alabel>
+                <tooltip>
+                    <text>Current defense score</text>
+                </tooltip>
+            </number_chardefense_score>
+		<!-- Soak roll -->
+            <number_charsoak_score name="soak"
+                source="npcattributes.soak.score">
+                <anchored to="defense" />
+                <description text="soak final score" />
+                <target>soak</target>
+                <alabel>soak</alabel>
+                <tooltip>
+                    <text>Current soak score</text>
+                </tooltip>
+            </number_charsoak_score>
+			
+		<!-- surprise roll -->           
+            <number_charattribute_score name="surprise"
+                source="npcattributes.surprise.score">
+                <anchored 
+				to = "soak"
+				position="right"
+                offset="12,0"
+                width="24" />
+                <description text="surprise final score" />
+                <target>surprise</target>
+                <alabel>surprise</alabel>
+                <tooltip>
+                    <text>Current surprise score</text>
+                </tooltip>
+            </number_charattribute_score>
+		<!-- Combat: Final Initiative Score -->
+        <number_npcinitiative_score name="initiative"
+                source="initiative.combat.score">
+            <anchored to="surprise" />
+            <target>combat</target>
+            <source_one>reaction</source_one>
+            <source_two>intuition</source_two>
+            <alabel>Combat Initiative</alabel>
+            <tooltip>
+                <text>The final resulting combat initiative score</text>
+            </tooltip>
+        </number_npcinitiative_score>
+		
+		<!-- Combat: Temp modifier: wounds e.g. -->
+        <basicnumber name="combat_init_tempmod"
+                source="initiative.combat.temp">
+            <anchored to="initiative"
+			position="below"
+			offset = "0,5"
+				/>
+            <target>combat</target>
+            <tooltip>
+                <text>Temporary modifier of the combat initiative</text>
+            </tooltip>
+        </basicnumber>
+		
+		<basicnumber name="surprise_tempmod"
+			source="npcattributes.surprise.temp">
+			<anchored to="surprise"
+			position="below"
+			offset = "0,5"
+				/>
+			<target>surprise</target>
+			<description text="surprise temporary modifier" />
+			<tooltip>
+				<text>Temporary modifiers to the surprise score</text>
+			</tooltip>
+		</basicnumber>
+		
+		<basicnumber name="soak_tempmod"
+			source="npcattributes.soak.temp">
+			<anchored to="soak"
+			position="below"
+			offset = "0,5"
+				/>
+			<target>soak</target>
+			<description text="soak temporary modifier" />
+			<tooltip>
+				<text>Temporary modifiers to the soak score</text>
+			</tooltip>
+		</basicnumber>
+		
+		<basicnumber name="defense_tempmod"
+			source="npcattributes.defense.temp">
+			<anchored to="defense"
+			position="below"
+			offset = "0,5"
+				/>
+			<target>defense</target>
+			<description text="defense temporary modifier" />
+			<tooltip>
+				<text>Temporary modifiers to the defense score</text>
+			</tooltip>
+		</basicnumber>
+
+		<string_charattribute_label>
+			<anchored to="defense"/>
+			<static>Rolls</static>
+        </string_charattribute_label>
+		
+		<string_charattribute_label>
+			<anchored to="defense_tempmod"/>
+			<static>Modifiers</static>
+        </string_charattribute_label>
+		
+		<!-- Headers for the columns -->
+        <label_fieldtop>
+            <anchored to="defense" />
+            <static>Def</static>
+        </label_fieldtop>
+        <label_fieldtop>
+            <anchored to="soak" />
+            <static>Soak</static>
+        </label_fieldtop>
+        <label_fieldtop>
+            <anchored to="surprise" />
+            <static>Sur</static>
+        </label_fieldtop>
+        <label_fieldtop>
+            <anchored to="initiative" />
+            <static>Ini</static>
+        </label_fieldtop>
+		<!-- Field Damage taken -->
+		<frame_char name="dmg_frame">
+			<anchored to="CombatRolls" 
+                position="belowleft" 
+                offset="0,10"
+					height="110" 
+                    width="300" />
+		</frame_char>
+		
+		<genericcontrol name="rightanchor">
+			<anchored to="dmg_frame" width="0" height="0">
+				<top offset="10" />
+				<right offset="-20" />
+			</anchored>
+			<invisible />
+		</genericcontrol>
+
+		<label_frametop>
+			<anchored to="dmg_frame" />
+            <static>Damage</static>
+		</label_frametop>
+		 
+		 <status_damagecounter name="physicaldamage">
+			<anchored>
+				<to>dmg_frame</to>
+				<position>insidetopleft</position>
+				<offset>85,30</offset>
+			</anchored>
+			<sourcefields>
+				<maximum>damage.physical.max</maximum>
+				<overflow>damage.physical.overflow</overflow>
+				<current>damage.physical.current</current>
+			</sourcefields>
+			<rows> 20 </rows>				
+		</status_damagecounter>
+
+        <string_charattribute_label>
+			<anchored to="physicaldamage"/>
+			<static>Physical</static>
+        </string_charattribute_label>
+			
+		 <status_damagecounter name="stundamage">
+			<anchored>
+				<to>physicaldamage</to>
+				<position>below</position>
+				<offset>0,5</offset>
+			</anchored>
+			<sourcefields>
+				<maximum>damage.stun.max</maximum>
+				<current>damage.stun.current</current>
+			</sourcefields>
+			<rows>20</rows>
+		</status_damagecounter> 	
+
+        <string_charattribute_label>
+            <anchored to="stundamage"/>
+            <static>Stun</static>
+        </string_charattribute_label>
+		
+		<status_damagepenalty  name="damage_penalty" source="damage.penalty">
+			<anchored>
+				<to>stundamage</to>
+				<position>belowleft</position>
+				<offset>0,0,0,0</offset>
+			</anchored>			
+		</status_damagepenalty>
+		
+		<string_attribute_label name="woundpenaltylabel">
+			<anchored 
+				to ="damage_penalty"
+				position="left"                  
+				width="65" 
+                height="18"/>
+			<static>w-pen</static>
+		</string_attribute_label>
+	<!-- Attributes -->
+		<frame_char name="att_frame">
+				<anchored to="dmg_frame" 
+                position="belowleft" 
+                offset="0,10"
 					height="250" 
                     width="220" />
 		</frame_char>
@@ -601,436 +823,11 @@
             <label_fieldtop>
 				<anchored to="body" />
 				<static>Score</static>
-			</label_fieldtop>	
-<!-- Field
-        Initiative Scores
-         -->
-         <frame_char name="init_frame">
-            <anchored to="att_frame" 
-                position="right" 
-                offset="1,0" 
-                width="260" />
-         </frame_char>
-         
-         <!-- 
-         Real Combat Initiative 
-         -->
-        <!-- Combat: Permanent modifier: Augmentations -->
-        <number_npcinitiative_permmod name="combat_init_augs"
-                source="initiative.combat.augs">
-            <anchored to="init_frame" 
-                position="insidetopleft"
-                offset="115,27" />
-            <target>combat</target> 
-            <tooltip>
-                <text>Augmentations to the combat initiative score</text>
-            </tooltip>
-        </number_npcinitiative_permmod>
-        
-        <!-- Combat: Label -->
-        <string_attribute_label>
-            <anchored to="combat_init_augs" />
-            <static>Initiative</static>
-        </string_attribute_label>
-            
-        <!-- Combat: Temp modifier: wounds e.g. -->
-        <number_npcinitiative_tempmod name="combat_init_tempmod"
-                source="initiative.combat.temp">
-            <anchored to="combat_init_augs"/>
-            <target>combat</target>
-            <tooltip>
-                <text>Temporary modifier of the combat initiative</text>
-            </tooltip>
-        </number_npcinitiative_tempmod>
-        
-        <!-- Combat: Final Initiative Score -->
-        <number_npcinitiative_score name="combat_init_score"
-                source="initiative.combat.score">
-            <anchored to="combat_init_tempmod" />
-            <target>combat</target>
-            <source_one>reaction</source_one>
-            <source_two>intuition</source_two>
-            <alabel>Combat Initiative</alabel>
-            <tooltip>
-                <text>The final resulting combat initiative score</text>
-            </tooltip>
-        </number_npcinitiative_score>
-        
-        <!-- Combat: Number of dice -->
-        <number_npcinitiative_mult name="combat_init_mult"
-                source="initiative.combat.mult">
-            <anchored to="combat_init_score" />
-            <target>combat</target>
-            <tooltip>
-                <text>The number of dice used to roll initiative</text>
-            </tooltip>
-        </number_npcinitiative_mult>
-        
-        <!-- Headers for the columns -->
-        <label_fieldtop>
-            <anchored to="combat_init_augs" />
-            <static>Augs</static>
-        </label_fieldtop>
-        <label_fieldtop>
-            <anchored to="combat_init_tempmod" />
-            <static>Tmp</static>
-        </label_fieldtop>
-        <label_fieldtop>
-            <anchored to="combat_init_score" />
-            <static>Total</static>
-        </label_fieldtop>
-        <label_fieldtop>
-            <anchored to="combat_init_mult" />
-            <static>Dice</static>
-        </label_fieldtop>
-		
-				<!-- Defense roll -->
-            <number_npcattribute_base name="defense_base"
-			source="npcattributes.defense.base">
-            <anchored to="init_frame" 
-                position="insidetopleft"
-                offset="115,67" />
-				<target>defense</target>
-                <description text="Defense base score" />
-                <tooltip>
-                    <text>The base defense score</text>
-                </tooltip>
-            </number_npcattribute_base>
-            
-		<string_attribute_label>
-            <anchored to="defense_base" />
-            <static>Defense</static>
-        </string_attribute_label>
-           
-            <number_npcattribute_permmod name="defense_augs"
-                source="npcattributes.defense.augs">
-                <anchored to="defense_base" />
-                <target>defense</target> 
-                <description text="defense augmentations" />
-                <tooltip>
-                    <text>Augmentations to the defense score</text>
-                </tooltip>
-            </number_npcattribute_permmod>
-            
-            <number_npcattribute_tempmod name="defense_tempmod"
-                source="npcattributes.defense.temp">
-                <anchored to="defense_base"/>
-                <target>defense</target>
-                <description text="defense temporary modifier" />
-                <tooltip>
-                    <text>Temporary modifiers to the defense score</text>
-                </tooltip>
-            </number_npcattribute_tempmod>
-            
-            <number_npcattribute_score name="defense"
-                source="npcattributes.defense.score">
-                <anchored to="defense_base" />
-                <description text="defense final score" />
-                <target>defense</target>
-                <alabel>defense</alabel>
-                <tooltip>
-                    <text>Current defense score</text>
-                </tooltip>
-            </number_npcattribute_score>
-			<!-- Soak roll -->
-            <number_npcattribute_base name="soak_base"
-			source="npcattributes.soak.base">
-            <anchored to="init_frame" 
-                position="insidetopleft"
-                offset="115,97" />
-				<target>soak</target>
-                <description text="Soak base score" />
-                <tooltip>
-                    <text>The base soak score</text>
-                </tooltip>
-            </number_npcattribute_base>
-            			
-		<string_attribute_label>
-            <anchored to="soak_base" />
-            <static>Soak</static>
-        </string_attribute_label>
-           
-            <number_npcattribute_permmod name="soak_augs"
-                source="npcattributes.soak.augs">
-                <anchored to="soak_base" />
-                <target>soak</target> 
-                <description text="soak augmentations" />
-                <tooltip>
-                    <text>Augmentations to the soak score</text>
-                </tooltip>
-            </number_npcattribute_permmod>
-            
-            <number_npcattribute_tempmod name="soak_tempmod"
-                source="npcattributes.soak.temp">
-                <anchored to="soak_base"/>
-                <target>soak</target>
-                <description text="soak temporary modifier" />
-                <tooltip>
-                    <text>Temporary modifiers to the soak score</text>
-                </tooltip>
-            </number_npcattribute_tempmod>
-            
-            <number_npcattribute_score name="soak"
-                source="npcattributes.soak.score">
-                <anchored to="soak_base" />
-                <description text="soak final score" />
-                <target>soak</target>
-                <alabel>soak</alabel>
-                <tooltip>
-                    <text>Current soak score</text>
-                </tooltip>
-            </number_npcattribute_score>
-		<!-- 14 +/- 4 roll 1 -->
-            <number_npcattribute_base name="roll1_base"
-			source="npcattributes.roll1.base">
-            <anchored to="init_frame" 
-                position="insidetopleft"
-                offset="115,127" />
-				<target>roll1</target>
-                <description text="roll1 base score" />
-                <tooltip>
-                    <text>The base roll1 score</text>
-                </tooltip>
-            </number_npcattribute_base>
-            			
-		<string_attribute_label>
-            <anchored to="roll1_base" />
-            <static>roll1</static>
-        </string_attribute_label>
-           
-            <number_npcattribute_permmod name="roll1_augs"
-                source="npcattributes.roll1.augs">
-                <anchored to="roll1_base" />
-                <target>roll1</target> 
-                <description text="roll1 augmentations" />
-                <tooltip>
-                    <text>Augmentations to the roll1 score</text>
-                </tooltip>
-            </number_npcattribute_permmod>
-            
-            <number_npcattribute_tempmod name="roll1_tempmod"
-                source="npcattributes.roll1.temp">
-                <anchored to="roll1_base"/>
-                <target>roll1</target>
-                <description text="roll1 temporary modifier" />
-                <tooltip>
-                    <text>Temporary modifiers to the roll1 score</text>
-                </tooltip>
-            </number_npcattribute_tempmod>
-            
-            <number_npcattribute_score name="roll1"
-                source="npcattributes.roll1.score">
-                <anchored to="roll1_base" />
-                <description text="roll1 final score" />
-                <target>roll1</target>
-                <alabel>roll1</alabel>
-                <tooltip>
-                    <text>Current roll1 score</text>
-                </tooltip>
-            </number_npcattribute_score>
+			</label_fieldtop>
 			
-			<!-- 14 +/- 4 roll 2 -->
-            <number_npcattribute_base name="roll2_base"
-			source="npcattributes.roll2.base">
-            <anchored to="init_frame" 
-                position="insidetopleft"
-                offset="115,157" />
-				<target>roll2</target>
-                <description text="roll2 base score" />
-                <tooltip>
-                    <text>The base roll2 score</text>
-                </tooltip>
-            </number_npcattribute_base>
-            			
-		<string_attribute_label>
-            <anchored to="roll2_base" />
-            <static>roll2</static>
-        </string_attribute_label>
-           
-            <number_npcattribute_permmod name="roll2_augs"
-                source="npcattributes.roll2.augs">
-                <anchored to="roll2_base" />
-                <target>roll2</target> 
-                <description text="roll2 augmentations" />
-                <tooltip>
-                    <text>Augmentations to the roll2 score</text>
-                </tooltip>
-            </number_npcattribute_permmod>
-            
-            <number_npcattribute_tempmod name="roll2_tempmod"
-                source="npcattributes.roll2.temp">
-                <anchored to="roll2_base"/>
-                <target>roll2</target>
-                <description text="roll2 temporary modifier" />
-                <tooltip>
-                    <text>Temporary modifiers to the roll2 score</text>
-                </tooltip>
-            </number_npcattribute_tempmod>
-            
-            <number_npcattribute_score name="roll2"
-                source="npcattributes.roll2.score">
-                <anchored to="roll2_base" />
-                <description text="roll2 final score" />
-                <target>roll2</target>
-                <alabel>roll2</alabel>
-                <tooltip>
-                    <text>Current roll2 score</text>
-                </tooltip>
-            </number_npcattribute_score>
-	
-			<!-- 14 +/- 4 roll 3 -->
-            <number_npcattribute_base name="roll3_base"
-			source="npcattributes.roll3.base">
-            <anchored to="init_frame" 
-                position="insidetopleft"
-                offset="115,187" />
-				<target>roll3</target>
-                <description text="roll3 base score" />
-                <tooltip>
-                    <text>The base roll3 score</text>
-                </tooltip>
-            </number_npcattribute_base>
-            			
-		<string_attribute_label>
-            <anchored to="roll3_base" />
-            <static>Roll3</static>
-        </string_attribute_label>
-           
-            <number_npcattribute_permmod name="roll3_augs"
-                source="npcattributes.roll3.augs">
-                <anchored to="roll3_base" />
-                <target>roll3</target> 
-                <description text="roll3 augmentations" />
-                <tooltip>
-                    <text>Augmentations to the roll3 score</text>
-                </tooltip>
-            </number_npcattribute_permmod>
-            
-            <number_npcattribute_tempmod name="roll3_tempmod"
-                source="npcattributes.roll3.temp">
-                <anchored to="roll3_base"/>
-                <target>roll3</target>
-                <description text="roll3 temporary modifier" />
-                <tooltip>
-                    <text>Temporary modifiers to the roll3 score</text>
-                </tooltip>
-            </number_npcattribute_tempmod>
-            
-            <number_npcattribute_score name="roll3"
-                source="npcattributes.roll3.score">
-                <anchored to="roll3_base" />
-                <description text="roll3 final score" />
-                <target>roll3</target>
-                <alabel>roll3</alabel>
-                <tooltip>
-                    <text>Current roll3 score</text>
-                </tooltip>
-            </number_npcattribute_score>
-			
-		<!-- Field Damage taken -->
-         <frame_char name="dmg_frame">
-            <anchored to="att_frame" 
-                position="below" 
-                offset="0,10"
-                height="100" />
-         </frame_char>
-         
-         <label_frametop>
-			<anchored to="dmg_frame" />
-            <static>Damage</static>
-            </label_frametop>
-		 
-		 <status_damagecounter name="physicaldamage">
-				<anchored>
-					<to>dmg_frame</to>
-					<position>insidetopleft</position>
-					<offset>85,30</offset>
-				</anchored>
-				<sourcefields>
-					<maximum>damage.physical.max</maximum>
-					<overflow>damage.physical.overflow</overflow>
-					<current>damage.physical.current</current>
-				</sourcefields>
-				<rows> 20 </rows>				
-			</status_damagecounter>
 
-            <string_charattribute_label>
-                <anchored to="physicaldamage"/>
-                <static>Physical</static>
-            </string_charattribute_label>
 			
-		 <status_damagecounter name="stundamage">
-				<anchored>
-					<to>physicaldamage</to>
-					<position>below</position>
-					<offset>0,10</offset>
-				</anchored>
-				<sourcefields>
-					<maximum>damage.stun.max</maximum>
-					<current>damage.stun.current</current>
-				</sourcefields>
-				<rows>20</rows>
-			</status_damagecounter> 	
-
-            <string_charattribute_label>
-                <anchored to="stundamage"/>
-                <static>Stun</static>
-            </string_charattribute_label>
-			
-            <string_attribute_label name="painlabel">
-				<anchored to="physicaldamage">
-					<position>right</position>
-					<offset>10,0</offset>
-				</anchored>
-                <static>Pain Threshold</static>
-			</string_attribute_label>
-
-		 <checkbox_sr name="lpt">
-				<anchored to="painlabel" >
-					<position>right</position>
-					<offset>5,0</offset>
-				</anchored>		
-				<sourcefields>
-					<value>damage.painthreshold.low</value>
-				</sourcefields>				
-		</checkbox_sr>
-		
-		<label_fieldtop>
-            <anchored to="lpt" />
-            <static>Lo</static>
-        </label_fieldtop>
-			
-		<number_charattribute_base name="painignore" source="damage.painthreshold.tol">
-			<anchored to="painlabel" >
-				<position>right</position>
-				<offset>35,0</offset>
-			</anchored>	
-		</number_charattribute_base>
-
-		<label_fieldtop>
-            <anchored to="painignore" />
-            <static>Ignore</static>
-        </label_fieldtop>
-		
-		
-		<string_attribute_label name="woundpenaltylabel">
-			<anchored to="stundamage">
-				<position>right</position>
-				<offset>10,0</offset>
-			</anchored>
-			<static>Wound Penalty</static>
-		</string_attribute_label>
-		
-		<status_damagepenalty  name="damage_penalty" source="damage.penalty">
-			<anchored to="woundpenaltylabel" >
-				<position>right</position>
-				<offset>35,0</offset>
-			</anchored>			
-		</status_damagepenalty>
-			
-		</sheetdata>
-		
-		
+	</sheetdata>
 		
 	</windowclass>	
 </root>
