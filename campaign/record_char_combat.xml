@@ -237,8 +237,8 @@
 				<anchored to="weaponframe">
 					<left offset="10" />
 					<top offset="55" />
-					<right offset="0" />
-					<bottom offset="-15" />
+					<right offset="-17" />
+					<bottom offset="-10" />
 				</anchored>
 			</list_charweapon>
 			<scrollbar_list>
@@ -596,9 +596,9 @@
 			</char_weaponrating>
 
 			<string_textlistitem name="label">
-				<anchored to="attribute" width="205" height="20">
+				<anchored to="attribute" width="115" height="20">
 					<top offset="0"/>
-					<right parent="rightanchor" anchor="left" relation="relative" offset="-10" />
+					<right parent="rightanchor" anchor="left" relation="relative" offset="-15" />
 				</anchored>
 				<tabtarget next="bonus" />
 			</string_textlistitem>
