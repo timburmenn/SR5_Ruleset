@@ -9,7 +9,7 @@
 	<windowclass name="npc">
 		<frame>recordsheet</frame>
 		<placement>
-			<size width="400" height="325" />
+			<size width="425" height="325" />
 		</placement>
 		<sizelimits>
 			<minimum width="350" height="300" />
@@ -673,17 +673,174 @@
 				</anchored>
 			</status_damagepenalty>
 
-			<string_attribute_label name="woundpenaltylabel">
-				<anchored
-					to ="damage_penalty"
-					position="left"
-					width="65"
-									height="18"/>
-				<static>w-pen</static>
-			</string_attribute_label>
+<string_attribute_label name="woundpenaltylabel">
+	<anchored
+		to ="damage_penalty"
+		position="left"
+		width="65"
+		height="18"/>
+	<static>w-pen</static>
+</string_attribute_label>
+<!-- Field Initiative Scores -->
+ <frame_char name="init_frame">
+		<anchored to="att_frame"
+				position="right"
+				offset="1,0"
+				width="175"
+				height="175" />
+ </frame_char>
 
+<!--Real Combat Initiative -->
+<!-- Combat: Permanent modifier: Augmentations -->
+<number_npcinitiative_permmod name="combat_init_augs"
+				source="npcinitiative.combat.augs">
+		<anchored to="init_frame"
+				position="insidetopleft"
+				offset="30,27" />
+		<target>combat</target>
+		<tooltip>
+				<text>Augmentations to the initiative score</text>
+		</tooltip>
+</number_npcinitiative_permmod>
 
-	</sheetdata>
+<!-- Combat: Label -->
+<string_npcattribute_label>
+		<anchored to="combat_init_augs" />
+		<static>I</static>
+</string_npcattribute_label>
 
-	</windowclass>
+<!-- Combat: Temp modifier: wounds e.g. -->
+<number_npcinitiative_tempmod name="combat_init_tempmod"
+				source="npcinitiative.combat.temp">
+		<anchored to="combat_init_augs"/>
+		<target>combat</target>
+		<tooltip>
+				<text>Temporary modifier of the initiative</text>
+		</tooltip>
+</number_npcinitiative_tempmod>
+
+<!-- Combat: Final Initiative Score -->
+<number_npcinitiative_score name="combat_init_score"
+				source="npcinitiative.combat.score">
+		<anchored to="combat_init_tempmod" />
+		<target>combat</target>
+		<source_one>reaction</source_one>
+		<source_two>intuition</source_two>
+		<alabel>Initiative</alabel>
+		<tooltip>
+				<text>The final resulting initiative score</text>
+		</tooltip>
+</number_npcinitiative_score>
+
+<!-- Combat: Number of dice -->
+<number_npcinitiative_mult name="combat_init_mult"
+				source="npcinitiative.combat.mult">
+		<anchored to="combat_init_score" />
+		<target>combat</target>
+		<tooltip>
+				<text>The number of dice used to roll initiative</text>
+		</tooltip>
+</number_npcinitiative_mult>
+
+<!-- Headers for the columns -->
+<label_fieldtop>
+		<anchored to="combat_init_augs" />
+		<static>Augs</static>
+</label_fieldtop>
+<label_fieldtop>
+		<anchored to="combat_init_tempmod" />
+		<static>Tmp</static>
+</label_fieldtop>
+<label_fieldtop>
+		<anchored to="combat_init_score" />
+		<static>Total</static>
+</label_fieldtop>
+<label_fieldtop>
+		<anchored to="combat_init_mult" />
+		<static>Dice</static>
+</label_fieldtop>
+
+<!-- Defense roll, Source from reaction and intuition-->
+<number_npcdefense_permmod name="defense_augs"
+		source="npcattributes.defense.augs">
+		<anchored to="combat_init_augs"
+			position="insidetopleft"
+			offset = "0,25"
+			/>
+		<target>defense</target>
+		<description text="defense augmentations" />
+		<tooltip>
+<text>Augmentations to the defense score</text>
+		</tooltip>
+</number_npcdefense_permmod>
+
+<string_npcattribute_label>
+		<anchored to="defense_augs" />
+		<static>D</static>
+</string_npcattribute_label>
+
+<number_npcdefense_tempmod name="defense_tempmod"
+source="npcattributes.defense.temp">
+<anchored to="defense_augs"/>
+<target>defense</target>
+<description text="defense temporary modifier" />
+<tooltip>
+<text>Temporary modifiers to the defense score</text>
+</tooltip>
+</number_npcdefense_tempmod>
+
+<number_npcdefense_score name="defense"
+source="npcattributes.defense.score">
+<anchored to="defense_tempmod" />
+<description text="defense final score" />
+<target>defense</target>
+<alabel>defense</alabel>
+<tooltip>
+<text>Current defense score</text>
+</tooltip>
+</number_npcdefense_score>
+
+<!-- Soak-->
+<number_npcdefense_permmod name="soak_augs"
+		source="npcattributes.soak.augs">
+		<anchored to="defense_augs"
+position="insidetopleft"
+offset = "0,25"
+/>
+		<target>soak</target>
+		<description text="soak augmentations" />
+		<tooltip>
+			<text>Insert Armor Value here</text>
+		</tooltip>
+</number_npcdefense_permmod>
+
+<string_npcattribute_label>
+		<anchored to="soak_augs" />
+		<static>S</static>
+</string_npcattribute_label>
+
+<number_npcdefense_tempmod name="soak_tempmod"
+source="npcattributes.soak.temp">
+<anchored to="soak_augs"/>
+<target>soak</target>
+<description text="soak temporary modifier" />
+<tooltip>
+<text>Temporary modifiers to the soak score</text>
+</tooltip>
+</number_npcdefense_tempmod>
+
+<number_npcsoak_score name="soak"
+source="npcattributes.soak.score">
+<anchored to="soak_tempmod" />
+<description text="soak final score" />
+<target>soak</target>
+<alabel>soak</alabel>
+<tooltip>
+<text>Current soak score</text>
+</tooltip>
+</number_npcsoak_score>
+
+</sheetdata>
+
+</windowclass>
 </root>

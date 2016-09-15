@@ -112,8 +112,8 @@
                 local nodeWin = window.getDatabaseNode();
                 local nScoreOne = DB.getValue(nodeWin, "npcattributes." .. source_one[1] .. ".score",1);
                 local nScoreTwo = DB.getValue(nodeWin, "npcattributes." .. source_two[1] .. ".score",0);
-                local nMod = DB.getValue(nodeWin, "initiative." .. target[1] .. ".temp",0);
-                local nAugs = DB.getValue(nodeWin, "initiative." .. target[1] .. ".augs",0);
+                local nMod = DB.getValue(nodeWin, "npcinitiative." .. target[1] .. ".temp",0);
+                local nAugs = DB.getValue(nodeWin, "npcinitiative." .. target[1] .. ".augs",0);
                 local nCurrent = (nScoreOne + nScoreTwo) + nMod + nAugs;
                 setValue(nCurrent);
             end
@@ -121,8 +121,8 @@
             function onInit()
                 addSource("npcattributes." .. source_one[1] .. ".score");
                 addSource("npcattributes." .. source_two[1] .. ".score");
-                addSource("initiative." .. target[1] .. ".augs");
-                addSource("initiative." .. target[1] .. ".temp");
+                addSource("npcinitiative." .. target[1] .. ".augs");
+                addSource("npcinitiative." .. target[1] .. ".temp");
 
                 super.onInit();
             end
@@ -132,8 +132,8 @@
                 if nodeWin then
 					print("NodeWin OK");
                     local nTotal = DB.getValue(nodeWin,
-                            "initiative." .. target[1] .. ".score");
-                    local nMult = DB.getValue(nodeWin, "initiative." .. target[1] .. ".mult");
+                            "npcinitiative." .. target[1] .. ".score");
+                    local nMult = DB.getValue(nodeWin, "npcinitiative." .. target[1] .. ".mult");
                     local iLabel = self.alabel[1];
                     local msg = "[INIT] " .. iLabel;
                     local nWoundPen = DB.getValue(nodeWin, "damage.penalty");
@@ -159,8 +159,8 @@
                 if nodeWin then
 					print("NodeWin OK");
                     local nTotal = DB.getValue(nodeWin,
-                            "initiative." .. target[1] .. ".score");
-                    local nMult = DB.getValue(nodeWin, "initiative." .. target[1] .. ".mult");
+                            "npcinitiative." .. target[1] .. ".score");
+                    local nMult = DB.getValue(nodeWin, "npcinitiative." .. target[1] .. ".mult");
                     local iLabel = self.alabel[1];
                     local msg = "[INIT] " .. iLabel;
                     local nWoundPen = DB.getValue(nodeWin, "damage.penalty");
@@ -276,48 +276,6 @@
 			end
             </script>
 		</number_npctotal>
-	</template>
-
-	<template name="number_npcedge_score">
-		<basicnumber>
-            <rollable />
-            <script>
-            function onInit()
-                super.onInit();
-            end
-
-            function action(draginfo)
-				local nodeWin = window.getDatabaseNode();
-				local nDice = DB.getValue(nodeWin,
-                            "attributes.edge.max");
-				tDice = {};
-				if nDice > 0 then
-					for i = 1, nDice do
-						table.insert (tDice, "d6");
-					end
-					local msg = "[Push the Limit] "
-					local rRoll = { sType = "dicepool", sDesc = msg, aDice = tDice, nMod = 0 };
-					ActionsManager.performAction(draginfo, nil, rRoll);
-				else
-					local rRoll = { sType = "dicepool", sDesc = "Edge", aDice = tDice, nMod = 0 };
-					ActionsManager.performAction(draginfo, nil, rRoll);
-				end
-				return true;
-            end
-
-            function onDragStart(button, x, y, draginfo)
-                return action(draginfo);
-            end
-
-            function onDoubleClick(x,y)
-                return action();
-            end
-
-			function onDrop(x, y, draginfo)
-				return action(draginfo);
-			end
-            </script>
-		</basicnumber>
 	</template>
 
     <!-- label for our attributes -->
@@ -529,9 +487,9 @@
             <script>
 				function onSourceUpdate()
 					local nodeWin = window.getDatabaseNode();
-					local nScoreOne = DB.getValue(nodeWin, "attributes." .. source_one[1] .. ".score",1);
-					local nScoreTwo = DB.getValue(nodeWin, "attributes." .. source_two[1] .. ".score",1);
-					local nScoreThree = DB.getValue(nodeWin, "attributes." .. source_three[1] .. ".score",1);
+					local nScoreOne = DB.getValue(nodeWin, "npcattributes." .. source_one[1] .. ".score",1);
+					local nScoreTwo = DB.getValue(nodeWin, "npcattributes." .. source_two[1] .. ".score",1);
+					local nScoreThree = DB.getValue(nodeWin, "npcattributes." .. source_three[1] .. ".score",1);
 					print("Limits changed due to Stat"..source_three[1]);
 					if source_three[1] == "essence" then
 						print("Checking Essence");
@@ -542,9 +500,9 @@
 				end
 
 				function onInit()
-					addSource("attributes." .. source_one[1] .. ".score");
-					addSource("attributes." .. source_two[1] .. ".score");
-					addSource("attributes." .. source_three[1] .. ".score");
+					addSource("npcattributes." .. source_one[1] .. ".score");
+					addSource("npcattributes." .. source_two[1] .. ".score");
+					addSource("npcattributes." .. source_three[1] .. ".score");
 					super.onInit();
 				end
 
@@ -570,15 +528,15 @@
             <default>0</default>
             <script>
 				function onInit()
-					addSource("attributes.limits." .. target[1] .. ".base");
-					addSource("attributes.limits." .. target[1] .. ".augs");
+					addSource("npcattributes.limits." .. target[1] .. ".base");
+					addSource("npcattributes.limits." .. target[1] .. ".augs");
 					super.onInit();
 				end
 
 				function onSourceUpdate()
 					local nodeWin = window.getDatabaseNode();
-					local nBase = DB.getValue(nodeWin, "attributes.limits." .. target[1] .. ".base",1);
-					local nAugs = DB.getValue(nodeWin, "attributes.limits." .. target[1] .. ".augs",0);
+					local nBase = DB.getValue(nodeWin, "npcattributes.limits." .. target[1] .. ".base",1);
+					local nAugs = DB.getValue(nodeWin, "npcattributes.limits." .. target[1] .. ".augs",0);
 					local nCurrent = nBase + nAugs;
 					setValue(nCurrent);
 				end
@@ -586,15 +544,176 @@
 		</number_npctotal>
     </template>
 	<!--- Defense stuff starts --->
-    <template name="number_defense_base">
-		<basicnumber>
-			<anchored position="belowleft"
-                offset="0,9"
-                width="24"
-                height="18" />
+  <!-- Permanent modifier for defense score -->
+  <template name="number_npcdefense_permmod">
+      <basicnumber>
+          <anchored position="insidetopleft"
+              offset="0,24"
+              width="24" />
+          <default>0</default>
+      </basicnumber>
+  </template>
 
-		</basicnumber>
-	</template>
+  <!-- Temporary modifier for defense score -->
+  <template name="number_npcdefense_tempmod">
+      <basicnumber>
+          <anchored position="right"
+              offset="10,0"
+              width="24" />
+          <default>0</default>
+          <hideonvalue value="0" />
+      </basicnumber>
+  </template>
+<template name="number_npcsoak_score">
+      <number_chartotal>
+          <anchored position="right"
+              offset="12,0"
+              width="24" />
+          <rollable />
+    <script>
+          function onSourceUpdate()
+              local nodeWin = window.getDatabaseNode();
+        local nBody = DB.getValue(nodeWin, "npcattributes.body.score", 0);
+        local nAugs = DB.getValue(nodeWin, "npcattributes." .. target[1] .. ".augs", 0);
+        local nTemp = DB.getValue(nodeWin, "npcattributes." .. target[1] .. ".temp", 0);
+        local nCurrent = nBody + nAugs + nTemp;
+      setValue(nCurrent);
+          end
+
+          function onInit()
+      sLabel = target[1];
+              addSource("npcattributes.body.score");
+              addSource("npcattributes." .. target[1] .. ".augs");
+              addSource("npcattributes." .. target[1] .. ".temp");
+
+              super.onInit();
+          end
+
+          function action(draginfo)
+      local nodeWin = window.getDatabaseNode();
+      local nDice = DB.getValue(nodeWin,
+                          "npcattributes." .. target[1] .. ".score");
+      local modDesc, modStack = ModifierStack.getStack(true);
+      nDice = nDice + modStack;
+      local label = target[1]:sub(1,1):upper()..target[1]:sub(2);
+      local nWoundPen = DB.getValue(nodeWin, "damage.penalty");
+      wpmsg = ""
+      if nWoundPen &lt; 0 and label ~= "Soak" then
+        wpmsg = " (Wound Penalty: "..nWoundPen..") ";
+        nDice = nDice + nWoundPen;
+      end
+
+      nDice = math.max(nDice,1);
+      tDice = {};
+      if nDice > 0 then
+        for i = 1, nDice do
+          table.insert (tDice, "d6");
+        end
+        local msg = "[npcAttribute] ".. label
+        if modDesc ~= "" then
+          msg = msg .. " (" .. modDesc .. ")"
+        end
+        msg = msg .. wpmsg;
+        local rRoll = { sType = "dicepool", sDesc = msg, aDice = tDice, nMod = 0 };
+        ActionsManager.performAction(draginfo, nil, rRoll);
+      else
+        local rRoll = { sType = "dicepool", sDesc = label, aDice = tDice, nMod = 0 };
+        ActionsManager.performAction(draginfo, nil, rRoll);
+      end
+      return true;
+          end
+
+          function onDragStart(button, x, y, draginfo)
+              return action(draginfo);
+          end
+
+          function onDoubleClick(x,y)
+              return action();
+          end
+
+    function onDrop(x, y, draginfo)
+      return action(draginfo);
+    end
+          </script>
+      </number_chartotal>
+  </template>
+
+<template name="number_npcdefense_score">
+      <number_chartotal>
+          <anchored position="right"
+              offset="12,0"
+              width="24" />
+          <rollable />
+    <script>
+          function onSourceUpdate()
+              local nodeWin = window.getDatabaseNode();
+        local nReaction = DB.getValue(nodeWin, "npcattributes.reaction.score", 0);
+        local nIntuition = DB.getValue(nodeWin, "npcattributes.intuition.score", 0);
+        local nAugs = DB.getValue(nodeWin, "npcattributes." .. target[1] .. ".augs", 0);
+        local nTemp = DB.getValue(nodeWin, "npcattributes." .. target[1] .. ".temp", 0);
+        local nCurrent = nReaction + nIntuition + nAugs + nTemp;
+      setValue(nCurrent);
+          end
+
+          function onInit()
+      sLabel = target[1];
+              addSource("npcattributes.reaction.score");
+              addSource("npcattributes.intuition.score");
+              addSource("npcattributes." .. target[1] .. ".augs");
+              addSource("npcattributes." .. target[1] .. ".temp");
+
+              super.onInit();
+          end
+
+          function action(draginfo)
+      local nodeWin = window.getDatabaseNode();
+      local nDice = DB.getValue(nodeWin,"npcattributes." .. target[1] .. ".score");
+      local modDesc, modStack = ModifierStack.getStack(true);
+      nDice = nDice + modStack;
+      local label = target[1]:sub(1,1):upper()..target[1]:sub(2);
+      local nWoundPen = DB.getValue(nodeWin, "damage.penalty");
+      wpmsg = ""
+      if nWoundPen &lt; 0 and label ~= "Soak" then
+        wpmsg = " (Wound Penalty: "..nWoundPen..") ";
+        nDice = nDice + nWoundPen;
+      end
+
+      nDice = math.max(nDice,1);
+      tDice = {};
+      if nDice > 0 then
+        for i = 1, nDice do
+          table.insert (tDice, "d6");
+        end
+        local msg = "[Attribute] ".. label
+        if modDesc ~= "" then
+          msg = msg .. " (" .. modDesc .. ")"
+        end
+        msg = msg .. wpmsg;
+        local rRoll = { sType = "dicepool", sDesc = msg, aDice = tDice, nMod = 0 };
+        ActionsManager.performAction(draginfo, nil, rRoll);
+      else
+        local rRoll = { sType = "dicepool", sDesc = label, aDice = tDice, nMod = 0 };
+        ActionsManager.performAction(draginfo, nil, rRoll);
+      end
+      return true;
+          end
+
+          function onDragStart(button, x, y, draginfo)
+              return action(draginfo);
+          end
+
+          function onDoubleClick(x,y)
+              return action();
+          end
+
+    function onDrop(x, y, draginfo)
+      return action(draginfo);
+    end
+          </script>
+      </number_chartotal>
+  </template>
+
+
 
 	<!--- Defense stuff ends --->
 
