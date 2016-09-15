@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 
-<!-- 
-  Please see the license.html file included with this distribution for 
+<!--
+  Please see the license.html file included with this distribution for
   attribution and copyright information.
 -->
 
@@ -23,7 +23,7 @@
 				onLockChanged();
 				DB.addHandler(DB.getPath(getDatabaseNode(), "locked"), "onUpdate", onLockChanged);
 			end
-			
+
 			function onClose()
 				DB.removeHandler(DB.getPath(getDatabaseNode(), "locked"), "onUpdate", onLockChanged);
 			end
@@ -73,12 +73,12 @@
 					<subwindow>notes</subwindow>
 				</tab>
 			</tabs_recordsheet>
-			
+
 			<resize_recordsheet />
 			<close_recordsheet />
 		</sheetdata>
 	</windowclass>
-	
+
 	<windowclass name="npc_header">
 		<margins control="0,0,0,7" />
 		<script>
@@ -95,7 +95,7 @@
 			<link_record_header>
 				<class>npc</class>
 			</link_record_header>
-			
+
 			<anchor_record_header_right />
 			<button_activateid>
 				<anchored to="rightanchor" width="23" height="22">
@@ -135,317 +135,98 @@
 				<empty textres="npc_emptyname" />
 			</string_record_name>
 		</sheetdata>
-	</windowclass>
-	
-	<windowclass name="npc_main">
-	<margins control="0,0,0,2" />
-	<sheetdata>
-	<anchor_column name="columnanchor" />
-	
-		<frame_char name="CombatRolls">
-				<anchored to="columnanchor" 
-                    position="insidetopleft" 
-                    offset="0,10"
-					height="95" 
-                    width="220" />
-		</frame_char>
-			
-		<label_frametop>
-			<anchored to="CombatRolls" />
-            <static>Combat Rolls</static>
-		</label_frametop>
-		
-		<!-- Defense roll -->           
-            <number_chardefense_score name="defense"
-                source="npcattributes.defense.score">
-                <anchored to="CombatRolls"
-				position="insidetopleft"
-				offset = "75,45"
-				/>
-                <description text="defense final score" />
-                <target>defense</target>
-                <alabel>defense</alabel>
-                <tooltip>
-                    <text>Current defense score</text>
-                </tooltip>
-            </number_chardefense_score>
-		<!-- Soak roll -->
-            <number_charsoak_score name="soak"
-                source="npcattributes.soak.score">
-                <anchored to="defense" />
-                <description text="soak final score" />
-                <target>soak</target>
-                <alabel>soak</alabel>
-                <tooltip>
-                    <text>Current soak score</text>
-                </tooltip>
-            </number_charsoak_score>
-			
-		<!-- surprise roll -->           
-            <number_charattribute_score name="surprise"
-                source="npcattributes.surprise.score">
-                <anchored 
-				to = "soak"
-				position="right"
-                offset="12,0"
-                width="24" />
-                <description text="surprise final score" />
-                <target>surprise</target>
-                <alabel>surprise</alabel>
-                <tooltip>
-                    <text>Current surprise score</text>
-                </tooltip>
-            </number_charattribute_score>
-		<!-- Combat: Final Initiative Score -->
-        <number_npcinitiative_score name="initiative"
-                source="initiative.combat.score">
-            <anchored to="surprise" />
-            <target>combat</target>
-            <source_one>reaction</source_one>
-            <source_two>intuition</source_two>
-            <alabel>Combat Initiative</alabel>
-            <tooltip>
-                <text>The final resulting combat initiative score</text>
-            </tooltip>
-        </number_npcinitiative_score>
-		
-		<!-- Combat: Temp modifier: wounds e.g. -->
-        <basicnumber name="combat_init_tempmod"
-                source="initiative.combat.temp">
-            <anchored to="initiative"
-			position="below"
-			offset = "0,5"
-				/>
-            <target>combat</target>
-            <tooltip>
-                <text>Temporary modifier of the combat initiative</text>
-            </tooltip>
-        </basicnumber>
-		
-		<basicnumber name="surprise_tempmod"
-			source="npcattributes.surprise.temp">
-			<anchored to="surprise"
-			position="below"
-			offset = "0,5"
-				/>
-			<target>surprise</target>
-			<description text="surprise temporary modifier" />
-			<tooltip>
-				<text>Temporary modifiers to the surprise score</text>
-			</tooltip>
-		</basicnumber>
-		
-		<basicnumber name="soak_tempmod"
-			source="npcattributes.soak.temp">
-			<anchored to="soak"
-			position="below"
-			offset = "0,5"
-				/>
-			<target>soak</target>
-			<description text="soak temporary modifier" />
-			<tooltip>
-				<text>Temporary modifiers to the soak score</text>
-			</tooltip>
-		</basicnumber>
-		
-		<basicnumber name="defense_tempmod"
-			source="npcattributes.defense.temp">
-			<anchored to="defense"
-			position="below"
-			offset = "0,5"
-				/>
-			<target>defense</target>
-			<description text="defense temporary modifier" />
-			<tooltip>
-				<text>Temporary modifiers to the defense score</text>
-			</tooltip>
-		</basicnumber>
+</windowclass>
 
-		<string_charattribute_label>
-			<anchored to="defense"/>
-			<static>Rolls</static>
-        </string_charattribute_label>
-		
-		<string_charattribute_label>
-			<anchored to="defense_tempmod"/>
-			<static>Modifiers</static>
-        </string_charattribute_label>
-		
-		<!-- Headers for the columns -->
-        <label_fieldtop>
-            <anchored to="defense" />
-            <static>Def</static>
-        </label_fieldtop>
-        <label_fieldtop>
-            <anchored to="soak" />
-            <static>Soak</static>
-        </label_fieldtop>
-        <label_fieldtop>
-            <anchored to="surprise" />
-            <static>Sur</static>
-        </label_fieldtop>
-        <label_fieldtop>
-            <anchored to="initiative" />
-            <static>Ini</static>
-        </label_fieldtop>
-		<!-- Field Damage taken -->
-		<frame_char name="dmg_frame">
-			<anchored to="CombatRolls" 
-                position="belowleft" 
-                offset="0,10"
-					height="110" 
-                    width="300" />
-		</frame_char>
-		
-		<genericcontrol name="rightanchor">
-			<anchored to="dmg_frame" width="0" height="0">
-				<top offset="10" />
-				<right offset="-20" />
-			</anchored>
-			<invisible />
-		</genericcontrol>
+<windowclass name="npc_main">
+<margins control="0,0,0,2" />
+<sheetdata>
 
-		<label_frametop>
-			<anchored to="dmg_frame" />
-            <static>Damage</static>
-		</label_frametop>
-		 
-		 <status_damagecounter name="physicaldamage">
-			<anchored>
-				<to>dmg_frame</to>
-				<position>insidetopleft</position>
-				<offset>85,30</offset>
-			</anchored>
-			<sourcefields>
-				<maximum>damage.physical.max</maximum>
-				<overflow>damage.physical.overflow</overflow>
-				<current>damage.physical.current</current>
-			</sourcefields>
-			<rows> 20 </rows>				
-		</status_damagecounter>
+<anchor_column name="columnanchor" />
+<!-- Attributes -->
+<frame_char name="att_frame">
+	<anchored to="columnanchor"
+    position="belowleft"
+    offset="0,10"
+		height="250"
+    width="170" />
+</frame_char>
 
-        <string_charattribute_label>
-			<anchored to="physicaldamage"/>
-			<static>Physical</static>
-        </string_charattribute_label>
-			
-		 <status_damagecounter name="stundamage">
-			<anchored>
-				<to>physicaldamage</to>
-				<position>below</position>
-				<offset>0,5</offset>
-			</anchored>
-			<sourcefields>
-				<maximum>damage.stun.max</maximum>
-				<current>damage.stun.current</current>
-			</sourcefields>
-			<rows>20</rows>
-		</status_damagecounter> 	
+<!-- Body -->
+<!-- Body_base is the item that decides position -->
+<number_npcattribute_base name="body_base"
+	source="npcattributes.body.base">
+  <anchored to="att_frame"
+  	position="insidetopleft"
+    offset="30,27" />
+  <description text="Body base score" />
+  <tooltip>
+  	<text>The base Body score</text>
+  </tooltip>
+</number_npcattribute_base>
 
-        <string_charattribute_label>
-            <anchored to="stundamage"/>
-            <static>Stun</static>
-        </string_charattribute_label>
-		
-		<status_damagepenalty  name="damage_penalty" source="damage.penalty">
-			<anchored>
-				<to>stundamage</to>
-				<position>belowleft</position>
-				<offset>0,0,0,0</offset>
-			</anchored>			
-		</status_damagepenalty>
-		
-		<string_attribute_label name="woundpenaltylabel">
-			<anchored 
-				to ="damage_penalty"
-				position="left"                  
-				width="65" 
-                height="18"/>
-			<static>w-pen</static>
-		</string_attribute_label>
-	<!-- Attributes -->
-		<frame_char name="att_frame">
-				<anchored to="dmg_frame" 
-                position="belowleft" 
-                offset="0,10"
-					height="250" 
-                    width="220" />
-		</frame_char>
-		
-		 <!-- Body -->
-            <number_npcattribute_base name="body_base"
-                source="npcattributes.body.base">
-                <anchored to="att_frame"
-                    position="insidetopleft"
-                    offset="77,27" />
-                <description text="Body base score" />
-                <tooltip>
-                    <text>The base Body score</text>
-                </tooltip>
-            </number_npcattribute_base>
-            
-            <string_npcattribute_label>
-                <anchored to="body_base"/>
-                <static>Body</static>
-            </string_npcattribute_label>
-            
-            <number_npcattribute_permmod name="body_augs"
-                source="npcattributes.body.augs">
-                <anchored to="body_base" />
-                <target>body</target> 
-                <description text="Body augmentations" />
-                <tooltip>
-                    <text>Augmentations to the Body score</text>
-                </tooltip>
-            </number_npcattribute_permmod>
-            
-            <number_npcattribute_tempmod name="body_tempmod"
-                source="npcattributes.body.temp">
-                <anchored to="body_base"/>
-                <target>body</target>
-                <description text="Body temporary modifier" />
-                <tooltip>
-                    <text>Temporary modifiers to the Body score</text>
-                </tooltip>
-            </number_npcattribute_tempmod>
-            
-            <number_npcattribute_score name="body"
-                source="npcattributes.body.score">
-                <anchored to="body_base" />
-                <description text="Body final score" />
-                <target>body</target>
-                <alabel>Body</alabel>
-                <tooltip>
-                    <text>Current Body score</text>
-                </tooltip>
-            </number_npcattribute_score>
-		<!-- Agility -->
-            <number_npcattribute_base name="agility_base"
-                source="npcattributes.agility.base">
-                <anchored to="att_frame"
-                    position="insidetopleft"
-                    offset="77,51" />
-                <description text="Agility base score" />
-                <tooltip>
-                    <text>The base Agility score</text>
-                </tooltip>
-            </number_npcattribute_base>
-            
-            <string_npcattribute_label>
-                <anchored to="agility_base"/>
-                <static>Agility</static>
-            </string_npcattribute_label>
-            
+<string_npcattribute_label>
+	<anchored to="body_base" />
+		<static>B</static>
+</string_npcattribute_label>
+
+<number_npcattribute_permmod name="body_augs"
+	source="npcattributes.body.augs">
+  <anchored to="body_base" />
+  <target>body</target>
+  <description text="Body augmentations" />
+  <tooltip>
+    <text>Augmentations to the Body score</text>
+  </tooltip>
+</number_npcattribute_permmod>
+
+<number_npcattribute_tempmod name="body_tempmod"
+  source="npcattributes.body.temp">
+  <anchored to="body_base"/>
+	<target>body</target>
+  <description text="Body temporary modifier" />
+  <tooltip>
+    <text>Temporary modifiers to the Body score</text>
+  </tooltip>
+</number_npcattribute_tempmod>
+
+<number_npcattribute_score name="body"
+  source="npcattributes.body.score">
+  <anchored to="body_base" />
+  <description text="Body final score" />
+  <target>body</target>
+  <alabel>Body</alabel>
+  <tooltip>
+  	<text>Current Body score</text>
+  </tooltip>
+</number_npcattribute_score>
+
+<!-- Agility -->
+<number_npcattribute_base name="agility_base"
+  source="npcattributes.agility.base">
+  <anchored to="att_frame"
+	position="insidetopleft"
+  offset="30,51" />
+  <description text="Agility base score" />
+  <tooltip>
+    <text>The base Agility score</text>
+  </tooltip>
+</number_npcattribute_base>
+
+<string_npcattribute_label>
+  <anchored to="agility_base"/>
+  <static>A</static>
+</string_npcattribute_label>
+
             <number_npcattribute_permmod name="agility_augs"
                 source="npcattributes.agility.augs">
                 <anchored to="agility_base" />
-                <target>agility</target> 
+                <target>agility</target>
                 <description text="Agility augmentations" />
                 <tooltip>
                     <text>Augmentations to the Agility score</text>
                 </tooltip>
             </number_npcattribute_permmod>
-            
+
             <number_npcattribute_tempmod name="agility_tempmod"
                 source="npcattributes.agility.temp">
                 <anchored to="agility_base"/>
@@ -455,7 +236,7 @@
                     <text>Temporary modifiers to the Agility score</text>
                 </tooltip>
             </number_npcattribute_tempmod>
-            
+
             <number_npcattribute_score name="agility"
                 source="npcattributes.agility.score">
                 <anchored to="agility_base" />
@@ -471,28 +252,28 @@
                 source="npcattributes.reaction.base">
                 <anchored to="att_frame"
                     position="insidetopleft"
-                    offset="77,75" />
+                    offset="30,75" />
                 <description text="Reaction base score" />
                 <tooltip>
                     <text>The base Reaction score</text>
                 </tooltip>
             </number_npcattribute_base>
-            
+
             <string_npcattribute_label>
                 <anchored to="reaction_base"/>
-                <static>Reaction</static>
+                <static>R</static>
             </string_npcattribute_label>
-            
+
             <number_npcattribute_permmod name="reaction_augs"
                 source="npcattributes.reaction.augs">
                 <anchored to="reaction_base" />
-                <target>reaction</target> 
+                <target>reaction</target>
                 <description text="Reaction augmentations" />
                 <tooltip>
                     <text>Augmentations to the Reaction score</text>
                 </tooltip>
             </number_npcattribute_permmod>
-            
+
             <number_npcattribute_tempmod name="reaction_tempmod"
                 source="npcattributes.reaction.temp">
                 <anchored to="reaction_base"/>
@@ -502,7 +283,7 @@
                     <text>Temporary modifiers to the Reaction score</text>
                 </tooltip>
             </number_npcattribute_tempmod>
-            
+
             <number_npcattribute_score name="reaction"
                 source="npcattributes.reaction.score">
                 <anchored to="reaction_base" />
@@ -513,34 +294,34 @@
                     <text>Current Reaction score</text>
                 </tooltip>
             </number_npcattribute_score>
-            
+
             <!-- Strength -->
             <number_npcattribute_base name="strength_base"
                 source="npcattributes.strength.base">
                 <anchored to="att_frame"
                     position="insidetopleft"
-                    offset="77,99" />
+                    offset="30,99" />
                 <description text="Strength base score" />
                 <tooltip>
                     <text>The base Strength score</text>
                 </tooltip>
             </number_npcattribute_base>
-            
+
             <string_npcattribute_label>
                 <anchored to="strength_base"/>
-                <static>Strength</static>
+                <static>S</static>
             </string_npcattribute_label>
-            
+
             <number_npcattribute_permmod name="strength_augs"
                 source="npcattributes.strength.augs">
                 <anchored to="strength_base" />
-                <target>strength</target> 
+                <target>strength</target>
                 <description text="Strength augmentations" />
                 <tooltip>
                     <text>Augmentations to the Strength score</text>
                 </tooltip>
             </number_npcattribute_permmod>
-            
+
             <number_npcattribute_tempmod name="strength_tempmod"
                 source="npcattributes.strength.temp">
                 <anchored to="strength_base"/>
@@ -550,7 +331,7 @@
                     <text>Temporary modifiers to the Strength score</text>
                 </tooltip>
             </number_npcattribute_tempmod>
-            
+
             <number_npcattribute_score name="strength"
                 source="npcattributes.strength.score">
                 <anchored to="strength_base" />
@@ -561,35 +342,35 @@
                     <text>Current Strength score</text>
                 </tooltip>
             </number_npcattribute_score>
-            
-            
+
+
             <!-- Intuition -->
             <number_npcattribute_base name="intuition_base"
                 source="npcattributes.intuition.base">
                 <anchored to="att_frame"
                     position="insidetopleft"
-                    offset="77,123" />
+                    offset="30,123" />
                 <description text="Intuition base score" />
                 <tooltip>
                     <text>The base Intuition score</text>
                 </tooltip>
             </number_npcattribute_base>
-            
+
             <string_npcattribute_label>
                 <anchored to="intuition_base"/>
-                <static>Intuition</static>
+                <static>I</static>
             </string_npcattribute_label>
-            
+
             <number_npcattribute_permmod name="intuition_augs"
                 source="npcattributes.intuition.augs">
                 <anchored to="intuition_base" />
-                <target>intuition</target> 
+                <target>intuition</target>
                 <description text="Intuition augmentations" />
                 <tooltip>
                     <text>Augmentations to the Intuition score</text>
                 </tooltip>
             </number_npcattribute_permmod>
-            
+
             <number_npcattribute_tempmod name="intuition_tempmod"
                 source="npcattributes.intuition.temp">
                 <anchored to="intuition_base"/>
@@ -599,7 +380,7 @@
                     <text>Temporary modifiers to the Intuition score</text>
                 </tooltip>
             </number_npcattribute_tempmod>
-            
+
             <number_npcattribute_score name="intuition"
                 source="npcattributes.intuition.score">
                 <anchored to="intuition_base" />
@@ -610,35 +391,35 @@
                     <text>Current Intuition score</text>
                 </tooltip>
             </number_npcattribute_score>
-            
-            
+
+
             <!-- Logic -->
             <number_npcattribute_base name="logic_base"
                 source="npcattributes.logic.base">
                 <anchored to="att_frame"
                     position="insidetopleft"
-                    offset="77,147" />
+                    offset="30,147" />
                 <description text="Logic base score" />
                 <tooltip>
                     <text>The base Logic score</text>
                 </tooltip>
             </number_npcattribute_base>
-            
+
             <string_npcattribute_label>
                 <anchored to="logic_base"/>
-                <static>Logic</static>
+                <static>L</static>
             </string_npcattribute_label>
-            
+
             <number_npcattribute_permmod name="logic_augs"
                 source="npcattributes.logic.augs">
                 <anchored to="logic_base" />
-                <target>logic</target> 
+                <target>logic</target>
                 <description text="Logic augmentations" />
                 <tooltip>
                     <text>Augmentations to the Logic score</text>
                 </tooltip>
             </number_npcattribute_permmod>
-            
+
             <number_npcattribute_tempmod name="logic_tempmod"
                 source="npcattributes.logic.temp">
                 <anchored to="logic_base"/>
@@ -648,7 +429,7 @@
                     <text>Temporary modifiers to the Logic score</text>
                 </tooltip>
             </number_npcattribute_tempmod>
-            
+
             <number_npcattribute_score name="logic"
                 source="npcattributes.logic.score">
                 <anchored to="logic_base" />
@@ -659,35 +440,35 @@
                     <text>Current Logic score</text>
                 </tooltip>
             </number_npcattribute_score>
-            
-            
+
+
             <!-- Willpower -->
             <number_npcattribute_base name="willpower_base"
                 source="npcattributes.willpower.base">
                 <anchored to="att_frame"
                     position="insidetopleft"
-                    offset="77,171" />
+                    offset="30,171" />
                 <description text="Willpower base score" />
                 <tooltip>
                     <text>The base Willpower score</text>
                 </tooltip>
             </number_npcattribute_base>
-            
+
             <string_npcattribute_label>
                 <anchored to="willpower_base"/>
-                <static>Willpower</static>
+                <static>W</static>
             </string_npcattribute_label>
-            
+
             <number_npcattribute_permmod name="willpower_augs"
                 source="npcattributes.willpower.augs">
                 <anchored to="willpower_base" />
-                <target>willpower</target> 
+                <target>willpower</target>
                 <description text="Willpower augmentations" />
                 <tooltip>
                     <text>Augmentations to the Willpower score</text>
                 </tooltip>
             </number_npcattribute_permmod>
-            
+
             <number_npcattribute_tempmod name="willpower_tempmod"
                 source="npcattributes.willpower.temp">
                 <anchored to="willpower_base"/>
@@ -697,7 +478,7 @@
                     <text>Temporary modifiers to the Willpower score</text>
                 </tooltip>
             </number_npcattribute_tempmod>
-            
+
             <number_npcattribute_score name="willpower"
                 source="npcattributes.willpower.score">
                 <anchored to="willpower_base" />
@@ -708,35 +489,35 @@
                     <text>Current Willpower score</text>
                 </tooltip>
             </number_npcattribute_score>
-            
-            
+
+
             <!-- Charisma -->
             <number_npcattribute_base name="charisma_base"
                 source="npcattributes.charisma.base">
                 <anchored to="att_frame"
                     position="insidetopleft"
-                    offset="77,195" />
+                    offset="30,195" />
                 <description text="Charisma base score" />
                 <tooltip>
                     <text>The base Charisma score</text>
                 </tooltip>
             </number_npcattribute_base>
-            
+
             <string_npcattribute_label>
                 <anchored to="charisma_base"/>
-                <static>Charisma</static>
+                <static>C</static>
             </string_npcattribute_label>
-            
+
             <number_npcattribute_permmod name="charisma_augs"
                 source="npcattributes.charisma.augs">
                 <anchored to="charisma_base" />
-                <target>charisma</target> 
+                <target>charisma</target>
                 <description text="Charisma augmentations" />
                 <tooltip>
                     <text>Augmentations to the Charisma score</text>
                 </tooltip>
             </number_npcattribute_permmod>
-            
+
             <number_npcattribute_tempmod name="charisma_tempmod"
                 source="npcattributes.charisma.temp">
                 <anchored to="charisma_base"/>
@@ -746,7 +527,7 @@
                     <text>Temporary modifiers to the Charisma score</text>
                 </tooltip>
             </number_npcattribute_tempmod>
-            
+
             <number_npcattribute_score name="charisma"
                 source="npcattributes.charisma.score">
                 <anchored to="charisma_base" />
@@ -757,35 +538,35 @@
                     <text>Current Charisma score</text>
                 </tooltip>
             </number_npcattribute_score>
-            
-            
+
+
             <!-- Magic/Resonance -->
             <number_npcattribute_base name="magres_base"
                 source="npcattributes.magres.base">
                 <anchored to="att_frame"
                     position="insidetopleft"
-                    offset="77,219" />
+                    offset="30,219" />
                 <description text="Magic/Resonance base score" />
                 <tooltip>
                     <text>The base Magic/Resonance score</text>
                 </tooltip>
             </number_npcattribute_base>
-            
+
             <string_npcattribute_label>
                 <anchored to="magres_base"/>
-                <static>Magic/Res</static>
+                <static>M</static>
             </string_npcattribute_label>
-            
+
             <number_npcattribute_permmod name="magres_augs"
                 source="npcattributes.magres.augs">
                 <anchored to="magres_base" />
-                <target>magres</target> 
+                <target>magres</target>
                 <description text="Magic/Resonance augmentations" />
                 <tooltip>
                     <text>Augmentations to the Magic/Resonance score</text>
                 </tooltip>
             </number_npcattribute_permmod>
-            
+
             <number_npcattribute_tempmod name="magres_tempmod"
                 source="npcattributes.magres.temp">
                 <anchored to="magres_base"/>
@@ -795,7 +576,7 @@
                     <text>Temporary modifiers to the Magic/Resonance score</text>
                 </tooltip>
             </number_npcattribute_tempmod>
-            
+
             <number_npcattribute_score name="magres"
                 source="npcattributes.magres.score">
                 <anchored to="magres_base" />
@@ -806,28 +587,103 @@
                     <text>Current Magic/Resonance score</text>
                 </tooltip>
             </number_npcattribute_score>
-                   
-            <!-- Labels -->
-            <label_fieldtop>
+
+<!-- Labels Above-->
+		<label_fieldtop>
 				<anchored to="body_base" />
 				<static>Base</static>
-			</label_fieldtop>
-			<label_fieldtop>
+		</label_fieldtop>
+		<label_fieldtop>
 				<anchored to="body_augs" />
 				<static>Augs</static>
-			</label_fieldtop>
-			<label_fieldtop>
+		</label_fieldtop>
+		<label_fieldtop>
 				<anchored to="body_tempmod" />
 				<static>Tmp</static>
-			</label_fieldtop>
-            <label_fieldtop>
+		</label_fieldtop>
+    <label_fieldtop>
 				<anchored to="body" />
 				<static>Score</static>
-			</label_fieldtop>
-			
+		</label_fieldtop>
 
-			
+			<!-- Field Damage taken -->
+			<frame_char name="dmg_frame">
+				<anchored to="att_frame"
+									position="belowleft"
+									offset="0,10"
+						height="110"
+											width="300" />
+			</frame_char>
+
+			<genericcontrol name="rightanchor">
+				<anchored to="dmg_frame" width="0" height="0">
+					<top offset="10" />
+					<right offset="-20" />
+				</anchored>
+				<invisible />
+			</genericcontrol>
+
+			<label_frametop>
+				<anchored to="dmg_frame" />
+							<static>Damage</static>
+			</label_frametop>
+
+			 <status_damagecounter name="physicaldamage">
+				<anchored>
+					<to>dmg_frame</to>
+					<position>insidetopleft</position>
+					<offset>85,30</offset>
+				</anchored>
+				<sourcefields>
+					<maximum>damage.physical.max</maximum>
+					<overflow>damage.physical.overflow</overflow>
+					<current>damage.physical.current</current>
+				</sourcefields>
+				<rows> 20 </rows>
+			</status_damagecounter>
+
+					<string_charattribute_label>
+				<anchored to="physicaldamage"/>
+				<static>Physical</static>
+					</string_charattribute_label>
+
+			 <status_damagecounter name="stundamage">
+				<anchored>
+					<to>physicaldamage</to>
+					<position>below</position>
+					<offset>0,5</offset>
+				</anchored>
+				<sourcefields>
+					<maximum>damage.stun.max</maximum>
+					<current>damage.stun.current</current>
+				</sourcefields>
+				<rows>20</rows>
+			</status_damagecounter>
+
+					<string_charattribute_label>
+							<anchored to="stundamage"/>
+							<static>Stun</static>
+					</string_charattribute_label>
+
+			<status_damagepenalty  name="damage_penalty" source="damage.penalty">
+				<anchored>
+					<to>stundamage</to>
+					<position>belowleft</position>
+					<offset>0,0,0,0</offset>
+				</anchored>
+			</status_damagepenalty>
+
+			<string_attribute_label name="woundpenaltylabel">
+				<anchored
+					to ="damage_penalty"
+					position="left"
+					width="65"
+									height="18"/>
+				<static>w-pen</static>
+			</string_attribute_label>
+
+
 	</sheetdata>
-		
-	</windowclass>	
+
+	</windowclass>
 </root>
