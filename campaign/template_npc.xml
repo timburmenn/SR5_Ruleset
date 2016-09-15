@@ -552,7 +552,7 @@
 		</number_npctotal>
 	</template>
 	
-    <!-- Permanent modifier for initiative scores, e.g. wired reflexes -->
+    <!-- Permanent modifier for initiative1 scores, e.g. wired reflexes -->
     <template name="number_limit_mod">
 		<basicnumber>
             <anchored position="insidetopleft"

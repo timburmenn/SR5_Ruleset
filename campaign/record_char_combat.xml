@@ -1,155 +1,54 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 
-<!-- Please see the license.html file included with this distribution for 
+<!-- Please see the license.html file included with this distribution for
 	attribution and copyright information. -->
 
 <root>
 	<windowclass name="charsheet_combat">
 		<sheetdata>
-			<frame_char name="combatframe">
-				<bounds>15,10,-29,120</bounds>
+			<frame_char name="CombatRolls">
+				<bounds>15,10,230,110</bounds>
 			</frame_char>
-		
+
+			<label_frametop>
+			<anchored to="CombatRolls" />
+            <static>Combat Rolls</static>
+            </label_frametop>
+
 		<!-- Defense roll -->
-            <number_charattribute_base name="defense_base"
-			source="attributes.defense.base">
-                <anchored to="combatframe"
+  	<number_chardefense_score name="defense"
+    	source="attributes.defense.score">
+      <anchored to="CombatRolls"
 				position="insidetopleft"
-				offset = "85,20"
+				offset = "80,45"
 				/>
-				<target>defense</target>
-                <description text="Defense base score" />
-                <tooltip>
-                    <text>The base defense score</text>
-                </tooltip>
-            </number_charattribute_base>
-            
-            <string_charattribute_label>
-                <anchored to="defense_base"/>
-                <static>Defense</static>
-            </string_charattribute_label>
-           
-            <number_charattribute_permmod name="defense_augs"
-                source="attributes.defense.augs">
-                <anchored to="defense_base" />
-                <target>defense</target> 
-                <description text="defense augmentations" />
-                <tooltip>
-                    <text>Augmentations to the defense score</text>
-                </tooltip>
-            </number_charattribute_permmod>
-            
-            <number_charattribute_tempmod name="defense_tempmod"
-                source="attributes.defense.temp">
-                <anchored to="defense_base"/>
-                <target>defense</target>
-                <description text="defense temporary modifier" />
-                <tooltip>
-                    <text>Temporary modifiers to the defense score</text>
-                </tooltip>
-            </number_charattribute_tempmod>
-            
-            <number_charattribute_score name="defense"
-                source="attributes.defense.score">
-                <anchored to="defense_base" />
-                <description text="defense final score" />
-                <target>defense</target>
-                <alabel>defense</alabel>
-                <tooltip>
-                    <text>Current defense score</text>
-                </tooltip>
-            </number_charattribute_score>
+      <description text="defense final score" />
+      <target>defense</target>
+      <alabel>defense</alabel>
+      <tooltip>
+        <text>Current defense score</text>
+      </tooltip>
+    </number_chardefense_score>
 		<!-- Soak roll -->
-            <number_charattribute_base name="soak_base"
-			source="attributes.soak.base">
-                <anchored to="combatframe"
-				position="insidetopleft"
-				offset = "85,45"
-				/>
-				<target>soak</target>
-                <description text="Soak base score" />
-                <tooltip>
-                    <text>The base soak score</text>
-                </tooltip>
-            </number_charattribute_base>
-            
-            <string_charattribute_label>
-                <anchored to="soak_base"/>
-                <static>Soak</static>
-            </string_charattribute_label>
-           
-            <number_charattribute_permmod name="soak_augs"
-                source="attributes.soak.augs">
-                <anchored to="soak_base" />
-                <target>soak</target> 
-                <description text="soak augmentations" />
-                <tooltip>
-                    <text>Augmentations to the soak score</text>
-                </tooltip>
-            </number_charattribute_permmod>
-            
-            <number_charattribute_tempmod name="soak_tempmod"
-                source="attributes.soak.temp">
-                <anchored to="soak_base"/>
-                <target>soak</target>
-                <description text="soak temporary modifier" />
-                <tooltip>
-                    <text>Temporary modifiers to the soak score</text>
-                </tooltip>
-            </number_charattribute_tempmod>
-            
-            <number_charattribute_score name="soak"
+            <number_charsoak_score name="soak"
                 source="attributes.soak.score">
-                <anchored to="soak_base" />
+                <anchored to="defense" />
                 <description text="soak final score" />
                 <target>soak</target>
                 <alabel>soak</alabel>
                 <tooltip>
                     <text>Current soak score</text>
                 </tooltip>
-            </number_charattribute_score>
+            </number_charsoak_score>
+
 		<!-- surprise roll -->
-            <number_charattribute_base name="surprise_base"
-			source="attributes.surprise.base">
-                <anchored to="combatframe"
-				position="insidetopleft"
-				offset = "85,70"
-				/>
-				<target>surprise</target>
-                <description text="surprise base score" />
-                <tooltip>
-                    <text>The base surprise score</text>
-                </tooltip>
-            </number_charattribute_base>
-            
-            <string_charattribute_label>
-                <anchored to="surprise_base"/>
-                <static>Surprise</static>
-            </string_charattribute_label>
-           
-            <number_charattribute_permmod name="surprise_augs"
-                source="attributes.surprise.augs">
-                <anchored to="surprise_base" />
-                <target>surprise</target> 
-                <description text="surprise augmentations" />
-                <tooltip>
-                    <text>Augmentations to the surprise score</text>
-                </tooltip>
-            </number_charattribute_permmod>
-            
-            <number_charattribute_tempmod name="surprise_tempmod"
-                source="attributes.surprise.temp">
-                <anchored to="surprise_base"/>
-                <target>surprise</target>
-                <description text="surprise temporary modifier" />
-                <tooltip>
-                    <text>Temporary modifiers to the surprise score</text>
-                </tooltip>
-            </number_charattribute_tempmod>
-            
             <number_charattribute_score name="surprise"
                 source="attributes.surprise.score">
-                <anchored to="surprise_base" />
+                <anchored
+				to = "soak"
+				position="right"
+                offset="12,0"
+                width="24" />
                 <description text="surprise final score" />
                 <target>surprise</target>
                 <alabel>surprise</alabel>
@@ -157,68 +56,110 @@
                     <text>Current surprise score</text>
                 </tooltip>
             </number_charattribute_score>
-			<!-- Drain roll -->
-            <number_charattribute_base name="drain_base"
-			source="attributes.drain.base">
-                <anchored to="combatframe"
-				position="insidetopleft"
-				offset = "300,20"
+		<!-- Combat: Final Initiative Score -->
+        <number_charinitiative_score name="initiative"
+                source="initiative.combat.score">
+            <anchored to="surprise" />
+            <target>combat</target>
+            <source_one>reaction</source_one>
+            <source_two>intuition</source_two>
+            <alabel>Combat Initiative</alabel>
+            <tooltip>
+                <text>The final resulting combat initiative score</text>
+            </tooltip>
+        </number_charinitiative_score>
+
+		<!-- Combat: Temp modifier: wounds e.g. -->
+        <basicnumber name="combat_init_tempmod"
+                source="initiative.combat.temp">
+            <anchored to="initiative"
+			position="below"
+			offset = "0,5"
 				/>
-				<target>drain</target>
-                <description text="Drain base score" />
-                <tooltip>
-                    <text>The base drain score</text>
-                </tooltip>
-            </number_charattribute_base>
-            
-            <string_charattribute_label>
-                <anchored to="drain_base"/>
-                <static>Drain</static>
-            </string_charattribute_label>
-           
-            <number_charattribute_permmod name="drain_augs"
-                source="attributes.drain.augs">
-                <anchored to="drain_base" />
-                <target>drain</target> 
-                <description text="drain augmentations" />
-                <tooltip>
-                    <text>Augmentations to the drain score</text>
-                </tooltip>
-            </number_charattribute_permmod>
-            
-            <number_charattribute_tempmod name="drain_tempmod"
-                source="attributes.drain.temp">
-                <anchored to="drain_base"/>
-                <target>drain</target>
-                <description text="drain temporary modifier" />
-                <tooltip>
-                    <text>Temporary modifiers to the drain score</text>
-                </tooltip>
-            </number_charattribute_tempmod>
-            
-            <number_charattribute_score name="drain"
-                source="attributes.drain.score">
-                <anchored to="drain_base" />
-                <description text="drain final score" />
-                <target>drain</target>
-                <alabel>drain</alabel>
-                <tooltip>
-                    <text>Current drain score</text>
-                </tooltip>
-            </number_charattribute_score>
-			
+            <target>combat</target>
+            <tooltip>
+                <text>Temporary modifier of the combat initiative</text>
+            </tooltip>
+        </basicnumber>
+
+		<basicnumber name="surprise_tempmod"
+			source="attributes.surprise.temp">
+			<anchored to="surprise"
+			position="below"
+			offset = "0,5"
+				/>
+			<target>surprise</target>
+			<description text="surprise temporary modifier" />
+			<tooltip>
+				<text>Temporary modifiers to the surprise score</text>
+			</tooltip>
+		</basicnumber>
+
+		<basicnumber name="soak_tempmod"
+			source="attributes.soak.temp">
+			<anchored to="soak"
+			position="below"
+			offset = "0,5"
+				/>
+			<target>soak</target>
+			<description text="soak temporary modifier" />
+			<tooltip>
+				<text>Temporary modifiers to the soak score</text>
+			</tooltip>
+		</basicnumber>
+
+		<basicnumber name="defense_tempmod"
+			source="attributes.defense.temp">
+			<anchored to="defense"
+			position="below"
+			offset = "0,5"
+				/>
+			<target>defense</target>
+			<description text="defense temporary modifier" />
+			<tooltip>
+				<text>Temporary modifiers to the defense score</text>
+			</tooltip>
+		</basicnumber>
+
+		<string_charattribute_label>
+			<anchored to="defense"/>
+			<static>Rolls</static>
+        </string_charattribute_label>
+
+		<string_charattribute_label>
+			<anchored to="defense_tempmod"/>
+			<static>Modifiers</static>
+        </string_charattribute_label>
+
+		<!-- Headers for the columns -->
+        <label_fieldtop>
+            <anchored to="defense" />
+            <static>Def</static>
+        </label_fieldtop>
+        <label_fieldtop>
+            <anchored to="soak" />
+            <static>Soak</static>
+        </label_fieldtop>
+        <label_fieldtop>
+            <anchored to="surprise" />
+            <static>Sur</static>
+        </label_fieldtop>
+        <label_fieldtop>
+            <anchored to="initiative" />
+            <static>Ini</static>
+        </label_fieldtop>
 	<!-- Weaponshit -->
 		<frame_char name="weaponframe">
-			<bounds>15,125,-29,250</bounds>
+			<bounds>15,125,-29,350</bounds>
 		</frame_char>
-		
+
 		<genericcontrol name="rightanchor">
 				<anchored to="weaponframe" width="0" height="0">
 					<top offset="10" />
 					<right offset="-20" />
 				</anchored>
 				<invisible />
-			</genericcontrol>
+		</genericcontrol>
 
 			<label name="dicepool_label">
 				<anchored to="rightanchor" width="30">
@@ -255,7 +196,7 @@
 				<center />
 				<static>Rtg</static>
 				<tooltip text="weapon Rating" />
-			</label>			
+			</label>
 			<label name="weaponattr_label">
 				<anchored to="rightanchor" width="30">
 					<top offset="27"/>
@@ -284,7 +225,7 @@
 				<tooltip text="Armor Piercing" />
 			</label>
 			<label name="weaponname_label">
-				<anchored to="rightanchor" width="205">
+				<anchored to="rightanchor" width="75">
 					<top offset="27"/>
 					<right anchor="left" relation="relative" offset="-10" />
 				</anchored>
@@ -294,10 +235,10 @@
 			</label>
 			<list_charweapon name="weapon">
 				<anchored to="weaponframe">
-					<left offset="15" />
+					<left offset="10" />
 					<top offset="55" />
-					<right offset="-15" />
-					<bottom offset="-20" />
+					<right offset="-17" />
+					<bottom offset="-10" />
 				</anchored>
 			</list_charweapon>
 			<scrollbar_list>
@@ -312,113 +253,82 @@
 				<anchored to="weapon_iedit" position="lefthigh" offset="5,10" />
 				<target>weapon</target>
 			</button_iadd>
-			         <!-- Field
-         Damage taken
-          -->
+
+
+		<!-- Field Damage taken -->
 		<frame_char name="dmg_frame">
-			<bounds>15,370,-29,-5</bounds>
+			<bounds>235,10,-29,110</bounds>
 		</frame_char>
-		
+
 		<genericcontrol name="rightanchor">
-				<anchored to="dmg_frame" width="0" height="0">
-					<top offset="10" />
-					<right offset="-20" />
-				</anchored>
-				<invisible />
-			</genericcontrol>
-			<label_frametop>
+			<anchored to="dmg_frame" width="0" height="0">
+				<top offset="10" />
+				<right offset="-20" />
+			</anchored>
+			<invisible />
+		</genericcontrol>
+
+		<label_frametop>
 			<anchored to="dmg_frame" />
             <static>Damage</static>
-            </label_frametop>
-		 
+		</label_frametop>
+
 		 <status_damagecounter name="physicaldamage">
-				<anchored>
-					<to>dmg_frame</to>
-					<position>insidetopleft</position>
-					<offset>85,30</offset>
-				</anchored>
-				<sourcefields>
-					<maximum>damage.physical.max</maximum>
-					<overflow>damage.physical.overflow</overflow>
-					<current>damage.physical.current</current>
-				</sourcefields>
-				<rows> 20 </rows>				
-			</status_damagecounter>
-
-            <string_charattribute_label>
-                <anchored to="physicaldamage"/>
-                <static>Physical</static>
-            </string_charattribute_label>
-			
-		 <status_damagecounter name="stundamage">
-				<anchored>
-					<to>physicaldamage</to>
-					<position>below</position>
-					<offset>0,10</offset>
-				</anchored>
-				<sourcefields>
-					<maximum>damage.stun.max</maximum>
-					<current>damage.stun.current</current>
-				</sourcefields>
-				<rows>20</rows>
-			</status_damagecounter> 	
-
-            <string_charattribute_label>
-                <anchored to="stundamage"/>
-                <static>Stun</static>
-            </string_charattribute_label>
-			
-            <string_attribute_label name="painlabel">
-				<anchored to="physicaldamage">
-					<position>right</position>
-					<offset>10,0</offset>
-				</anchored>
-                <static>Pain Threshold</static>
-			</string_attribute_label>
-
-		 <checkbox_sr name="lpt">
-				<anchored to="painlabel" >
-					<position>right</position>
-					<offset>5,0</offset>
-				</anchored>		
-				<sourcefields>
-					<value>damage.painthreshold.low</value>
-				</sourcefields>				
-		</checkbox_sr>
-		
-		<label_fieldtop>
-            <anchored to="lpt" />
-            <static>Lo</static>
-        </label_fieldtop>
-			
-		<number_charattribute_base name="painignore" source="damage.painthreshold.tol">
-			<anchored to="painlabel" >
-				<position>right</position>
-				<offset>35,0</offset>
-			</anchored>	
-		</number_charattribute_base>
-
-		<label_fieldtop>
-            <anchored to="painignore" />
-            <static>Ignore</static>
-        </label_fieldtop>
-		
-		
-		<string_attribute_label name="woundpenaltylabel">
-			<anchored to="stundamage">
-				<position>right</position>
-				<offset>10,0</offset>
+			<anchored>
+				<to>dmg_frame</to>
+				<position>insidetopleft</position>
+				<offset>85,30</offset>
 			</anchored>
-			<static>Wound Penalty</static>
-		</string_attribute_label>
-		
+			<sourcefields>
+				<maximum>damage.physical.max</maximum>
+				<overflow>damage.physical.overflow</overflow>
+				<current>damage.physical.current</current>
+			</sourcefields>
+			<rows> 20 </rows>
+		</status_damagecounter>
+
+        <string_charattribute_label>
+			<anchored to="physicaldamage"/>
+			<static>Physical</static>
+        </string_charattribute_label>
+
+		 <status_damagecounter name="stundamage">
+			<anchored>
+				<to>physicaldamage</to>
+				<position>below</position>
+				<offset>0,5</offset>
+			</anchored>
+			<sourcefields>
+				<maximum>damage.stun.max</maximum>
+				<current>damage.stun.current</current>
+			</sourcefields>
+			<rows>20</rows>
+		</status_damagecounter>
+
+        <string_charattribute_label>
+            <anchored to="stundamage"/>
+            <static>Stun</static>
+        </string_charattribute_label>
+
+
+
 		<status_damagepenalty  name="damage_penalty" source="damage.penalty">
-			<anchored to="woundpenaltylabel" >
-				<position>right</position>
-				<offset>35,0</offset>
-			</anchored>			
+						<anchored>
+				<to>stundamage</to>
+				<position>belowleft</position>
+				<offset>0,0,0,0</offset>
+			</anchored>
 		</status_damagepenalty>
-			
+
+		<string_attribute_label name="woundpenaltylabel">
+			<anchored
+				to ="damage_penalty"
+				position="left"
+				width="65"
+                height="18"/>
+			<static>w-pen</static>
+		</string_attribute_label>
+
 		</sheetdata>
 	</windowclass>
 
@@ -478,9 +388,9 @@
 								local rRoll = { sType = "dicepool", sDesc = label, aDice = tDice, nMod = 0 };
 								ActionsManager.performAction(draginfo, nil, rRoll);
 							end
-							return true;						
+							return true;
 						end
-						
+
 						function onDoubleClick(x, y)
 							local nodeWin = window.getDatabaseNode();
 							local nDice = nodeWin.getChild("dice_pool").getValue()
@@ -496,7 +406,7 @@
 							end
 							nDice = nDice + nWoundPen;
 							nDice = math.max(nDice,1);
-							
+
 							tDice = {};
 							if nDice > 0 then
 								for i = 1, nDice do
@@ -515,7 +425,7 @@
 							end
 							return true;
 						end
-					
+
 						function onDrop(x, y, draginfo)
 							return windowlist.onDrop(x, y, draginfo);
 						end
@@ -538,7 +448,7 @@
 					function onLoseFocus()
 						window.setFrame(nil);
 					end
-					
+
 					function onValueChanged()
 						local attr_nodename = window.getDatabaseNode().getChild("attribute").getValue()
 						local attr_node = window.getDatabaseNode().getParent().getParent()
@@ -552,7 +462,7 @@
 						else
 							window.getDatabaseNode().getChild("dice_pool").setValue(weapon_rating+weapon_mod+weapon_tmod);
 						end
-					end					
+					end
 				</script>
 			</char_weaponrating>
 			<char_weaponrating name="modifier">
@@ -572,7 +482,7 @@
 					function onLoseFocus()
 						window.setFrame(nil);
 					end
-					
+
 					function onValueChanged()
 						local attr_nodename = window.getDatabaseNode().getChild("attribute").getValue()
 						local attr_node = window.getDatabaseNode().getParent().getParent()
@@ -586,10 +496,10 @@
 						else
 							window.getDatabaseNode().getChild("dice_pool").setValue(weapon_rating+weapon_mod+weapon_tmod);
 						end
-					end					
+					end
 				</script>
 			</char_weaponrating>
-			
+
 			<char_weaponrating name="rating">
 				<anchored to="idelete" width="30" height="17">
 					<top offset="2"/>
@@ -607,14 +517,14 @@
 					function onLoseFocus()
 						window.setFrame(nil);
 					end
-					
+
 					function onValueChanged()
 						local attr_nodename = window.getDatabaseNode().getChild("attribute").getValue()
 						local attr_node = window.getDatabaseNode().getParent().getParent()
 						local weapon_rating = window.getDatabaseNode().getChild("rating").getValue()
 						local weapon_mod = window.getDatabaseNode().getChild("modifier").getValue()
 						local weapon_tmod = window.getDatabaseNode().getChild("tempmodifier").getValue()
-						
+
 						if attr_nodename ~= "" and attr_nodename ~= "-" then
 							attr_nodename ="attributes."..attr_nodename..".score"
 							local a = DB.getValue(attr_node,attr_nodename,0)
@@ -622,10 +532,10 @@
 						else
 							window.getDatabaseNode().getChild("dice_pool").setValue(weapon_rating+weapon_mod+weapon_tmod);
 						end
-					end					
+					end
 				</script>
-			</char_weaponrating>			
-			
+			</char_weaponrating>
+
 			<button_stringcycler name="attribute">
 				<anchored to="rating" width="30" height="17">
 					<top offset="2"/>
@@ -647,7 +557,7 @@
 						super.onInit();
 						onValueChanged();
 					end
-					
+
 					function onValueChanged()
 						local attr_nodename = window.getDatabaseNode().getChild("attribute").getValue()
 						local attr_node = window.getDatabaseNode().getParent().getParent()
@@ -662,7 +572,7 @@
 							window.getDatabaseNode().getChild("dice_pool").setValue(weapon_rating+weapon_mod+weapon_tmod);
 						end
 					end
-				</script>			
+				</script>
 			</button_stringcycler>
 			<char_weaponrating name="wpnDV">
 				<anchored to="idelete" width="30" height="17">
@@ -684,11 +594,11 @@
 				</tooltip>
 				<tabtarget prev="weaponLabel" />
 			</char_weaponrating>
-			
+
 			<string_textlistitem name="label">
-				<anchored to="attribute" width="205" height="20">
+				<anchored to="attribute" width="115" height="20">
 					<top offset="0"/>
-					<right parent="rightanchor" anchor="left" relation="relative" offset="-10" />
+					<right parent="rightanchor" anchor="left" relation="relative" offset="-15" />
 				</anchored>
 				<tabtarget next="bonus" />
 			</string_textlistitem>

@@ -38,6 +38,11 @@
 		
 		<includefile source="campaign/record_npc.xml" />
 		<includefile source="campaign/template_npc.xml" />
+		
+		<!-- Combat tracker -->
+		<includefile source="ct/template_ct.xml"/>
+		<includefile source="ct/ct_host.xml"/>
+		<includefile source="ct/ct_client.xml"/>
 	
 	<!-- High Level Scripts -->
 		<script name="GameSystem" file="scripts/manager_gamesystem.lua" />
