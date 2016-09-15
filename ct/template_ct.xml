@@ -231,14 +231,6 @@
 			<tooltip textres="ct_tooltip_nextactor" />
 			<script>
 				function onButtonPress()
-					local nodeWin = ActorManager.getTypeAndNodeName();
-					print(nodeWin);
-					local nTotal = "2";
-					print("Hello World!");
-					print(nTotal);
-					local nInit = DB.getValue(ActorManager.getCTNode(nodeWin), "initresult");
-					print(nInit);
-					DB.setValue(ActorManager.getCTNode(nodeWin), "initresult", "number", nTotal);
 					CombatManager.nextActor();
 				end
 				

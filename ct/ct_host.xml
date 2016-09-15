@@ -275,14 +275,14 @@
 				<static textres="ct_label_size" />
 			</label>
 
-			<number_ct name="number_npcinitiative_score">
+			<number_ct name="reach">
 				<anchored to="space" position="righthigh" offset="60,0" />
-				<description text="initiative" />
+				<description textres="ct_label_reach" />
 				<hideonvalue value="0" />
+				<default>1</default>
 			</number_ct>
-			
 			<label name="reachlabel">
-				<anchored to="number_npcinitiative_score" position="lefthigh" offset="10,0"/>
+				<anchored to="reach" position="lefthigh" offset="10,0"/>
 				<static textres="ct_label_reach" />
 			</label>
 
