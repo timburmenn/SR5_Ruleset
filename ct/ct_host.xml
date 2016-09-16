@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 
-<!-- 
-  Please see the license.html file included with this distribution for 
+<!--
+  Please see the license.html file included with this distribution for
   attribution and copyright information.
 -->
 
@@ -78,28 +78,28 @@
 					end
 				</script>
 			</buttoncontrol>
-				
+
 			<list_ctbox_host />
 			<scrollbar_list />
-			
+
 			<button_ct_setactive />
 			<button_ct_nextactor />
 
 			<button_ct_faction_friend />
 			<button_ct_faction_neutral />
 			<button_ct_faction_foe />
-		
+
 			<button_ct_menu />
 
 			<label_ct_host_rounds />
 			<number_ct_host_rounds />
 			<button_ct_nextround />
-			
+
 			<resize_ctbox />
 			<close_ctbox />
 		</sheetdata>
 	</windowclass>
-	
+
 	<windowclass name="ct_entry">
 		<margins control="0,0,0,2" />
 		<frame>ctentrybox</frame>
@@ -118,7 +118,7 @@
 					end
 				</script>
 			</hn>
-			
+
 			<genericcontrol name="active_spacer_top">
 				<anchored width="0" height="5">
 					<top />
@@ -126,7 +126,7 @@
 				</anchored>
 				<invisible />
 			</genericcontrol>
-			
+
 			<button_ctentry_active name="active">
 				<anchored width="33" height="40">
 					<top parent="active_spacer_top" anchor="bottom" />
@@ -142,7 +142,7 @@
 			<button_ctentry_tokenvis name="tokenvis">
 				<anchored to="token" position="belowright" offset="-10,-7" />
 			</button_ctentry_tokenvis>
-			
+
 			<genericcontrol name="rightanchor">
 				<anchored width="0" height="0">
 					<top parent="active_spacer_top" anchor="bottom" offset="10" />
@@ -156,7 +156,7 @@
 					<right anchor="left" relation="relative" offset="-12" />
 				</anchored>
 			</button_idelete>
-			
+
 			<link_ctentry name="link">
 				<anchored to="rightanchor">
 					<top />
@@ -236,7 +236,7 @@
 				</anchored>
 				<tabtarget next="initresult" />
 			</string_ctname>
-			
+
 			<!-- Targeting subsection -->
 			<icon_ctsection name="targetingicon">
 				<icon>button_section_targeting_down</icon>
@@ -261,30 +261,64 @@
 				<icon>button_space_down</icon>
 			</icon_ctsection>
 
-			<number_ct name="space">
+
+			<label name="space">
 				<anchored width="25" height="20">
 					<top parent="name" anchor="bottom" relation="relative" offset="10" />
 					<left parent="spacingicon" anchor="right" offset="47" />
 				</anchored>
-				<description textres="ct_label_size" />
-				<hideonvalue value="0" />
-				<default>1</default>
-			</number_ct>
-			<label name="spacelabel">
-				<anchored to="space" position="lefthigh" offset="10,0"/>
-				<static textres="ct_label_size" />
+				<static text="ISD" />
 			</label>
 
-			<number_ct name="reach">
-				<anchored to="space" position="righthigh" offset="60,0" />
-				<description textres="ct_label_reach" />
-				<hideonvalue value="0" />
-				<default>1</default>
-			</number_ct>
-			<label name="reachlabel">
-				<anchored to="reach" position="lefthigh" offset="10,0"/>
-				<static textres="ct_label_reach" />
-			</label>
+			<!-- Combat: Final Initiative Score -->
+			<number_npcinitiative_score name="combat_init_score"
+							source="npcinitiative.combat.score">
+					<anchored to="space" position="righthigh" offset="25,0" />
+					<target>combat</target>
+					<source_one>reaction</source_one>
+					<source_two>intuition</source_two>
+					<alabel>Initiative</alabel>
+					<tooltip>
+							<text>The final resulting initiative score</text>
+					</tooltip>
+			</number_npcinitiative_score>
+
+			<number_npcsoak_score name="soak"
+				source="npcattributes.soak.score">
+				<anchored to="space" position="righthigh" offset="65,0" />
+				<description text="soak final score" />
+				<target>soak</target>
+				<alabel>soak</alabel>
+				<tooltip>
+					<text>Current soak score</text>
+				</tooltip>
+			</number_npcsoak_score>
+
+			<number_npcdefense_score name="defense"
+				source="npcattributes.defense.score">
+				<anchored to="space" position="righthigh" offset="105,0" />
+				<description text="defense final score" />
+				<gmeditonly />
+				<script file="common/scripts/number_crosslink.lua" />
+				<target>defense</target>
+				<alabel>defense</alabel>
+				<tooltip>
+						<text>Current defense score</text>
+				</tooltip>
+			</number_npcdefense_score>
+
+			<string_npcattribute_label name="defense_label">
+					<anchored to="space" position="righthigh" offset="90,0" />
+					<static>D</static>
+			</string_npcattribute_label>
+			<string_npcattribute_label name="soak_label">
+					<anchored to="space" position="righthigh" offset="50,0" />
+					<static>S</static>
+			</string_npcattribute_label>
+			<string_npcattribute_label name="init_label">
+					<anchored to="space" position="righthigh" offset="10,0" />
+					<static>I</static>
+			</string_npcattribute_label>
 
 			<frame_ctsub name="frame_spacing">
 				<anchored>
@@ -309,7 +343,7 @@
 				<noscroll />
 				<script file="ct/scripts/ct_effectlist.lua" />
 			</windowlist>
- 
+
 			<button_iadd name="effects_iadd">
 				<anchored>
 					<top parent="name" anchor="bottom" relation="relative" offset="2" />
@@ -318,7 +352,7 @@
 				<target>effects</target>
 				<tooltip textres="ct_tooltip_effectadd" />
 			</button_iadd>
-			
+
 			<frame_ctsub name="frame_effects">
 				<anchored>
 					<top parent="effecticon" />
@@ -356,7 +390,7 @@
 				<state icon="visibilityon" tooltipres="visibilityon" />
 				<state icon="visibilityoff" tooltipres="visibilityoff" />
 			</buttonfield>
-			
+
 			<genericcontrol name="rightanchor">
 				<anchored height="0" width="0">
 					<top />
@@ -409,17 +443,17 @@
 						registerMenuItem(Interface.getString("ct_menu_targetingfriend"), "turn", 4, 3);
 						registerMenuItem(Interface.getString("ct_menu_targetingnonfriend"), "mask", 4, 5);
 					end
-					
+
 					function onDragStart(button, x, y, draginfo)
 						local nodeWin = window.getDatabaseNode();
 						if not nodeWin then
 							return false;
 						end
-						
+
 						draginfo.setType("targeting");
 						draginfo.setIcon("drag_targeting");
 						draginfo.setShortcutData(window.getClass(), nodeWin.getNodeName());
-						
+
 						return true;
 					end
 
@@ -447,7 +481,7 @@
 			</buttoncontrol>
 		</sheetdata>
 	</windowclass>
-	
+
 	<windowclass name="ct_target">
 		<margins control="0,0,3,2" />
 		<script file="ct/scripts/ct_target.lua" />
@@ -459,7 +493,7 @@
 					end
 				</script>
 			</hs>
-			
+
 			<tokencontrol name="token">
 				<bounds>3,2,20,20</bounds>
 				<empty>token_empty</empty>
@@ -469,7 +503,7 @@
 					function onClickDown(button, x, y)
 						return true;
 					end
-					
+
 					function onClickRelease(button, x, y)
 						window.removeTarget();
 						return true;

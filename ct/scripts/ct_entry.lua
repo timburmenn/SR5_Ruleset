@@ -1,5 +1,5 @@
--- 
--- Please see the license.html file included with this distribution for 
+--
+-- Please see the license.html file included with this distribution for
 -- attribution and copyright information.
 --
 
@@ -11,13 +11,13 @@ function onInit()
 
 	-- Acquire token reference, if any
 	linkToken();
-	
+
 	-- Set up the PC links
 	onLinkChanged();
-	
+
 	-- Update the displays
 	onFactionChanged();
-	
+
 	-- Register the deletion menu item for the host
 	registerMenuItem(Interface.getString("list_menu_deleteitem"), "delete", 6);
 	registerMenuItem(Interface.getString("list_menu_deleteconfirm"), "delete", 6, 7);
@@ -28,10 +28,10 @@ function updateDisplay()
 
 	if DB.getValue(getDatabaseNode(), "active", 0) == 1 then
 		name.setFont("sheetlabel");
-		
+
 		active_spacer_top.setVisible(true);
 		active_spacer_bottom.setVisible(true);
-		
+
 		if sFaction == "friend" then
 			setFrame("ctentrybox_friend_active");
 		elseif sFaction == "neutral" then
@@ -43,10 +43,10 @@ function updateDisplay()
 		end
 	else
 		name.setFont("sheettext");
-		
+
 		active_spacer_top.setVisible(false);
 		active_spacer_bottom.setVisible(false);
-		
+
 		if sFaction == "friend" then
 			setFrame("ctentrybox_friend");
 		elseif sFaction == "neutral" then
@@ -78,13 +78,13 @@ function delete()
 		close();
 		return;
 	end
-	
+
 	-- Remember node name
 	local sNode = node.getNodeName();
-	
+
 	-- Clear any effects and wounds first, so that saves aren't triggered when initiative advanced
 	effects.reset(false);
-	
+
 	-- Move to the next actor, if this CT entry is active
 	if DB.getValue(node, "active", 0) == 1 then
 		CombatManager.nextActor();
@@ -142,9 +142,9 @@ function setTargetingVisible()
 	end
 
 	targetingicon.setVisible(v);
-	
+
 	sub_targeting.setVisible(v);
-	
+
 	frame_targeting.setVisible(v);
 
 	target_summary.onTargetsChanged();
@@ -157,12 +157,15 @@ function setSpacingVisible()
 	end
 
 	spacingicon.setVisible(v);
-	
+
 	space.setVisible(v);
-	spacelabel.setVisible(v);
-	reach.setVisible(v);
-	reachlabel.setVisible(v);
-	
+	soak.setVisible(v);
+	defense.setVisible(v);
+	combat_init_score.setVisible(v);
+	defense_label.setVisible(v);
+	soak_label.setVisible(v);
+	init_label.setVisible(v);
+
 	frame_spacing.setVisible(v);
 end
 
@@ -171,9 +174,9 @@ function setEffectsVisible()
 	if activateeffects.getValue() == 1 then
 		v = true;
 	end
-	
+
 	effecticon.setVisible(v);
-	
+
 	effects.setVisible(v);
 	effects_iadd.setVisible(v);
 	for _,w in pairs(effects.getWindows()) do
