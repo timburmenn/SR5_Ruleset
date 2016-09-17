@@ -214,6 +214,7 @@
 				</anchored>
 			</button_ctentry_friendfoe>
 
+<!-- initiative result box?-->
 			<number_ct_crosslink name="initresult">
 				<anchored to="rightanchor" width="30" height="20">
 					<top />
@@ -226,6 +227,9 @@
 						window.windowlist.applySort();
 					end
 				</script>
+				<tooltip>
+						<text>Order of initiative</text>
+				</tooltip>
 			</number_ct_crosslink>
 
 			<string_ctname name="name">
@@ -261,19 +265,10 @@
 				<icon>button_space_down</icon>
 			</icon_ctsection>
 
-
-			<label name="space">
-				<anchored width="25" height="20">
-					<top parent="name" anchor="bottom" relation="relative" offset="10" />
-					<left parent="spacingicon" anchor="right" offset="47" />
-				</anchored>
-				<static text="ISD" />
-			</label>
-
 			<!-- Combat: Final Initiative Score -->
 			<number_npcinitiative_score name="combat_init_score"
 							source="npcinitiative.combat.score">
-					<anchored to="space" position="righthigh" offset="25,0" />
+					<anchored to="spacingicon" position="right" offset="40,0" />
 					<target>combat</target>
 					<source_one>reaction</source_one>
 					<source_two>intuition</source_two>
@@ -285,7 +280,7 @@
 
 			<number_npcsoak_score name="soak"
 				source="npcattributes.soak.score">
-				<anchored to="space" position="righthigh" offset="65,0" />
+				<anchored to="combat_init_score" position="right" offset="30,0" />
 				<description text="soak final score" />
 				<target>soak</target>
 				<alabel>soak</alabel>
@@ -296,7 +291,7 @@
 
 			<number_npcdefense_score name="defense"
 				source="npcattributes.defense.score">
-				<anchored to="space" position="righthigh" offset="105,0" />
+				<anchored to="combat_init_score" position="right" offset="85,0" />
 				<description text="defense final score" />
 				<gmeditonly />
 				<script file="common/scripts/number_crosslink.lua" />
@@ -308,22 +303,22 @@
 			</number_npcdefense_score>
 
 			<string_npcattribute_label name="defense_label">
-					<anchored to="space" position="righthigh" offset="90,0" />
-					<static>D</static>
+					<anchored to="defense" position="left" offset="5,0" />
+					<static>De</static>
 			</string_npcattribute_label>
 			<string_npcattribute_label name="soak_label">
-					<anchored to="space" position="righthigh" offset="50,0" />
-					<static>S</static>
+					<anchored to="soak" position="left" offset="5,0" />
+					<static>So</static>
 			</string_npcattribute_label>
 			<string_npcattribute_label name="init_label">
-					<anchored to="space" position="righthigh" offset="10,0" />
-					<static>I</static>
+					<anchored to="combat_init_score" position="left" offset="5,0" />
+					<static>Init.</static>
 			</string_npcattribute_label>
 
 			<frame_ctsub name="frame_spacing">
 				<anchored>
 					<top parent="spacingicon" />
-					<bottom parent="space" />
+					<bottom parent="combat_init_score" />
 				</anchored>
 			</frame_ctsub>
 
