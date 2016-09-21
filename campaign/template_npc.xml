@@ -89,7 +89,6 @@
                 offset="10,0"
                 width="24" />
             <default>1</default>
-            <hideonvalue value="1" />
         </basicnumber>
     </template>
 
