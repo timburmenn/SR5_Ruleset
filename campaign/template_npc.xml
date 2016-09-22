@@ -432,28 +432,6 @@
 		</windowlist>
 	</template>
 
-	<template name="list_language">
-		<list_text>
-			<datasource>.languagelist</datasource>
-			<class>npc_language</class>
-			<sortby>
-				<control>name</control>
-			</sortby>
-			<newfocus>name</newfocus>
-			<allowcreate />
-			<allowdelete />
-			<script>
-				function onDrop(x, y, draginfo)
-				if draginfo.getType() == "string" then
-				local w = addEntry(true);
-				w.name.setValue(draginfo.getStringData());
-				return true;
-				end
-				end
-			</script>
-		</list_text>
-	</template>
-
 	<template name="toggle_button">
 
 	</template>
