@@ -875,12 +875,12 @@ source="attributes.soak.score">
 		</tooltip>
 </number_charedge_score>
 
-<!-- Edge Label removed for now
-<string_attribute_label>
+
+<string_npcattribute_label>
 		<anchored to="edge_base" />
 		<static>E</static>
-</string_attribute_label>
--->
+</string_npcattribute_label>
+
 
 <status_edgecounter name="edge_count">
 		<anchored>
