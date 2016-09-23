@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 
-<!-- Please see the license.html file included with this distribution for 
+<!-- Please see the license.html file included with this distribution for
 	attribution and copyright information. -->
 
 <root>
@@ -9,7 +9,7 @@
 		    <frame_char name="limits_frame">
 				<bounds>15,0,-29,55</bounds>
 			</frame_char>
-			
+
             <number_limit_base name="physical_limit_base"
                 source="attributes.limits.physical.base">
                 <anchored to="limits_frame"
@@ -24,22 +24,22 @@
                     <text>Base Physical Limit</text>
                 </tooltip>
             </number_limit_base>
-			
+
             <string_limit_label name = "physical_limit_label">
                 <anchored to="physical_limit_base"/>
                 <static>Phy</static>
             </string_limit_label>
-			
+
             <number_limit_mod name="physical_limit_augs"
                 source="attributes.limits.physical.augs">
                 <anchored to="physical_limit_base" />
-                <target>physical</target> 
+                <target>physical</target>
                 <description text="Body augmentations" />
                 <tooltip>
-				<text>Augmentations to the Physical limit</text>
+				        <text>Augmentations to the Physical limit</text>
                 </tooltip>
             </number_limit_mod>
-                        
+
             <number_limit_score name="physical_limit"
                 source="attributes.limits.physical.final">
                 <anchored to="physical_limit_base" />
@@ -50,7 +50,7 @@
                     <text>Current Physical limit</text>
                 </tooltip>
             </number_limit_score>
-			
+
             <label_fieldtop>
 				<anchored to="physical_limit_base" />
 				<static>Base</static>
@@ -63,7 +63,7 @@
 				<anchored to="physical_limit" />
 				<static>Score</static>
 			</label_fieldtop>
-            
+
             <number_limit_base name="mental_limit_base"
                 source="attributes.limits.mental.base">
                 <anchored to="limits_frame"
@@ -78,22 +78,22 @@
                     <text>Base Mental Limit</text>
                 </tooltip>
             </number_limit_base>
-			
+
             <string_limit_label name = "mental_limit_label">
                 <anchored to="mental_limit_base"/>
                 <static>Men</static>
             </string_limit_label>
-			
+
             <number_limit_mod name="mental_limit_augs"
                 source="attributes.limits.mental.augs">
                 <anchored to="mental_limit_base" />
-                <target>mental</target> 
+                <target>mental</target>
                 <description text="Mental limit augmentations" />
                 <tooltip>
 				<text>Augmentations to the Mental limit</text>
                 </tooltip>
             </number_limit_mod>
-                        
+
             <number_limit_score name="mental_limit"
                 source="attributes.limits.mental.final">
                 <anchored to="mental_limit_base" />
@@ -104,7 +104,7 @@
                     <text>Current Mental limit</text>
                 </tooltip>
             </number_limit_score>
-			
+
             <label_fieldtop>
 				<anchored to="mental_limit_base" />
 				<static>Base</static>
@@ -117,7 +117,7 @@
 				<anchored to="mental_limit" />
 				<static>Score</static>
 			</label_fieldtop>
-			
+
             <number_limit_base name="social_limit_base"
                 source="attributes.limits.social.base">
                 <anchored to="limits_frame"
@@ -132,22 +132,22 @@
                     <text>Base Social Limit</text>
                 </tooltip>
             </number_limit_base>
-			
+
             <string_limit_label name = "social_limit_label">
                 <anchored to="social_limit_base"/>
                 <static>Soc</static>
             </string_limit_label>
-			
+
             <number_limit_mod name="social_limit_augs"
                 source="attributes.limits.social.augs">
                 <anchored to="social_limit_base" />
-                <target>physical</target> 
+                <target>physical</target>
                 <description text="Social limit augmentations" />
                 <tooltip>
 				<text>Augmentations to the Social limit</text>
                 </tooltip>
             </number_limit_mod>
-                        
+
             <number_limit_score name="social_limit"
                 source="attributes.limits.social.final">
                 <anchored to="social_limit_base" />
@@ -158,7 +158,7 @@
                     <text>Current Social limit</text>
                 </tooltip>
             </number_limit_score>
-			
+
             <label_fieldtop>
 				<anchored to="social_limit_base" />
 				<static>Base</static>
@@ -170,11 +170,11 @@
             <label_fieldtop>
 				<anchored to="social_limit" />
 				<static>Score</static>
-			</label_fieldtop>			
+			</label_fieldtop>
 			<frame_char name="skillsframe">
 				<bounds>15,55,-29,-5</bounds>
 			</frame_char>
-			
+
 			<genericcontrol name="rightanchor">
 				<anchored to="skillsframe" width="0" height="0">
 					<top offset="10" />
@@ -314,9 +314,9 @@
 								local rRoll = { sType = "dicepool", sDesc = label, aDice = tDice, nMod = 0 };
 								ActionsManager.performAction(draginfo, nil, rRoll);
 							end
-							return true;						
+							return true;
 						end
-						
+
 						function onDoubleClick(x, y)
 							local nodeWin = window.getDatabaseNode();
 							local nDice = nodeWin.getChild("dice_pool").getValue()
@@ -330,7 +330,7 @@
 							end
 							nDice = nDice + nWoundPen;
 							nDice = math.max(nDice,1);
-							
+
 							tDice = {};
 							if nDice > 0 then
 								for i = 1, nDice do
@@ -349,7 +349,7 @@
 							end
 							return true;
 						end
-					
+
 						function onDrop(x, y, draginfo)
 							return windowlist.onDrop(x, y, draginfo);
 						end
@@ -372,7 +372,7 @@
 					function onLoseFocus()
 						window.setFrame(nil);
 					end
-					
+
 					function onValueChanged()
 						local attr_nodename = window.getDatabaseNode().getChild("attribute").getValue()
 						local attr_node = window.getDatabaseNode().getParent().getParent()
@@ -385,7 +385,7 @@
 						else
 							window.getDatabaseNode().getChild("dice_pool").setValue(skill_rating+skill_mod)
 						end
-					end					
+					end
 				</script>
 			</char_skillrating>
 			<char_skillrating name="rating">
@@ -405,7 +405,7 @@
 					function onLoseFocus()
 						window.setFrame(nil);
 					end
-					
+
 					function onValueChanged()
 						local attr_nodename = window.getDatabaseNode().getChild("attribute").getValue()
 						local attr_node = window.getDatabaseNode().getParent().getParent()
@@ -418,9 +418,9 @@
 						else
 							window.getDatabaseNode().getChild("dice_pool").setValue(skill_rating+skill_mod)
 						end
-					end					
+					end
 				</script>
-			</char_skillrating>			
+			</char_skillrating>
 		<button_stringcycler name="attribute">
 				<anchored to="rating" width="30" height="17">
 					<top offset="2"/>
@@ -442,7 +442,7 @@
 						super.onInit();
 						onValueChanged();
 					end
-					
+
 					function onValueChanged()
 						local attr_nodename = window.getDatabaseNode().getChild("attribute").getValue()
 						local attr_node = window.getDatabaseNode().getParent().getParent()
@@ -456,8 +456,8 @@
 							window.getDatabaseNode().getChild("dice_pool").setValue(skill_rating+skill_mod)
 						end
 					end
-				</script>			
-			</button_stringcycler>			
+				</script>
+			</button_stringcycler>
 			<string_textlistitem name="label">
 				<anchored to="attribute" width="205" height="20">
 					<top offset="0"/>
@@ -484,4 +484,3 @@
 		</sheetdata>
 	</windowclass>
 </root>
-
