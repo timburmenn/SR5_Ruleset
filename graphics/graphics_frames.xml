@@ -1,15 +1,44 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 
-<!-- 
-  Please see the license.html file included with this distribution for 
+<!--
+  Please see the license.html file included with this distribution for
   attribution and copyright information.
 -->
 
 <root>
+	<!-- Desktop background -->
+	<framedef name="desktop">
+		<bitmap file="graphics/frames/grey-illumination-wallpaper.jpg" />
+		<right rect="0,0,0,0" />
+		<!-- <decal rect="300,1080,224,90" /> -->
+		<middle rect="0,0,2048,1080" />
+	</framedef>
 	<!-- Characters -->
 	<framedef name="charsheet">
 		<bitmap file="graphics/frames/charsheet.png" />
 		<offset>25,40,25,25</offset>
 		<insideoffset>0,0,7,7</insideoffset>
+	</framedef>
+	<!-- Chat window -->
+	<framedef name="chatbox">
+		<bitmap file="graphics/frames/chatbox.png" />
+		<topleft rect="0,0,15,140" />
+		<top rect="15,0,358,140" />
+		<topright rect="373,0,15,140" />
+		<left rect="0,140,15,406" />
+		<middle rect="15,140,358,406" />
+		<right rect="373,140,15,406" />
+		<bottomleft rect="0,580,15,47" />
+		<bottom rect="15,580,358,47" />
+		<bottomright rect="373,580,15,47" />
+	</framedef>
+	<!-- Hot key bar -->
+	<framedef name="hotkeybox">
+		<bitmap file="graphics/frames/hotkeybox.png" />
+		<offset>2,5,2,2</offset>
+	</framedef>
+	<framedef name="hotkeytitlebox">
+		<bitmap file="graphics/frames/hotkeytitlebox.png" />
+		<offset>0,0,4,5</offset>
 	</framedef>
 </root>
