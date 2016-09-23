@@ -741,9 +741,8 @@
 					local nLow = 	  DB.getValue(nodeWin, "damage.painthreshold.low",1);
 					local nIgnore =   DB.getValue(nodeWin, "damage.painthreshold.tol",1);
 
-					local effDmg = (nPhysCurr-nIgnore)+(nStunCurr-nIgnore);
+					local effDmg = (nPhysCurr)+(nStunCurr);
 					local damPen = math.floor(effDmg/(3-nLow));
-					print("dP = "..nPhysCurr.." dS = "..nStunCurr.." Lo = "..nLow.."  nI="..nIgnore.."  eD="..effDmg);
 					setValue(-damPen);
 				end
 			</script>
