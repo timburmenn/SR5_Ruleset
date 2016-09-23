@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 
-<!-- Please see the license.html file included with this distribution for 
+<!-- Please see the license.html file included with this distribution for
 	attribution and copyright information. -->
 
 <root>
-<!-- Doesn't work --
-    <die mergerule="delete" name="d20"/>
-!-- end -->
-    
+<!-- remove all those fantasy things-->
+    <die name="d4" merge="delete" />
+    <die name="d8" merge="delete" />
+    <die name="d10" merge="delete" />
+    <die name="d12" merge="delete" />
+    <die name="d20" merge="delete" />
+    <die name="dF" merge="delete" />
 </root>
