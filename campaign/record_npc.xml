@@ -170,7 +170,7 @@
 <!-- Body -->
 <!-- Body_base is the item that decides position -->
 <number_npcattribute_base name="body_base"
-	source="npcattributes.body.base">
+	source="attributes.body.base">
   <anchored to="att_frame"
   	position="insidetopleft"
     offset="30,27" />
@@ -186,7 +186,7 @@
 </string_npcattribute_label>
 
 <number_npcattribute_permmod name="body_augs"
-	source="npcattributes.body.augs">
+	source="attributes.body.augs">
   <anchored to="body_base" />
   <target>body</target>
   <description text="Body augmentations" />
@@ -196,7 +196,7 @@
 </number_npcattribute_permmod>
 
 <number_npcattribute_tempmod name="body_tempmod"
-  source="npcattributes.body.temp">
+  source="attributes.body.temp">
   <anchored to="body_base"/>
 	<target>body</target>
   <description text="Body temporary modifier" />
@@ -206,7 +206,7 @@
 </number_npcattribute_tempmod>
 
 <number_npcattribute_score name="body"
-  source="npcattributes.body.score">
+  source="attributes.body.score">
   <anchored to="body_base" />
   <description text="Body final score" />
   <target>body</target>
@@ -218,7 +218,7 @@
 
 <!-- Agility -->
 <number_npcattribute_base name="agility_base"
-  source="npcattributes.agility.base">
+  source="attributes.agility.base">
   <anchored to="att_frame"
 	position="insidetopleft"
   offset="30,51" />
@@ -234,7 +234,7 @@
 </string_npcattribute_label>
 
             <number_npcattribute_permmod name="agility_augs"
-                source="npcattributes.agility.augs">
+                source="attributes.agility.augs">
                 <anchored to="agility_base" />
                 <target>agility</target>
                 <description text="Agility augmentations" />
@@ -244,7 +244,7 @@
             </number_npcattribute_permmod>
 
             <number_npcattribute_tempmod name="agility_tempmod"
-                source="npcattributes.agility.temp">
+                source="attributes.agility.temp">
                 <anchored to="agility_base"/>
                 <target>agility</target>
                 <description text="Agility temporary modifier" />
@@ -254,7 +254,7 @@
             </number_npcattribute_tempmod>
 
             <number_npcattribute_score name="agility"
-                source="npcattributes.agility.score">
+                source="attributes.agility.score">
                 <anchored to="agility_base" />
                 <target>agility</target>
                 <description text="Agility final score" />
@@ -265,7 +265,7 @@
             </number_npcattribute_score>
 <!-- Reaction -->
             <number_npcattribute_base name="reaction_base"
-                source="npcattributes.reaction.base">
+                source="attributes.reaction.base">
                 <anchored to="att_frame"
                     position="insidetopleft"
                     offset="30,75" />
@@ -281,7 +281,7 @@
             </string_npcattribute_label>
 
             <number_npcattribute_permmod name="reaction_augs"
-                source="npcattributes.reaction.augs">
+                source="attributes.reaction.augs">
                 <anchored to="reaction_base" />
                 <target>reaction</target>
                 <description text="Reaction augmentations" />
@@ -291,7 +291,7 @@
             </number_npcattribute_permmod>
 
             <number_npcattribute_tempmod name="reaction_tempmod"
-                source="npcattributes.reaction.temp">
+                source="attributes.reaction.temp">
                 <anchored to="reaction_base"/>
                 <target>reaction</target>
                 <description text="Reaction temporary modifier" />
@@ -301,7 +301,7 @@
             </number_npcattribute_tempmod>
 
             <number_npcattribute_score name="reaction"
-                source="npcattributes.reaction.score">
+                source="attributes.reaction.score">
                 <anchored to="reaction_base" />
                 <target>reaction</target>
                 <description text="Reaction" />
@@ -313,7 +313,7 @@
 
             <!-- Strength -->
             <number_npcattribute_base name="strength_base"
-                source="npcattributes.strength.base">
+                source="attributes.strength.base">
                 <anchored to="att_frame"
                     position="insidetopleft"
                     offset="30,99" />
@@ -329,7 +329,7 @@
             </string_npcattribute_label>
 
             <number_npcattribute_permmod name="strength_augs"
-                source="npcattributes.strength.augs">
+                source="attributes.strength.augs">
                 <anchored to="strength_base" />
                 <target>strength</target>
                 <description text="Strength augmentations" />
@@ -339,7 +339,7 @@
             </number_npcattribute_permmod>
 
             <number_npcattribute_tempmod name="strength_tempmod"
-                source="npcattributes.strength.temp">
+                source="attributes.strength.temp">
                 <anchored to="strength_base"/>
                 <target>strength</target>
                 <description text="Strength temporary modifier" />
@@ -349,7 +349,7 @@
             </number_npcattribute_tempmod>
 
             <number_npcattribute_score name="strength"
-                source="npcattributes.strength.score">
+                source="attributes.strength.score">
                 <anchored to="strength_base" />
                 <target>strength</target>
                 <description text="Strength" />
@@ -362,7 +362,7 @@
 
             <!-- Intuition -->
             <number_npcattribute_base name="intuition_base"
-                source="npcattributes.intuition.base">
+                source="attributes.intuition.base">
                 <anchored to="att_frame"
                     position="insidetopleft"
                     offset="30,123" />
@@ -378,7 +378,7 @@
             </string_npcattribute_label>
 
             <number_npcattribute_permmod name="intuition_augs"
-                source="npcattributes.intuition.augs">
+                source="attributes.intuition.augs">
                 <anchored to="intuition_base" />
                 <target>intuition</target>
                 <description text="Intuition augmentations" />
@@ -388,7 +388,7 @@
             </number_npcattribute_permmod>
 
             <number_npcattribute_tempmod name="intuition_tempmod"
-                source="npcattributes.intuition.temp">
+                source="attributes.intuition.temp">
                 <anchored to="intuition_base"/>
                 <target>intuition</target>
                 <description text="Intuition temporary modifier" />
@@ -398,7 +398,7 @@
             </number_npcattribute_tempmod>
 
             <number_npcattribute_score name="intuition"
-                source="npcattributes.intuition.score">
+                source="attributes.intuition.score">
                 <anchored to="intuition_base" />
                 <target>intuition</target>
                 <description text="Intuition final score" />
@@ -411,7 +411,7 @@
 
             <!-- Logic -->
             <number_npcattribute_base name="logic_base"
-                source="npcattributes.logic.base">
+                source="attributes.logic.base">
                 <anchored to="att_frame"
                     position="insidetopleft"
                     offset="30,147" />
@@ -427,7 +427,7 @@
             </string_npcattribute_label>
 
             <number_npcattribute_permmod name="logic_augs"
-                source="npcattributes.logic.augs">
+                source="attributes.logic.augs">
                 <anchored to="logic_base" />
                 <target>logic</target>
                 <description text="Logic augmentations" />
@@ -437,7 +437,7 @@
             </number_npcattribute_permmod>
 
             <number_npcattribute_tempmod name="logic_tempmod"
-                source="npcattributes.logic.temp">
+                source="attributes.logic.temp">
                 <anchored to="logic_base"/>
                 <target>logic</target>
                 <description text="Logic temporary modifier" />
@@ -447,7 +447,7 @@
             </number_npcattribute_tempmod>
 
             <number_npcattribute_score name="logic"
-                source="npcattributes.logic.score">
+                source="attributes.logic.score">
                 <anchored to="logic_base" />
                 <target>logic</target>
                 <description text="Logic final score" />
@@ -460,7 +460,7 @@
 
             <!-- Willpower -->
             <number_npcattribute_base name="willpower_base"
-                source="npcattributes.willpower.base">
+                source="attributes.willpower.base">
                 <anchored to="att_frame"
                     position="insidetopleft"
                     offset="30,171" />
@@ -476,7 +476,7 @@
             </string_npcattribute_label>
 
             <number_npcattribute_permmod name="willpower_augs"
-                source="npcattributes.willpower.augs">
+                source="attributes.willpower.augs">
                 <anchored to="willpower_base" />
                 <target>willpower</target>
                 <description text="Willpower augmentations" />
@@ -486,7 +486,7 @@
             </number_npcattribute_permmod>
 
             <number_npcattribute_tempmod name="willpower_tempmod"
-                source="npcattributes.willpower.temp">
+                source="attributes.willpower.temp">
                 <anchored to="willpower_base"/>
                 <target>willpower</target>
                 <description text="Willpower temporary modifier" />
@@ -496,7 +496,7 @@
             </number_npcattribute_tempmod>
 
             <number_npcattribute_score name="willpower"
-                source="npcattributes.willpower.score">
+                source="attributes.willpower.score">
                 <anchored to="willpower_base" />
                 <target>willpower</target>
                 <alabel>Willpower</alabel>
@@ -509,7 +509,7 @@
 
             <!-- Charisma -->
             <number_npcattribute_base name="charisma_base"
-                source="npcattributes.charisma.base">
+                source="attributes.charisma.base">
                 <anchored to="att_frame"
                     position="insidetopleft"
                     offset="30,195" />
@@ -525,7 +525,7 @@
             </string_npcattribute_label>
 
             <number_npcattribute_permmod name="charisma_augs"
-                source="npcattributes.charisma.augs">
+                source="attributes.charisma.augs">
                 <anchored to="charisma_base" />
                 <target>charisma</target>
                 <description text="Charisma augmentations" />
@@ -535,7 +535,7 @@
             </number_npcattribute_permmod>
 
             <number_npcattribute_tempmod name="charisma_tempmod"
-                source="npcattributes.charisma.temp">
+                source="attributes.charisma.temp">
                 <anchored to="charisma_base"/>
                 <target>charisma</target>
                 <description text="Charisma temporary modifier" />
@@ -545,7 +545,7 @@
             </number_npcattribute_tempmod>
 
             <number_npcattribute_score name="charisma"
-                source="npcattributes.charisma.score">
+                source="attributes.charisma.score">
                 <anchored to="charisma_base" />
                 <target>charisma</target>
                 <description text="Charisma final score" />
@@ -558,7 +558,7 @@
 
             <!-- Magic/Resonance -->
             <number_npcattribute_base name="magres_base"
-                source="npcattributes.magres.base">
+                source="attributes.magres.base">
                 <anchored to="att_frame"
                     position="insidetopleft"
                     offset="30,219" />
@@ -574,7 +574,7 @@
             </string_npcattribute_label>
 
             <number_npcattribute_permmod name="magres_augs"
-                source="npcattributes.magres.augs">
+                source="attributes.magres.augs">
                 <anchored to="magres_base" />
                 <target>magres</target>
                 <description text="Magic/Resonance augmentations" />
@@ -584,7 +584,7 @@
             </number_npcattribute_permmod>
 
             <number_npcattribute_tempmod name="magres_tempmod"
-                source="npcattributes.magres.temp">
+                source="attributes.magres.temp">
                 <anchored to="magres_base"/>
                 <target>magres</target>
                 <description text="Magic/Resonance temporary modifier" />
@@ -594,7 +594,7 @@
             </number_npcattribute_tempmod>
 
             <number_npcattribute_score name="magres"
-                source="npcattributes.magres.score">
+                source="attributes.magres.score">
                 <anchored to="magres_base" />
                 <target>magres</target>
                 <description text="Magic/Resonance final score" />
@@ -778,7 +778,7 @@
 
 <!-- Defense roll, Source from reaction and intuition-->
 <number_npcdefense_permmod name="defense_augs"
-		source="npcattributes.defense.augs">
+		source="attributes.defense.augs">
 		<anchored to="combat_init_augs"
 			position="insidetopleft"
 			offset = "0,25"
@@ -796,7 +796,7 @@
 </string_npcattribute_label>
 
 <number_npcdefense_tempmod name="defense_tempmod"
-source="npcattributes.defense.temp">
+source="attributes.defense.temp">
 <anchored to="defense_augs"/>
 <target>defense</target>
 <description text="defense temporary modifier" />
@@ -806,7 +806,7 @@ source="npcattributes.defense.temp">
 </number_npcdefense_tempmod>
 
 <number_npcdefense_score name="defense"
-source="npcattributes.defense.score">
+source="attributes.defense.score">
 <anchored to="defense_tempmod" />
 <description text="defense final score" />
 <target>defense</target>
@@ -818,7 +818,7 @@ source="npcattributes.defense.score">
 
 <!-- Soak-->
 <number_npcdefense_permmod name="soak_augs"
-		source="npcattributes.soak.augs">
+		source="attributes.soak.augs">
 		<anchored to="defense_augs"
 position="insidetopleft"
 offset = "0,25"
@@ -836,7 +836,7 @@ offset = "0,25"
 </string_npcattribute_label>
 
 <number_npcdefense_tempmod name="soak_tempmod"
-source="npcattributes.soak.temp">
+source="attributes.soak.temp">
 <anchored to="soak_augs"/>
 <target>soak</target>
 <description text="soak temporary modifier" />
@@ -846,7 +846,7 @@ source="npcattributes.soak.temp">
 </number_npcdefense_tempmod>
 
 <number_npcsoak_score name="soak"
-source="npcattributes.soak.score">
+source="attributes.soak.score">
 <anchored to="soak_tempmod" />
 <description text="soak final score" />
 <target>soak</target>

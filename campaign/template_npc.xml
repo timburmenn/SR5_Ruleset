@@ -109,8 +109,8 @@
             <script>
             function onSourceUpdate()
                 local nodeWin = window.getDatabaseNode();
-                local nScoreOne = DB.getValue(nodeWin, "npcattributes." .. source_one[1] .. ".score",1);
-                local nScoreTwo = DB.getValue(nodeWin, "npcattributes." .. source_two[1] .. ".score",0);
+                local nScoreOne = DB.getValue(nodeWin, "attributes." .. source_one[1] .. ".score",1);
+                local nScoreTwo = DB.getValue(nodeWin, "attributes." .. source_two[1] .. ".score",0);
                 local nMod = DB.getValue(nodeWin, "npcinitiative." .. target[1] .. ".temp",0);
                 local nAugs = DB.getValue(nodeWin, "npcinitiative." .. target[1] .. ".augs",0);
                 local nCurrent = (nScoreOne + nScoreTwo) + nMod + nAugs;
@@ -118,8 +118,8 @@
             end
 
             function onInit()
-                addSource("npcattributes." .. source_one[1] .. ".score");
-                addSource("npcattributes." .. source_two[1] .. ".score");
+                addSource("attributes." .. source_one[1] .. ".score");
+                addSource("attributes." .. source_two[1] .. ".score");
                 addSource("npcinitiative." .. target[1] .. ".augs");
                 addSource("npcinitiative." .. target[1] .. ".temp");
 
@@ -208,9 +208,9 @@
             <script>
 			function onSourceUpdate()
                 local nodeWin = window.getDatabaseNode();
-                local nBase = DB.getValue(nodeWin, "npcattributes." .. target[1] .. ".base", 1);
-                local nAugs = DB.getValue(nodeWin, "npcattributes." .. target[1] .. ".augs", 0);
-                local nTemp = DB.getValue(nodeWin, "npcattributes." .. target[1] .. ".temp", 0);
+                local nBase = DB.getValue(nodeWin, "attributes." .. target[1] .. ".base", 1);
+                local nAugs = DB.getValue(nodeWin, "attributes." .. target[1] .. ".augs", 0);
+                local nTemp = DB.getValue(nodeWin, "attributes." .. target[1] .. ".temp", 0);
                 local nCurrent = nBase + nAugs + nTemp;
                 setValue(nCurrent);
 				if target[1] == "body" then
@@ -223,9 +223,9 @@
 
             function onInit()
 				sLabel = target[1];
-                addSource("npcattributes." .. target[1] .. ".base");
-                addSource("npcattributes." .. target[1] .. ".augs");
-                addSource("npcattributes." .. target[1] .. ".temp");
+                addSource("attributes." .. target[1] .. ".base");
+                addSource("attributes." .. target[1] .. ".augs");
+                addSource("attributes." .. target[1] .. ".temp");
 
                 super.onInit();
             end
@@ -233,7 +233,7 @@
             function action(draginfo)
 				local nodeWin = window.getDatabaseNode();
 				local nDice = DB.getValue(nodeWin,
-                            "npcattributes." .. target[1] .. ".score");
+                            "attributes." .. target[1] .. ".score");
 
 				local modDesc, modStack = ModifierStack.getStack(true);
 				nDice = nDice + modStack;
@@ -464,9 +464,9 @@
             <script>
 				function onSourceUpdate()
 					local nodeWin = window.getDatabaseNode();
-					local nScoreOne = DB.getValue(nodeWin, "npcattributes." .. source_one[1] .. ".score",1);
-					local nScoreTwo = DB.getValue(nodeWin, "npcattributes." .. source_two[1] .. ".score",1);
-					local nScoreThree = DB.getValue(nodeWin, "npcattributes." .. source_three[1] .. ".score",1);
+					local nScoreOne = DB.getValue(nodeWin, "attributes." .. source_one[1] .. ".score",1);
+					local nScoreTwo = DB.getValue(nodeWin, "attributes." .. source_two[1] .. ".score",1);
+					local nScoreThree = DB.getValue(nodeWin, "attributes." .. source_three[1] .. ".score",1);
 					print("Limits changed due to Stat"..source_three[1]);
 					if source_three[1] == "essence" then
 						print("Checking Essence");
@@ -477,9 +477,9 @@
 				end
 
 				function onInit()
-					addSource("npcattributes." .. source_one[1] .. ".score");
-					addSource("npcattributes." .. source_two[1] .. ".score");
-					addSource("npcattributes." .. source_three[1] .. ".score");
+					addSource("attributes." .. source_one[1] .. ".score");
+					addSource("attributes." .. source_two[1] .. ".score");
+					addSource("attributes." .. source_three[1] .. ".score");
 					super.onInit();
 				end
 
@@ -505,15 +505,15 @@
             <default>0</default>
             <script>
 				function onInit()
-					addSource("npcattributes.limits." .. target[1] .. ".base");
-					addSource("npcattributes.limits." .. target[1] .. ".augs");
+					addSource("attributes.limits." .. target[1] .. ".base");
+					addSource("attributes.limits." .. target[1] .. ".augs");
 					super.onInit();
 				end
 
 				function onSourceUpdate()
 					local nodeWin = window.getDatabaseNode();
-					local nBase = DB.getValue(nodeWin, "npcattributes.limits." .. target[1] .. ".base",1);
-					local nAugs = DB.getValue(nodeWin, "npcattributes.limits." .. target[1] .. ".augs",0);
+					local nBase = DB.getValue(nodeWin, "attributes.limits." .. target[1] .. ".base",1);
+					local nAugs = DB.getValue(nodeWin, "attributes.limits." .. target[1] .. ".augs",0);
 					local nCurrent = nBase + nAugs;
 					setValue(nCurrent);
 				end
@@ -550,18 +550,18 @@
     <script>
           function onSourceUpdate()
               local nodeWin = window.getDatabaseNode();
-        local nBody = DB.getValue(nodeWin, "npcattributes.body.score", 0);
-        local nAugs = DB.getValue(nodeWin, "npcattributes." .. target[1] .. ".augs", 0);
-        local nTemp = DB.getValue(nodeWin, "npcattributes." .. target[1] .. ".temp", 0);
+        local nBody = DB.getValue(nodeWin, "attributes.body.score", 0);
+        local nAugs = DB.getValue(nodeWin, "attributes." .. target[1] .. ".augs", 0);
+        local nTemp = DB.getValue(nodeWin, "attributes." .. target[1] .. ".temp", 0);
         local nCurrent = nBody + nAugs + nTemp;
       setValue(nCurrent);
           end
 
           function onInit()
       sLabel = target[1];
-              addSource("npcattributes.body.score");
-              addSource("npcattributes." .. target[1] .. ".augs");
-              addSource("npcattributes." .. target[1] .. ".temp");
+              addSource("attributes.body.score");
+              addSource("attributes." .. target[1] .. ".augs");
+              addSource("attributes." .. target[1] .. ".temp");
 
               super.onInit();
           end
@@ -569,7 +569,7 @@
           function action(draginfo)
       local nodeWin = window.getDatabaseNode();
       local nDice = DB.getValue(nodeWin,
-                          "npcattributes." .. target[1] .. ".score");
+                          "attributes." .. target[1] .. ".score");
       local modDesc, modStack = ModifierStack.getStack(true);
       nDice = nDice + modStack;
       local label = target[1]:sub(1,1):upper()..target[1]:sub(2);
@@ -624,27 +624,27 @@
     <script>
           function onSourceUpdate()
               local nodeWin = window.getDatabaseNode();
-        local nReaction = DB.getValue(nodeWin, "npcattributes.reaction.score", 0);
-        local nIntuition = DB.getValue(nodeWin, "npcattributes.intuition.score", 0);
-        local nAugs = DB.getValue(nodeWin, "npcattributes." .. target[1] .. ".augs", 0);
-        local nTemp = DB.getValue(nodeWin, "npcattributes." .. target[1] .. ".temp", 0);
+        local nReaction = DB.getValue(nodeWin, "attributes.reaction.score", 0);
+        local nIntuition = DB.getValue(nodeWin, "attributes.intuition.score", 0);
+        local nAugs = DB.getValue(nodeWin, "attributes." .. target[1] .. ".augs", 0);
+        local nTemp = DB.getValue(nodeWin, "attributes." .. target[1] .. ".temp", 0);
         local nCurrent = nReaction + nIntuition + nAugs + nTemp;
       setValue(nCurrent);
           end
 
           function onInit()
       sLabel = target[1];
-              addSource("npcattributes.reaction.score");
-              addSource("npcattributes.intuition.score");
-              addSource("npcattributes." .. target[1] .. ".augs");
-              addSource("npcattributes." .. target[1] .. ".temp");
+              addSource("attributes.reaction.score");
+              addSource("attributes.intuition.score");
+              addSource("attributes." .. target[1] .. ".augs");
+              addSource("attributes." .. target[1] .. ".temp");
 
               super.onInit();
           end
 
           function action(draginfo)
       local nodeWin = window.getDatabaseNode();
-      local nDice = DB.getValue(nodeWin,"npcattributes." .. target[1] .. ".score");
+      local nDice = DB.getValue(nodeWin,"attributes." .. target[1] .. ".score");
       local modDesc, modStack = ModifierStack.getStack(true);
       nDice = nDice + modStack;
       local label = target[1]:sub(1,1):upper()..target[1]:sub(2);

@@ -279,7 +279,7 @@
 			</number_npcinitiative_score>
 
 			<number_npcsoak_score name="soak"
-				source="npcattributes.soak.score">
+				source="attributes.soak.score">
 				<anchored to="combat_init_score" position="right" offset="30,0" />
 				<description text="soak final score" />
 				<target>soak</target>
@@ -290,7 +290,7 @@
 			</number_npcsoak_score>
 
 			<number_npcdefense_score name="defense"
-				source="npcattributes.defense.score">
+				source="attributes.defense.score">
 				<anchored to="combat_init_score" position="right" offset="85,0" />
 				<description text="defense final score" />
 				<gmeditonly />
