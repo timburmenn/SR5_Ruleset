@@ -19,6 +19,14 @@
 		<offset>25,40,25,25</offset>
 		<insideoffset>0,0,7,7</insideoffset>
 	</framedef>
+
+	<!-- Characters -->
+	<framedef name="recordsheet">
+		<bitmap file="graphics/frames/charsheet.png" />
+		<offset>25,40,25,25</offset>
+		<insideoffset>0,0,7,7</insideoffset>
+	</framedef>
+
 	<!-- Chat window -->
 	<framedef name="chatbox">
 		<bitmap file="graphics/frames/chatbox.png" />
