@@ -209,45 +209,6 @@
 	<icon name="tokenbagtop" file="graphics/icons/tokenbag_top.png" />
 	<icon name="tokenbagshared" file="graphics/icons/tokenbag_shared.png" />
 
-	<!-- Sidebar -->
-	<icon name="button_ct" file="graphics/sidebar/button_ct.png" />
-	<icon name="button_ct_down" file="graphics/sidebar/button_ct_down.png" />
-	<icon name="button_partysheet" file="graphics/sidebar/button_partysheet.png" />
-	<icon name="button_partysheet_down" file="graphics/sidebar/button_partysheet_down.png" />
-	<icon name="button_options" file="graphics/sidebar/button_options.png" />
-	<icon name="button_options_down" file="graphics/sidebar/button_options_down.png" />
-	<icon name="button_tables" file="graphics/sidebar/button_tables.png" />
-	<icon name="button_tables_down" file="graphics/sidebar/button_tables_down.png" />
-	<icon name="button_calendar" file="graphics/sidebar/button_calendar.png" />
-	<icon name="button_calendar_down" file="graphics/sidebar/button_calendar_down.png" />
-	<icon name="button_color" file="graphics/sidebar/button_color.png" />
-	<icon name="button_color_down" file="graphics/sidebar/button_color_down.png" />
-	<icon name="button_light" file="graphics/sidebar/button_light.png" />
-	<icon name="button_light_down" file="graphics/sidebar/button_light_down.png" />
-	<icon name="button_modifiers" file="graphics/sidebar/button_modifiers.png" />
-	<icon name="button_modifiers_down" file="graphics/sidebar/button_modifiers_down.png" />
-	<icon name="button_effects" file="graphics/sidebar/button_effects.png" />
-	<icon name="button_effects_down" file="graphics/sidebar/button_effects_down.png" />
-
-
-	<icon name="button_book" file="graphics/sidebar/button_book.png" />
-	<icon name="button_book_down" file="graphics/sidebar/button_book_down.png" />
-	<icon name="button_maps" file="graphics/sidebar/button_maps.png" />
-	<icon name="button_maps_down" file="graphics/sidebar/button_maps_down.png" />
-	<icon name="button_people" file="graphics/sidebar/button_people.png" />
-	<icon name="button_people_down" file="graphics/sidebar/button_people_down.png" />
-	<icon name="button_encounters" file="graphics/sidebar/button_encounters.png" />
-	<icon name="button_encounters_down" file="graphics/sidebar/button_encounters_down.png" />
-	<icon name="button_items" file="graphics/sidebar/button_items.png" />
-	<icon name="button_items_down" file="graphics/sidebar/button_items_down.png" />
-	<icon name="button_parcels" file="graphics/sidebar/button_parcels.png" />
-	<icon name="button_parcels_down" file="graphics/sidebar/button_parcels_down.png" />
-	<icon name="button_notes" file="graphics/sidebar/button_notes.png" />
-	<icon name="button_notes_down" file="graphics/sidebar/button_notes_down.png" />
-	<icon name="button_library" file="graphics/sidebar/button_library.png" />
-	<icon name="button_library_down" file="graphics/sidebar/button_library_down.png" />
-	<icon name="button_tokencase" file="graphics/sidebar/button_tokencase.png" />
-	<icon name="button_tokencase_down" file="graphics/sidebar/button_tokencase_down.png" />
 
 	<!-- Library / Modules -->
 	<icon name="module_loaded" file="graphics/icons/module_loaded.png" />
