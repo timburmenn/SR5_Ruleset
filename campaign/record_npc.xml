@@ -855,6 +855,53 @@ source="attributes.soak.score">
 <text>Current soak score</text>
 </tooltip>
 </number_npcsoak_score>
+<!-- Edge -->
+<!-- Label -->
+
+
+<number_charedge_score name="edge_base"
+		source="attributes.edge.max">
+		<anchored>
+			<to>soak_augs</to>
+			<position>insidetopleft</position>
+		<offset>0,25</offset>
+			<size>
+				<width>25</width>
+			</size>
+		</anchored>
+		<description text="Edge base score" />
+		<tooltip>
+				<text>The base Edge score</text>
+		</tooltip>
+</number_charedge_score>
+
+<!-- Edge Label removed for now
+<string_attribute_label>
+		<anchored to="edge_base" />
+		<static>E</static>
+</string_attribute_label>
+-->
+
+<status_edgecounter name="edge_count">
+		<anchored>
+			<left>
+				<parent>edge_base</parent>
+				<anchor>right</anchor>
+				<offset>10</offset>
+			</left>
+			<top>
+				<parent>soak_augs</parent>
+				<anchor>below</anchor>
+				<offset>8</offset>
+			</top>
+		</anchored>
+		<sourcefields>
+			<maximum>attributes.edge.max</maximum>
+			<overflow>0</overflow>
+			<current>attributes.edge.spent</current>
+		</sourcefields>
+		<rows>9</rows>
+	</status_edgecounter>
 
 </sheetdata>
 
