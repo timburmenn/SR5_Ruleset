@@ -156,9 +156,9 @@ function setSpacingVisible()
 		v = true;
 	end
 
-	spacingicon.setVisible(v);
+	field_rollable.setVisible(v);
 
-	
+
 	soak.setVisible(v);
 	defense.setVisible(v);
 	combat_init_score.setVisible(v);
