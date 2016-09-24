@@ -49,4 +49,50 @@
 		<bitmap file="graphics/frames/hotkeytitlebox.png" />
 		<offset>0,0,4,5</offset>
 	</framedef>
+	<!-- Combat tracker -->
+	<framedef name="ctbox">
+		<bitmap file="graphics/frames/ctbox.png" />
+		<offset>32,32,19,50</offset>
+		<insideoffset>0,0,7,7</insideoffset>
+	</framedef>
+	<framedef name="ct_groupbox">
+		<bitmap file="graphics/frames/ct_groupbox.png" />
+		<offset>19,22,20,24</offset>
+	</framedef>
+	<framedef name="ct_subgroupbox">
+		<bitmap file="graphics/frames/ct_subgroupbox.png" />
+		<offset>12,12,12,12</offset>
+	</framedef>
+	<framedef name="ctentrybox">
+		<bitmap file="graphics/frames/ctentrybox.png" />
+		<offset>28,3,5,6</offset>
+	</framedef>
+	<framedef name="ctentrybox_active">
+		<bitmap file="graphics/frames/ctentrybox_active.png" />
+		<offset>37,16,14,17</offset>
+	</framedef>
+	<framedef name="ctentrybox_friend">
+		<bitmap file="graphics/frames/ctentrybox_friend.png" />
+		<offset>37,16,14,17</offset>
+	</framedef>
+	<framedef name="ctentrybox_friend_active">
+		<bitmap file="graphics/frames/ctentrybox_friend_active.png" />
+		<offset>37,16,14,17</offset>
+	</framedef>
+	<framedef name="ctentrybox_neutral">
+		<bitmap file="graphics/frames/ctentrybox_neutral.png" />
+		<offset>37,16,14,17</offset>
+	</framedef>
+	<framedef name="ctentrybox_neutral_active">
+		<bitmap file="graphics/frames/ctentrybox_neutral_active.png" />
+		<offset>37,16,14,17</offset>
+	</framedef>
+	<framedef name="ctentrybox_foe">
+		<bitmap file="graphics/frames/ctentrybox_foe.png" />
+		<offset>37,16,14,17</offset>
+	</framedef>
+	<framedef name="ctentrybox_foe_active">
+		<bitmap file="graphics/frames/ctentrybox_foe_active.png" />
+		<offset>37,16,14,17</offset>
+	</framedef>
 </root>
