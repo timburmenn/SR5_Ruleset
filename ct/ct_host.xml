@@ -60,8 +60,8 @@
 			</buttoncontrol>
 			<buttoncontrol name="button_global_spacing">
 				<anchored to="header_toggles" position="insidetopleft" offset="30,8" width="20" height="20" />
-				<state icon="field_rollable" />
-				<state icon="field_rollable" />
+				<state icon="button_space" />
+				<state icon="button_space_down" />
 				<script>
 					function onValueChanged()
 						window.list.toggleSpacing();
@@ -183,8 +183,8 @@
 					<top />
 					<right anchor="left" relation="relative" />
 				</anchored>
-				<state icon="field_rollable" tooltipres="ct_tooltip_space" />
-				<state icon="field_rollable" />
+				<state icon="button_space" tooltipres="ct_tooltip_space" />
+				<state icon="button_space_down" />
 				<script>
 					function onValueChanged()
 						window.setSpacingVisible();
@@ -260,15 +260,15 @@
 				</anchored>
 			</frame_ctsub>
 
-			<!-- ISD subsection -->
-			<icon_ctsection name="field_rollable">
-				<icon>field_rollable</icon>
+			<!-- Space subsection -->
+			<icon_ctsection name="spacingicon">
+				<icon>button_space_down</icon>
 			</icon_ctsection>
 
 			<!-- Combat: Final Initiative Score -->
 			<number_npcinitiative_score name="combat_init_score"
 							source="npcinitiative.combat.score">
-					<anchored to="field_rollable" position="right" offset="40,0" />
+					<anchored to="spacingicon" position="right" offset="40,0" />
 					<target>combat</target>
 					<source_one>reaction</source_one>
 					<source_two>intuition</source_two>
@@ -317,7 +317,7 @@
 
 			<frame_ctsub name="frame_spacing">
 				<anchored>
-					<top parent="field_rollable" />
+					<top parent="spacingicon" />
 					<bottom parent="combat_init_score" />
 				</anchored>
 			</frame_ctsub>
