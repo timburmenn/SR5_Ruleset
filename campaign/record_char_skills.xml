@@ -275,6 +275,9 @@
 					<right parent="rightanchor" anchor="left" relation="relative" offset="-5" />
 				</anchored>
 			</button_idelete>
+
+      <!-- skilltotal
+      Need to clean this up-->
 			<char_skilltotal name="dice_pool">
 				<anchored to="idelete" width="30" height="17">
 					<top offset="2"/>
